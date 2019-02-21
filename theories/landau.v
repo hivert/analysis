@@ -639,8 +639,7 @@ Lemma addO (F : filter_on T) (f g: T -> V) e :
 Proof. by rewrite [RHS]bigOE. Qed.
 
 Lemma addOx (F : filter_on T) (f g: T -> V) e x :
-  [O_F e of f] x + [O_F e of g] x =
-  [O_F e of [O_F e of f] + [O_F e of g]] x.
+  [O_F e of f] x + [O_F e of g] x =O_(x \near F) (e x).
 Proof. by move: x; rewrite -/(_ + _ =1 _) {1}addO. Qed.
 
 Lemma eqadd_some_OP (F : filter_on T) (f g : T -> V) (e : T -> W) h :

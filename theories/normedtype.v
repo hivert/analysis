@@ -1092,11 +1092,6 @@ Lemma lim_add (F : set (set T)) (FF : Filter F) (f g : T -> V) (a b : V) :
   f @ F --> a -> g @ F --> b -> (f \+ g) @ F --> a + b.
 Proof. by move=> ??; apply: lim_cont2 => //; exact: add_continuous. Qed.
 
-Lemma continuousD (f g : T -> V) x :
-  {for x, continuous f} -> {for x, continuous g} ->
-  {for x, continuous (fun x => f x + g x)}.
-Proof. by move=> ??; apply: lim_add. Qed.
-
 Lemma lim_scale (F : set (set T)) (FF : Filter F) (f : T -> K) (g : T -> V)
   (k : K) (a : V) :
   f @ F --> k -> g @ F --> a -> (fun x => (f x) *: (g x)) @ F --> k *: a.
@@ -1110,6 +1105,18 @@ Lemma lim_scaler (F : set (set T)) (FF : Filter F) (f : T -> V) (k : K) (a : V) 
   f @ F --> a -> k \*: f  @ F --> k *: a.
 Proof. by apply: lim_scale => //; exact: cst_continuous. Qed.
 
+Lemma lim_opp (F : set (set T)) (FF : Filter F) (f : T -> V) (a : V) :
+  f @ F --> a -> (fun x => - f x) @ F --> - a.
+Proof. by move=> ?; apply: lim_cont => //; apply: opp_continuous. Qed.
+
+Lemma lim_mult (x y : K) : z.1 * z.2 @[z --> (x, y)] --> x * y.
+Proof. exact: (@scale_continuous _ (AbsRing_NormedModType K)). Qed.
+
+Lemma continuousD (f g : T -> V) x :
+  {for x, continuous f} -> {for x, continuous g} ->
+  {for x, continuous (fun x => f x + g x)}.
+Proof. by move=> ??; apply: lim_add. Qed.
+
 Lemma continuousZ (f : T -> V) k x :
   {for x, continuous f} -> {for x, continuous (k \*: f)}.
 Proof. by move=> ?; apply: lim_scaler. Qed.
@@ -1118,16 +1125,9 @@ Lemma continuousZl (k : T -> K) (f : V) x :
   {for x, continuous k} -> {for x, continuous (fun z => k z *: f)}.
 Proof. by move=> ?; apply: lim_scalel. Qed.
 
-Lemma lim_opp (F : set (set T)) (FF : Filter F) (f : T -> V) (a : V) :
-  f @ F --> a -> (fun x => - f x) @ F --> - a.
-Proof. by move=> ?; apply: lim_cont => //; apply: opp_continuous. Qed.
-
 Lemma continuousN (f : T -> V) x :
   {for x, continuous f} -> {for x, continuous (fun x => - f x)}.
 Proof. by move=> ?; apply: lim_opp. Qed.
-
-Lemma lim_mult (x y : K) : z.1 * z.2 @[z --> (x, y)] --> x * y.
-Proof. exact: (@scale_continuous _ (AbsRing_NormedModType K)). Qed.
 
 Lemma continuousM (f g : T -> K) x :
   {for x, continuous f} -> {for x, continuous g} ->
