@@ -51,4 +51,29 @@ rewrite addo'.
 done.
 Qed.
 
+Lemma squeeze (u_ v_ w_ : (R^o) ^nat) l :
+  (exists N, forall n, (n >= N)%nat -> u_ n <= v_ n <= w_ n) ->
+  cvg u_ -> lim u_ = l ->
+  cvg w_ -> lim w_ = l ->
+  lim v_ = l.
+Proof.
+case=> N uvw cvgu ul cvgw wl; apply/flim_map_lim/flim_normP => _/posnumP[e].
+near_simpl; near=> N0; rewrite ltr_norml; apply/andP; split.
+- rewrite ltr_oppl opprB (@ler_lt_trans _ (w_ N0 - l)) //.
+  + rewrite ler_sub //.
+    have /(_ _) /andP[|//] := @uvw N0.
+    by near: N0; by exists N.
+  + rewrite (@ler_lt_trans _ `|[w_ N0 - l]|) // ?real_ler_norm // ?num_real //.
+    rewrite normmB.
+    near: N0; move/flim_normP : cvgw; rewrite wl; exact.
+- rewrite (@ler_lt_trans _ (l - u_ N0)) //.
+  + rewrite ler_sub //.
+    have /(_ _) /andP[|//] := @uvw N0.
+    by near: N0; by exists N.
+  + rewrite (@ler_lt_trans _ `|[u_ N0 - l]|) //.
+      by rewrite -normmB real_ler_norm // num_real.
+    rewrite normmB.
+    near: N0; move/flim_normP : cvgu; rewrite ul; exact.
+Grab Existential Variables. all: end_near. Qed.
+
 End sequences.
