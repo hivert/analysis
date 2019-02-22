@@ -55,9 +55,12 @@ Lemma squeeze (u_ v_ w_ : (R^o) ^nat) l :
   (exists N, forall n, (n >= N)%nat -> u_ n <= v_ n <= w_ n) ->
   cvg u_ -> lim u_ = l ->
   cvg w_ -> lim w_ = l ->
-  lim v_ = l.
+  cvg v_ /\ lim v_ = l.
 Proof.
-case=> N uvw cvgu ul cvgw wl; apply/flim_map_lim/flim_normP => _/posnumP[e].
+case=> N uvw cvgu ul cvgw wl.
+suff vol : v_ @ \oo --> l.
+  by split; [exact/(@cvgP _ _ (v_ @ \oo) l) | exact/flim_map_lim].
+apply/flim_normP => _/posnumP[e].
 near_simpl; near=> N0; rewrite ltr_norml; apply/andP; split.
 - rewrite ltr_oppl opprB (@ler_lt_trans _ (w_ N0 - l)) //.
   + rewrite ler_sub //.
