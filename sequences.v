@@ -51,6 +51,31 @@ rewrite addo'.
 done.
 Qed.
 
+Lemma squeeze_fun (T : Type) (f g h : T -> R) (a : filter_on T) (l : R) :
+  f @ a --> l ->
+  h @ a --> l ->
+  (\forall x \near a, f x <= g x <= h x) ->
+  g @ a --> l.
+Proof.
+move=> fal hal afgh; apply/flim_locally => _/posnumP[/= e].
+rewrite near_map; near=> x.
+rewrite /ball /= /AbsRing_ball /= ltr_norml; apply/andP; split.
+- rewrite ltr_oppl opprB (@ler_lt_trans _ (h x - l)) //.
+  + rewrite ler_sub //.
+    by have /(_ _) /andP[//|_ ->] := near afgh x.
+  + rewrite (@ler_lt_trans _ `|h x - l|) // ?real_ler_norm // ?num_real // distrC.
+    near: x.
+    move/flim_locally : hal => /(_ e%:num (posnum_gt0 e)).
+    by rewrite near_map.
+- rewrite (@ler_lt_trans _ (l - f x)) //.
+  + rewrite ler_sub //.
+    by have /(_ _) /andP[|] := near afgh x.
+  + rewrite (@ler_lt_trans _ `|l - f x|) // ?real_ler_norm // ?num_real //.
+    near: x.
+    move/flim_locally : fal => /(_ e%:num (posnum_gt0 e)).
+    by rewrite near_map.
+Grab Existential Variables. all: end_near. Qed.
+
 Lemma squeeze (u_ v_ w_ : (R^o) ^nat) l :
   (exists N, forall n, (n >= N)%nat -> u_ n <= v_ n <= w_ n) ->
   cvg u_ -> lim u_ = l ->
