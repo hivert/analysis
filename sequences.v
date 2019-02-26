@@ -12,6 +12,42 @@ Import GRing.Theory Num.Def Num.Theory.
 
 Local Open Scope classical_set_scope.
 
+Require Import derive.
+
+Lemma running_example (f g h : R^o -> R^o) x :
+ derivable f x 1 -> derivable g x 1 -> derivable h x 1 ->
+ is_derive x 1 (f + g * h) (f^`() x + g^`() x * h x + g x * h^`() x).
+Proof.
+move=> /derivableP Hf /derivableP Hg /derivableP Hh.
+apply: is_derive_eq.
+rewrite addrAC (mulrC _ (h x)) -addrA.
+by rewrite !derive1E.
+Qed.
+
+Notation "[ 'd' x = g # p ]" := (projT1 (existT (fun f => is_diff x f g) _ p))
+  (at level 0, x at next level, format "[ 'd'  x  =  g  #  p ]").
+
+Definition f0 (g : R^o -> R^o) (x : R^o) : R^o -> R^o := fun y => g (y - x).
+
+Lemma mkdiff (g : {linear R^o -> R^o}) (x : R^o) : continuous g ->
+  is_diff x (f0 g x) g.
+Proof.
+move=> cg.
+set F0 := f0 g x.
+suff H : forall h : R^o, F0 (h + x) = F0 x + g h +o_(h \near 0 : R^o) h.
+  have df0 : 'd F0 x = g :> (R^o -> R^o).
+    apply diff_unique => //.
+    by rewrite funeqE.
+  apply: DiffDef => //.
+  apply/diff_locallyxP; split => /=; first by rewrite df0.
+  by move=> h; rewrite H df0.
+apply: eqaddoEx => h.
+rewrite /F0 /f0 addrK subrr linear0 add0r.
+apply/eqP; rewrite addrC -subr_eq subrr; apply/eqP.
+rewrite littleoE; last exact: littleo0_subproof.
+by [].
+Qed.
+
 Definition sequence R := nat -> R.
 Notation "R ^nat" := (sequence R) (at level 0).
 
@@ -90,6 +126,7 @@ Qed.
 
 Lemma dvgP' (u_ : (R^o) ^nat) : (forall A : posreal, \forall n \near \oo, A <= u_ n) -> u_ --> +oo.
 Proof.
+move=> H.
 Admitted.
 
 Lemma dvgP (u_ : (R^o) ^nat) : u_ --> +oo -> forall A : posreal, \forall n \near \oo, A <= u_ n.
