@@ -88,4 +88,31 @@ apply: (@squeeze _ _ _ _ _ uvw l).
 - case/cvg_ex : cvgw => /= x wx; by rewrite -wl (flim_lim wx).
 Qed.
 
+Lemma dvgP' (u_ : (R^o) ^nat) : (forall A : posreal, \forall n \near \oo, A <= u_ n) -> u_ --> +oo.
+Proof.
+Admitted.
+
+Lemma dvgP (u_ : (R^o) ^nat) : u_ --> +oo -> forall A : posreal, \forall n \near \oo, A <= u_ n.
+Proof.
+move=> ulim A; rewrite -(near_map u_ \oo (<=%R A)).
+by apply: ulim; apply: locally_pinfty_ge.
+(* move=> ulim A.
+move/filter_fromP : ulim.
+move/(_ (fun x => A <= x)) => /= ulim.
+suff /ulim : filter_from [filter of +oo] id (fun x : R^o => A <= x) by [].
+eexists; last by move=> ?; exact.
+by exists A%:num => ? /ltrW. *)
+Qed.
+
+Lemma dvg_seq (u_ v_ : (R^o) ^nat) : (\forall n \near \oo, u_ n <= v_ n) ->
+  u_ --> +oo -> v_ --> +oo.
+Proof.
+move=> uv.
+move/dvgP => dvgu.
+apply/dvgP' => A.
+near=> n.
+have uA := dvgu A.
+rewrite (@ler_trans _ (u_ n)) //; by near: n.
+Grab Existential Variables. all: end_near. Qed.
+
 End sequences.
