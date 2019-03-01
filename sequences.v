@@ -65,7 +65,9 @@ split.
   by exists A%:num => ? /ltrW. *)
 move=> /(_ (PosNum _)) u_ge X [A AX].
 rewrite near_simpl [\forall x \near _, X x](near_map u_ \oo).
-near=> x; apply: AX; rewrite (@ltr_le_trans _ ((maxr 0 A) +1)) //.
+near=> x.
+
+apply: AX; rewrite (@ltr_le_trans _ ((maxr 0 A) +1)) //.
   by rewrite ltr_spaddr// ler_maxr lerr orbT.
 by near: x; apply: u_ge; rewrite ltr_spaddr// ler_maxr lerr.
 Grab Existential Variables. all: end_near. Qed.
@@ -162,6 +164,50 @@ apply/dvgP => A.
 near=> n.
 have uA := dvgu A.
 rewrite (@ler_trans _ (u_ n)) //; by near: n.
+Grab Existential Variables. all: end_near. Qed.
+
+Definition increasing (u_ : (R^o) ^nat) := forall n, u_ n <= u_ n.+1.
+
+Lemma increasing_add (u_ : (R^o) ^nat) : increasing u_ ->
+  forall n m, (n <= m)%nat -> u_ n <= u_ m.
+Proof.
+move=> iu n; elim=> [|m ih]; first by rewrite leqn0 => /eqP ->; exact/lerr.
+rewrite leq_eqVlt => /orP[/eqP <-|]; first exact/lerr.
+rewrite ltnS => /ih/ler_trans; apply; apply iu.
+Qed.
+
+Lemma increasing_bounded_cvg (u_ : (R^o) ^nat) : increasing u_ -> forall n,
+  (forall m', u_ m' <= n) -> cvg u_.
+Proof.
+move=> iu n un.
+set S := fun x => `[< exists n, u_ n = x >].
+set l := real_sup S.
+have supS : has_sup S.
+  apply/has_supP; split; first by exists (u_ O); rewrite in_setE; exists O.
+  exists n; rewrite in_setE => /= x.
+  rewrite negb_imply; apply propF => /andP[].
+  rewrite in_setE => -[m] <-{x}; rewrite -ltrNge.
+  by move: (un m) => /ler_lt_trans H/H; rewrite ltrr.
+move: (real_sup_ub supS); rewrite -is_upper_boundE /is_upper_bound => ubS.
+apply/cvg_ex; exists l.
+apply/flim_normW => _/posnumP[e]; rewrite near_map.
+have [m um] : exists m, l - e%:num <= u_ m <= l.
+  case: (sup_adherent supS (posnum_gt0 e)) => uns.
+  rewrite in_setE => -[p] <-{uns} => supep.
+  exists p; rewrite ltrW //=.
+  have /ubS : S (u_ p) by apply/asboolP; exists p.
+  by move/RleP.
+near=> p.
+rewrite normmB ler_norml -(ler_add2l l) addrCA subrr addr0.
+(* NB: ler_add2r defined with {mono notation} vs. ltr_add2r (defined as an equality) *)
+rewrite -[in X in _ && X](ler_add2r l) subrK; apply/andP; split; last first.
+  rewrite (@ler_trans _ l) // ?ler_addr //.
+  have /ubS : S (u_ p) by apply/asboolP; exists p.
+  by move/RleP.
+case/andP : um => /ler_trans um _; rewrite um //.
+suff : (m <= p)%nat by move/increasing_add; exact.
+near: p.
+rewrite nearE; by exists m.
 Grab Existential Variables. all: end_near. Qed.
 
 End sequences.
