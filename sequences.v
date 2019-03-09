@@ -253,6 +253,97 @@ Grab Existential Variables. all: end_near. Qed.
 
 End sequences.
 
+Section exp_base.
+
+Definition e_seq : (R^o) ^nat := fun n => (1 + 1 / n%:R) ^+ n.
+
+Lemma e_seq0 : e_seq O = 1.
+Proof. by rewrite /e_seq expr0 {1}(_ : 1 = 1%:R) // ler_nat. Qed.
+
+Lemma e_seq1 : e_seq 1%nat = 2.
+Proof. by rewrite /e_seq expr1 divr1. Qed.
+
+Let v_ (n m : nat) : R^o := (n - m + 2)%:R / (n - m)%:R.
+
+Let v_increasing (n : nat) : forall m, (m < n)%nat -> v_ n.*2 m < v_ n.*2 m.+1.
+Proof.
+move=> m mn.
+rewrite /v_.
+have H : forall p q, (1 < q < p)%nat -> (p%:R : R) / q%:R < (p%:R - 1) / (q%:R - 1).
+  move=> p q pq; rewrite ltr_pdivr_mulr; last first.
+    by move/andP : pq => -[a b]; rewrite (_ : 0 = 0%:R) // ltr_nat (ltn_trans _ a).
+  rewrite mulrAC ltr_pdivl_mulr; last first.
+    by rewrite subr_gt0 (_ : 1 = 1%:R) // ltr_nat; case/andP: pq.
+  by rewrite mulrBl mulrBr mul1r mulr1 ler_lt_sub // ltr_nat; case/andP : pq.
+rewrite -(addn1 m) !subnDA (@natrB _ _ 1); last first.
+  by rewrite subn_gt0 (leq_trans mn) // -addnn leq_addr.
+rewrite (_ : (n.*2 - m - 1 + 2)%:R = (n.*2 - m + 2 - 1)%:R); last first.
+  by rewrite !subn1 !addn2 /= prednK // subn_gt0 (leq_trans mn) // -addnn leq_addr.
+rewrite (@natrB _ _ 1) ?subn_gt0 ?addn2 //.
+apply H; apply/andP; split; last by rewrite ltnS.
+move: (mn); rewrite -(ltn_add2r 1) !addn1 => mn'.
+by rewrite ltn_subRL addn1 (leq_trans mn'){mn'} // -addnn -{1}(addn0 n) ltn_add2l (leq_trans _ mn).
+Qed.
+
+(* TODO: see also increasing_ler *)
+Let v_increasing_ler (n : nat) : forall i, (i < n)%nat -> v_ n.*2 0 <= v_ n.*2 i.
+Proof.
+elim=> // -[/= _ n1|i ih ni].
+  by apply/ltrW/v_increasing; rewrite (ltn_trans _ n1).
+rewrite (ler_trans (ih _)) // ?(leq_trans _ ni) //.
+by apply/ltrW/v_increasing; rewrite (leq_trans _ ni).
+Qed.
+
+Let v_prod (n : nat) : (0 < n)%nat ->
+  \prod_(i < n) v_ n.*2 i = (n.*2.+2 * n.*2.+1)%:R / (n.+2 * n.+1)%:R.
+Proof.
+move=> n0; set lhs := LHS. set rhs := RHS.
+rewrite -(@divr1_eq _ lhs rhs) // {}/lhs {}/rhs invf_div mulrA.
+rewrite /v_ big_split /= -mulrA mulrACA.
+rewrite [X in X * _ = 1](_ : _ = \prod_(i < n.+2) (n.*2 - i + 2)%:R); last first.
+  rewrite 2!big_ord_recr /= -mulrA; congr (_ * _).
+  by rewrite -addnn addnK subnS addnK 2!addn2 /= natrM prednK.
+rewrite [X in _ * X = 1](_ : _ = \prod_(i < n.+2) (n.*2 - i + 2)%:R^-1); last first.
+  rewrite 2!big_ord_recl /= mulrA [in LHS]mulrC; congr (_ * _).
+    rewrite subn0 addn2 subn1 addn2 prednK ?double_gt0 //.
+    by rewrite natrM invrM ?unitfE // mulrC.
+    apply eq_bigr => i _; congr (_ %:R^-1).
+    rewrite /bump !leq0n !add1n -addn2 subnDA subn2 addn2 /= prednK; last first.
+      rewrite -subnS subn_gt0 -addnn -(addn1 i) (@leq_trans n.+1) //.
+      by rewrite addn1 ltnS.
+      by rewrite -{1}(addn0 n) ltn_add2l.
+    by rewrite prednK // subn_gt0 -addnn (@leq_trans n) // leq_addr.
+by rewrite -big_split /= big1 // => i _; rewrite divrr // ?unitfE addn2.
+Qed.
+
+Lemma e_seq_bound : forall n, (0 < n)%nat -> e_seq n < 4%:R.
+Proof.
+move=> n n0.
+rewrite /e_seq -{1}(@divrr _ n%:R) ?unitfE ?pnatr_eq0 -?lt0n // -mulrDl.
+rewrite (_ : _ ^+ n = \prod_(i < n) ((n%:R + 1) / n%:R)); last first.
+  move _ : (_ / _) => h.
+  elim: n n0 => // -[_ _|n ih _]; first by rewrite big_ord_recl big_ord0 mulr1 expr1.
+  by rewrite exprS ih // [in RHS]big_ord_recl.
+rewrite (@ler_lt_trans _ (\prod_(i < n) v_ n.*2 i)) //; last first.
+  rewrite v_prod // (_ : _ / _%:R = 2%:R * (n.*2.+1)%:R / n.+2%:R); last first.
+    rewrite -doubleS natrM -muln2 (natrM _ _ 2) natrM invrM ?unitfE ?pnatr_eq0 //.
+    rewrite mulrCA 3!mulrA mulVr ?unitfE ?pnatr_eq0 // mul1r; congr (_ * _).
+  rewrite ltr_pdivr_mulr // (_ : 4 = 2 * 2)%nat // (natrM _ 2) -mulrA ltr_pmul2l //.
+  by rewrite -natrM mul2n ltr_nat doubleS 2!ltnS -2!muln2 leq_mul2r /=.
+apply ler_prod => i _; apply/andP; split.
+  apply divr_ge0; last exact/ler0n.
+  by rewrite [X in _ <= _ + X](_ : _ = 1%:R) // -natrD ler0n.
+apply: (@ler_trans _ (v_ n.*2 (@ord0 n))).
+  rewrite /v_ subn0 addn2 -doubleS.
+  rewrite -2!muln2 2!natrM invrM // ?unitfE //; last first.
+    by rewrite pnatr_eq0 -lt0n.
+  rewrite -mulrA (mulrA 2) divrr ?unitfE // div1r.
+  by rewrite [X in (_ + X) / _ <= _](_ : _ = 1%:R) // -natrD addn1.
+destruct i as [i i0] => /=; exact/v_increasing_ler.
+Qed.
+
+End exp_base.
+
 Require Import derive.
 
 Section rewriting_differential.
