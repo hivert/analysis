@@ -1,7 +1,8 @@
 (* mathcomp analysis (c) 2017 Inria and AIST. License: CeCILL-C.              *)
 Require Import Reals.
 From mathcomp Require Import ssreflect ssrfun ssrbool ssrnat eqtype choice.
-From mathcomp Require Import ssralg ssrnum fintype bigop matrix interval.
+From mathcomp Require Import ssralg ssrnum fintype bigop binomial matrix.
+From mathcomp Require Import interval.
 Require Import boolp reals Rstruct Rbar.
 Require Import classical_sets posnum topology hierarchy landau forms.
 
@@ -263,6 +264,12 @@ Proof. by rewrite /e_seq expr0 {1}(_ : 1 = 1%:R) // ler_nat. Qed.
 Lemma e_seq1 : e_seq 1%nat = 2.
 Proof. by rewrite /e_seq expr1 divr1. Qed.
 
+Lemma e_seq2 : e_seq 2%nat = 9%:R / 4%:R.
+Proof.
+rewrite /e_seq -{1}(@divrr _ 2) ?unitfE // -mulrDl.
+by rewrite expr_div_n {2}(_ : 1 = 1%:R) // -natrD -2!natrX.
+Qed.
+
 Let v_ (n m : nat) : R^o := (n - m + 2)%:R / (n - m)%:R.
 
 Let v_increasing (n : nat) : forall m, (m < n)%nat -> v_ n.*2 m < v_ n.*2 m.+1.
@@ -340,6 +347,100 @@ apply: (@ler_trans _ (v_ n.*2 (@ord0 n))).
   rewrite -mulrA (mulrA 2) divrr ?unitfE // div1r.
   by rewrite [X in (_ + X) / _ <= _](_ : _ = 1%:R) // -natrD addn1.
 destruct i as [i i0] => /=; exact/v_increasing_ler.
+Qed.
+
+Let sum_group_by_2 n (f : nat -> R) :
+  \sum_(i < n) f i = \sum_(i < n./2) (f i.*2 + f i.*2.+1) + if
+  odd n.+1 then 0 else f n.-1.
+Proof.
+elim: n.+1 {-2}n (ltnSn n) => {n} // m ih [_|n].
+  by rewrite 2!big_ord0 /= addr0.
+rewrite ltnS => nm.
+rewrite big_ord_recr /= ih // negbK; case: ifPn => /= [|].
+  by move/negbTE => no; rewrite no addr0 uphalf_half no add0n.
+rewrite negbK => no.
+rewrite no uphalf_half no add1n addr0 big_ord_recr /= -!addrA; congr (_ + _).
+move: (odd_double_half n); rewrite no add1n => nE.
+by rewrite nE -{1}nE.
+Qed.
+
+Lemma increasing_e_seq : forall n, e_seq n < e_seq n.+1.
+Proof.
+case=> [|n]; first by rewrite e_seq0 e_seq1 {1}(_ : 1 = 1%:R) // ltr_nat /e_seq.
+rewrite -(@ltr_pmul2l _ (((n.+2%:R - 1) / n.+2%:R) ^+ n.+2)); last first.
+  apply/exprn_gt0/divr_gt0; last by rewrite ltr0n.
+  by rewrite subr_gt0 {1}(_ : 1 = 1%:R) // ltr_nat.
+rewrite [X in X < _](_ : _ = (n.+2%:R - 1) / n.+2%:R); last first.
+  rewrite {1}/e_seq exprS -[RHS]mulr1 -3!mulrA; congr (_ * _).
+  rewrite -mulrA; congr (_ * _).
+  rewrite (_ : _ / n.+2%:R = (1 + 1 / n.+1%:R) ^-1); last first.
+    rewrite -{4}(@divrr _ n.+1%:R) ?unitfE ?pnatr_eq0 // -mulrDl.
+    by rewrite invf_div {2 6}(_ : 1 = 1%:R) // -natrD -natrB // subn1 addn1.
+  by rewrite exprVn mulVr // unitfE expf_eq0 /= paddr_eq0 //= oner_eq0.
+rewrite [X in _ < X](_ : _ = ((n.+2%:R ^+ 2 - 1) / n.+2%:R ^+ 2) ^+ n.+2); last first.
+  rewrite /e_seq.
+  rewrite -{4}(@divrr _ n.+2%:R) ?unitfE ?pnatr_eq0 // -mulrDl.
+  rewrite -exprMn_comm; last by rewrite /GRing.comm mulrC.
+  congr (_ ^+ _); rewrite mulrACA -subr_sqr expr1n; congr (_ * _).
+  by rewrite -invrM // unitfE pnatr_eq0.
+rewrite mulrBl divrr ?unitfE ?pnatr_eq0 // mulrBl divrr ?unitfE ?expf_eq0 /= ?pnatr_eq0 //.
+rewrite exprBn_comm; last by rewrite /GRing.comm mulrC.
+rewrite big_ord_recl 2!expr0 expr1n bin0 mulr1n 2![in X in _ < X]mul1r.
+rewrite big_ord_recl 2!expr1 expr1n bin1 [in X in _ < X]mul1r mulN1r.
+rewrite (_ : -1 / _ *+ _ = -1 / n.+2%:R); last first.
+  rewrite 2!mulN1r mulNrn; congr (- _).
+  rewrite expr2 invrM ?unitfE ?pnatr_eq0 //.
+  rewrite -mulrnAr -[RHS]mulr1; congr (_ * _).
+  by rewrite -mulr_natl divrr // unitfE pnatr_eq0.
+rewrite addrA mulN1r div1r -ltr_subl_addl subrr.
+pose F : 'I_n.+1 -> R :=
+  fun i => (-1) ^+ i.+2 * n.+2%:R ^- 2 ^+ i.+2 *+ 'C(n.+2, i.+2).
+rewrite (eq_bigr F); last first.
+  by move=> i _; congr (_ *+ _); rewrite /= expr1n mulr1.
+rewrite (sum_group_by_2 n.+1 (fun i => ((-1) ^+ i.+2 * n.+2%:R ^- 2 ^+ i.+2 *+ 'C(n.+2, i.+2)))).
+destruct n as [|n'].
+  by rewrite /= big_ord0 add0r -signr_odd /= expr0 mul1r.
+set n := n'.+1.
+set G := BIG_F.
+have G_gt0 : forall i, 0 < G i.
+  move=> /= i; rewrite /G.
+  rewrite -signr_odd /= negbK odd_double expr0 mul1r.
+  rewrite -signr_odd /= negbK odd_double /= expr1 mulN1r.
+  rewrite mulNrn (@exprSr _ _ i.*2.+2) -mulrnAr -mulr_natr -mulrBr mulr_gt0 // ?exprn_gt0 //.
+  rewrite subr_gt0 -mulr_natr ltr_pdivr_mull // -natrX -natrM.
+  move: (@mul_bin_left n.+2 i.*2.+2).
+  move/(congr1 (fun x => x%:R : R)).
+  move/(congr1 (fun x => (i.*2.+3)%:R^-1 * x)).
+  rewrite natrM mulrA mulVr ?unitfE ?pnatr_eq0 // mul1r => ->.
+  rewrite 2!natrM mulrA.
+  have ? : (i.*2.+1 < n.+2)%nat.
+    move: (ltn_ord i).
+    rewrite 3!ltnS -(@leq_pmul2r 2) // !muln2 => /leq_trans; apply.
+    case/boolP : (odd n') => on'.
+      move: (odd_geq n' on'); rewrite leqnn => /esym.
+      by move/leq_trans; apply; rewrite leqnSn.
+    by move: (@odd_geq n' n on') => <-; rewrite leqnSn.
+  rewrite ltr_pmul2r ?ltr0n ?bin_gt0 // ltr_pdivr_mull // -natrM ltr_nat.
+  rewrite -(@ltn_add2r i.*2.+2) subnK // ltn_addr // -{1}(mul1n n.+2) -mulnn.
+  by rewrite  mulnA ltn_mul2r /= mulSn addSn ltnS addSn.
+have sum_G_gt0 : 0 < \big[+%R/0]_i G i.
+  rewrite {1}(_ : 0 = \big[+%R/0]_(i < n.+1./2) 0); last by rewrite big1.
+  apply: (@ltr_lerif _ _ _ false).
+  rewrite (_ : false = [forall i : 'I_n.+1./2, false]); last first.
+    apply/idP/forallP => //=; apply; exact: (@Ordinal _ 0).
+  apply: lerif_sum => i _; exact/lerifP/G_gt0.
+case: ifPn => no; first by rewrite addr0.
+rewrite addr_gt0 //= -signr_odd (negbTE no) expr0 mul1r.
+by rewrite pmulrn_lgt0 ?bin_gt0 // exprn_gt0.
+Qed.
+
+Lemma cvg_e_seq : cvg e_seq.
+Proof.
+ apply (@increasing_bound_cvg _ 4%:R); last first.
+  case.
+  by rewrite e_seq0 {1}(_ : 1 = 1%:R) // ler_nat.
+  by move=> n; apply/ltrW/e_seq_bound.
+move=> n; exact/ltrW/increasing_e_seq.
 Qed.
 
 End exp_base.
