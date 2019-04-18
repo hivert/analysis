@@ -4,7 +4,7 @@ From mathcomp Require Import ssreflect ssrfun ssrbool ssrnat eqtype choice.
 From mathcomp Require Import ssralg ssrnum fintype bigop binomial matrix.
 From mathcomp Require Import interval.
 Require Import boolp reals Rstruct Rbar.
-Require Import classical_sets posnum topology hierarchy landau forms.
+Require Import classical_sets posnum topology normedtype landau forms.
 
 Set Implicit Arguments.
 Unset Strict Implicit.
@@ -53,28 +53,45 @@ Grab Existential Variables. all: end_near. Qed.
 Definition sequence R := nat -> R.
 Notation "R ^nat" := (sequence R) (at level 0).
 
+Section nat_topologicalTypeMixin.
+Let D : set nat := setT.
+Let b : nat -> set nat := fun i => [set i].
+Let bT : \bigcup_(i in D) b i = setT.
+Proof. by rewrite funeqE => i; rewrite propeqE; split => // _; exists i. Qed.
+Let bD : forall i j t, D i -> D j -> b i t -> b j t ->
+  exists k, D k /\ b k t /\ b k `<=` b i `&` b j.
+Proof. by move=> i j t _ _ ->{t} ->{i}; exists j. Qed.
+Definition nat_topologicalTypeMixin := topologyOfBaseMixin bT bD.
+Canonical nat_topologicalType :=
+  Topological.Pack (@Topological.Class _ (Filtered.Class (Pointed.class nat_pointedType) _)
+  nat_topologicalTypeMixin) unit.
+End nat_topologicalTypeMixin.
+
 Section sequences.
 
 Canonical eventually_filter := FilterType eventually _.
 Canonical eventually_pfilter := PFilterType eventually (filter_not_empty _).
-Notation eqolimn := (@eqolim _ _ _ (eventually_filter)).
-Notation eqolimPn := (@eqolimP _ _ _ (eventually_filter)).
+Notation eqolimn := (@eqolim _ _ _ eventually_filter).
+Notation eqolimPn := (@eqolimP _ _ _ eventually_filter).
 
-Lemma lim_opp_sequence (u_ : (R^o) ^nat) : cvg u_ ->
-  lim (- u_) = - lim u_.
-Proof. by move=> u_cv; apply/flim_map_lim/lim_opp. Qed.
+Lemma lim_opp_sequence (u_ : (R^o) ^nat) : cvg u_ -> lim (- u_) = - lim u_.
+Proof.
+move=> u_cv; apply/flim_map_lim.
+exact: (@lim_opp _ _ nat_topologicalType).
+Qed.
 
 Lemma cvg_opp (u_ : (R^o) ^nat) : cvg (- u_) = cvg u_.
 Proof.
 rewrite propeqE.
-split; case/cvg_ex => /= l ul; apply/cvg_ex; exists (- l); last exact/lim_opp.
-move/lim_opp : ul => /subset_trans; apply.
+split; case/cvg_ex => /= l ul; apply/cvg_ex; exists (- l); last first.
+  exact: (@lim_opp _ _ nat_topologicalType).
+move/(@lim_opp _ _ nat_topologicalType) : ul => /subset_trans; apply.
 by rewrite (_ : (fun x : nat => _) = u_) // funeqE => ?; rewrite opprK.
 Qed.
 
 Lemma lim_add_sequence (u_ v_ : (R^o) ^nat) : cvg u_ -> cvg v_ ->
   lim (u_ + v_) = lim u_ + lim v_.
-Proof. by move=> u_cv v_cv; apply/flim_map_lim/lim_add. Qed.
+Proof. by move=> u_cv v_cv; apply/flim_map_lim/(@lim_add _ _ nat_topologicalType). Qed.
 
 Lemma cvg_add (u_ v_ : nat -> R^o) : cvg u_ -> cvg v_ -> cvg (u_ + v_).
 Proof.
@@ -245,7 +262,7 @@ Definition cauchy_seq (u_ : (R^o) ^nat) :=
 Lemma cvg_cauchy_seq (u_ : (R^o) ^nat) : cvg u_ -> cauchy_seq u_.
 Proof.
 move/flim_normP => H e; near=> n.
-rewrite -(addrK (- lim u_) (u_ n.1)) opprK -addrA.
+rewrite -(addrK (- lim u_) (u_ n.1)) opprK -(addrA (u_ n.1 - _)).
 rewrite (ler_trans (ler_normm_add _ _)) // (splitr e%:num) ltrW //.
 rewrite ltr_add //; near: n; apply: filter_pair_near_of => /= x y xoo yoo.
 rewrite normmB; near: x; exact: H.
