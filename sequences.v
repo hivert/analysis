@@ -504,23 +504,20 @@ Proof. by rewrite /normq /numq /denq /= div0n mulr0 normr0 rat0 mul0r. Qed.
 Lemma numq0 : numq 0 = 0. Proof. by []. Qed.
 Lemma numq1 : numq 1 = 1. Proof. by []. Qed.
 Lemma denq1 : denq 1 = 1. Proof. by []. Qed.
-Definition Normq (x : rat) : R := let y := normq x in `|numq y|%N%:R / `|denq y|%N%:R.
-Lemma Normq0 : Normq 0 = 0. Proof. by rewrite /Normq normq0 numq0 /= mul0r. Qed.
+Definition Normq (x : rat) : R := `| ratr x | (*`|numq x|%:~R / `|denq x|%:~R*).
+Lemma Normq0 : Normq 0 = 0.
+Proof. by rewrite /Normq -ratr_norm normr0 /ratr numq0 mul0r. Qed.
 Lemma NormqN1 : Normq (-1) = 1.
-Proof. by rewrite /Normq norm_ratN ge_rat0_norm // numq1 denq1 divr1. Qed.
+Proof. by rewrite /Normq -ratr_norm normrN1 (_ : 1 = 1%:R) // ratr_nat. Qed.
 Lemma ler_Normq_add (x y : rat) : Normq (x + y) <= Normq x + Normq y.
-Proof.
-Admitted.
+Proof. by rewrite /Normq rmorphD /= (ler_trans _ (ler_norm_add _ _)). Qed.
 Lemma NormqM (x y : rat) : Normq (x * y) = Normq x * Normq y.
-Proof.
-rewrite /Normq.
-Admitted.
+Proof. by rewrite /Normq rmorphM /= normrM. Qed.
 Lemma Normq_eq0 (x : rat) : Normq x = 0 -> x = 0.
 Proof.
-rewrite /Normq.
-case/boolP : (normq x == 0) => [|x0 /eqP]; first by rewrite normr_eq0 => /eqP.
-rewrite mulrI_eq0; last by apply/lregP; rewrite pnatr_eq0 absz_eq0 numq_eq0.
-by rewrite invr_eq0 pnatr_eq0 absz_eq0 denq_eq0.
+rewrite /Normq -ratr_norm /ratr => /eqP; rewrite mulf_eq0 => /orP[|].
+by rewrite intr_eq0 numq_eq0 normr_eq0 => /eqP.
+by rewrite invr_eq0 intr_eq0 denq_eq0.
 Qed.
 Definition rat_AbsRingMixin : AbsRing.mixin_of rat_numDomainType :=
   @AbsRing.Mixin _ _ Normq0 NormqN1 ler_Normq_add NormqM Normq_eq0.
@@ -528,11 +525,7 @@ Canonical rat_absRingType := AbsRingType rat rat_AbsRingMixin.
 Canonical rat_pointedType := [pointedType of rat for rat_absRingType].
 Canonical rat_filteredType := [filteredType rat of rat for rat_absRingType].
 
-Definition sgR (x : rat) : R := if sgr x == 0 then 0 else
-  if 0 < sgr x then 1 else -1.
-Definition R_of_rat (x : rat) : R := sgR x * Normq x.
-
 Lemma scale_sequence (r_ : rat ^nat) (a : R) (a0 : 0 < a) :
-  lim r_ = 0 <-> lim (fun n => R_of_rat (r_ n) * a) = 0.
+  lim r_ = 0 <-> lim (fun n => ratr (r_ n) * a) = 0.
 Proof.
 Abort.
