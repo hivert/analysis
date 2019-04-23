@@ -1,7 +1,7 @@
 (* mathcomp analysis (c) 2017 Inria and AIST. License: CeCILL-C.              *)
 Require Import Reals.
-From mathcomp Require Import ssreflect ssrfun ssrbool ssrnat eqtype choice.
-From mathcomp Require Import ssralg ssrnum fintype bigop binomial matrix.
+From mathcomp Require Import ssreflect ssrfun ssrbool ssrnat eqtype choice seq.
+From mathcomp Require Import ssralg ssrint ssrnum fintype bigop binomial matrix.
 From mathcomp Require Import interval.
 Require Import boolp reals Rstruct Rbar.
 Require Import classical_sets posnum topology normedtype landau forms.
@@ -13,20 +13,39 @@ Import GRing.Theory Num.Def Num.Theory.
 
 Local Open Scope classical_set_scope.
 
-(* wip
-   tentative formalization of sequences
-   started 2019-02-21 Thu *)
+(* wip: tentative formalization of sequences, started 2019-02-21 Thu
+   contents
+   1. Section nat_topologicalTypeMixin.
+   2. Section basic_properties_of_sequences.
+      (consequences of topology.v)
+   3. Section lemmas_about_sequences.
+      (converge -> upper bound, squeeze, diverge -> lower bound,
+       inequality w.r.t. limit, increase + bound -> converge,
+       converge -> cauchy)
+   4. Section example_of_sequences.
+      1/(n+1) -> 0
+      (1 + 1/n)^n converges, bounded by 4, and its limit is > 2
+   5. Section cesaro.
+   6. rat_filteredType
+    *)
 
 (* NB(rei): lemma available in the branch uniform-entourages *)
-Lemma bigmaxrD1 (I : finType) j (P : pred I) (F : I -> R) x :
+Axiom bigmaxrD1 : forall (I : finType) j (P : pred I) (F : I -> R) x,
   P j -> \big[maxr/x]_(i | P i) F i
     = maxr (F j) (\big[maxr/x]_(i | P i && (i != j)) F i).
-Proof.
-Admitted.
 
 Lemma ler_bigmax_cond (I : finType) (P : pred I) (F : _ -> R) i0 :
   P i0 -> (forall x, 0 <= F x) -> F i0 <= \big[Num.max/0]_(i | P i) F i.
 Proof. by move=> Pi0 F0; rewrite (@bigmaxrD1 _ i0) //= ler_maxr lerr. Qed.
+
+(* TODO: move *)
+Lemma ler_norm_big (s : seq nat) (f : nat -> R^o) :
+  `|[\big[+%R/0]_(i <- s) f i]| <= \big[+%R/0]_(i <- s) `|[f i]|.
+Proof.
+elim: s => [|h t ih].
+  rewrite big_nil normm0; apply sumr_ge0 => i _; exact: normr_ge0.
+by rewrite 2!big_cons (ler_trans (ler_norm_add _ _)) // ler_add2l.
+Qed.
 
 (* TODO: move *)
 Lemma squeeze (T : Type) (f g h : T -> R) (a : filter_on T) :
@@ -76,19 +95,7 @@ Canonical eventually_pfilter := PFilterType eventually (filter_not_empty _).
 Notation eqolimn := (@eqolim _ _ _ eventually_filter).
 Notation eqolimPn := (@eqolimP _ _ _ eventually_filter).
 
-Section sequences.
-
-Lemma lim_opp_sequence (u_ : (R^o) ^nat) : cvg u_ -> lim (- u_) = - lim u_.
-Proof.
-move=> u_cv; apply/flim_map_lim.
-exact: (@lim_opp _ _ nat_topologicalType).
-Qed.
-
-Lemma lim_add_sequence (u_ v_ : (R^o) ^nat) : cvg u_ -> cvg v_ ->
-  lim (u_ + v_) = lim u_ + lim v_.
-Proof.
-by move=> u_cv v_cv; apply/flim_map_lim/(@lim_add _ _ nat_topologicalType).
-Qed.
+Section test. (* ca. 2019-02-21 *)
 
 Lemma addo' (K : absRingType) (T : Type) (V W : normedModType K) (F : filter_on T)
   (f g : T -> V) (e : T -> W) (F' := unkeyed F) :
@@ -112,6 +119,33 @@ rewrite [X in X + _]addrAC.
 congr (_ + _ + _ + _).
 rewrite addo'.
 done.
+Qed.
+
+End test.
+
+Section basic_properties_of_sequences.
+
+Lemma lim_cst_sequence (l : R^o) : lim (fun _ : nat => l) = l.
+Proof.
+apply/flim_map_lim/flim_normP => _/posnumP[/= e].
+by rewrite near_map subrr; near=> n; rewrite normm0.
+Grab Existential Variables. all: end_near. Qed.
+
+Lemma lim_opp_sequence (u_ : (R^o) ^nat) : cvg u_ -> lim (- u_) = - lim u_.
+Proof.
+by move=> u_cv; apply/flim_map_lim/(@lim_opp _ _ nat_topologicalType).
+Qed.
+
+Lemma lim_add_sequence (u_ v_ : (R^o) ^nat) : cvg u_ -> cvg v_ ->
+  lim (u_ + v_) = lim u_ + lim v_.
+Proof.
+by move=> u_cv v_cv; apply/flim_map_lim/(@lim_add _ _ nat_topologicalType).
+Qed.
+
+Lemma lim_mul_sequence (u_ v_ : (R^o) ^nat) : cvg u_ -> cvg v_ ->
+  lim (u_ * v_) = lim u_ * lim v_.
+Proof.
+by move=> cu cv; apply/flim_map_lim/(@lim_scale _ _ nat_topologicalType).
 Qed.
 
 Lemma cvg_opp (u_ : (R^o) ^nat) : cvg (- u_) = cvg u_.
@@ -138,9 +172,30 @@ rewrite opprD addrACA (splitr e%:num) (ler_lt_trans (ler_normm_add _ _)) //.
 by rewrite ltr_add //; near: n; [move: ul | move: vl'] => /flim_normP; apply.
 Grab Existential Variables. all: end_near. Qed.
 
-Lemma cvg_bound (u_ : (R^o) ^nat) : cvg u_ -> exists M, forall n, `|u_ n| <= M.
+Lemma cvg_scale (u_ : R^o ^nat) (k : R^o) :
+  k != 0 -> cvg u_ -> cvg (fun n => k * u_ n).
 Proof.
-move=> cu; set l := lim u_.
+move=> k0 /cvg_ex[l ul]; apply/cvg_ex; exists (k * l).
+apply/flim_normP => e e0; rewrite near_map; near=> n.
+rewrite -mulrBr normmZ mulrC -ltr_pdivl_mulr ?normr_gt0 //; near: n.
+by move: ul => /flim_normP; apply; rewrite divr_gt0 // normr_gt0.
+Grab Existential Variables. all: end_near. Qed.
+
+Lemma cvg_abs (u_ : (R^o) ^nat) : u_ @ \oo --> lim u_ ->
+  (fun n => `|[ u_ n ]|) @ \oo --> `|[ lim u_ ]|.
+Proof.
+move/flim_normP => H; apply/(@flim_normP _ [normedModType R of R^o]) => e e0.
+rewrite near_map; near=> x; rewrite (ler_lt_trans (ler_distm_dist _ _)) //.
+near: x; exact: H.
+Grab Existential Variables. all: end_near. Qed.
+
+End basic_properties_of_sequences.
+
+Section lemmas_about_sequences.
+
+Lemma cvg_bound (u_ : R^o ^nat) : cvg u_ -> exists M, forall n, `|u_ n| <= M.
+Proof.
+move=> cu; set l : R^o := lim u_.
 have [n _ nu] : \forall n \near \oo, `|u_ n| <= 1 + `|l|.
   have : \forall n \near \oo, `|l - u_ n| < 1 by move/flim_normP : cu; apply.
   apply: filter_app; near=> n; move=> lu1; apply/ltrW.
@@ -150,11 +205,11 @@ near \oo => N.
 exists (Num.max (\big[maxr/0]_(0 <= i < N.+1) `|u_ i|) (1 + `|l|)) => p.
 rewrite ler_maxr.
 case/boolP : (p <= N)%nat => [|].
-  rewrite -ltnS => nN.
-  by rewrite big_mkord (@ler_bigmax_cond _ _ _ (Ordinal nN)).
-rewrite -ltnNge => Nn.
-apply/orP; right; apply/nu/ltnW/(leq_ltn_trans _ Nn).
-by near: N; exists n.
+- rewrite -ltnS => pN.
+  by rewrite big_mkord (@ler_bigmax_cond _ _ _ (Ordinal pN)).
+- rewrite -ltnNge => Nn.
+  apply/orP; right; apply/nu/ltnW/(leq_ltn_trans _ Nn).
+  by near: N; exists n.
 Grab Existential Variables. all: end_near. Qed.
 
 Lemma squeeze_sequence (u_ v_ w_ : (R^o) ^nat) l :
@@ -224,7 +279,7 @@ apply (@lim_ge0 _ N); last by apply/cvg_add => //; rewrite cvg_opp.
 move=> n; rewrite subr_ge0; exact/uv.
 Qed.
 
-Definition increasing (u_ : (R^o) ^nat) := forall n, u_ n <= u_ n.+1.
+Definition increasing (T : numDomainType) (u_ : T ^nat) := forall n, u_ n <= u_ n.+1.
 
 Lemma increasing_ler (u_ : (R^o) ^nat) : increasing u_ ->
   forall n m, (n <= m)%nat -> u_ n <= u_ m.
@@ -281,7 +336,37 @@ rewrite normmB; near: x; exact: H.
 near: y; exact: H.
 Grab Existential Variables. all: end_near. Qed.
 
-End sequences.
+End lemmas_about_sequences.
+
+Section example_of_sequences.
+
+Lemma flim_invn : (fun n => n.+1%:R^-1) @ \oo --> (0 : R^o).
+Proof.
+apply/flim_normW => e e0; rewrite near_map; near=> i.
+rewrite normmB subr0 (_ : `|[ _ ]| = `|i.+1%:R^-1|%R) //.
+rewrite ger0_norm ?invr_ge0 ?ler0n // -(mulr1 (_^-1)) ler_pdivr_mull ?ltr0n //.
+rewrite -addn1 natrD mulrDl mul1r -ler_subl_addr -ler_pdivr_mulr //.
+near: i; rewrite nearE /locally /= /eventually /=.
+set j : R := let k := (1 - e) / e in if k \in Rint then `|k| else floor `|k| + 1.
+have /RintP[z jz] : j \in Rint.
+  rewrite /j; case: ifP => [/RintP[x ex] | _].
+  by apply/RintP; exists `|x|%R; rewrite ex intr_norm.
+  by rewrite rpredD // ?isint_floor // Rint1.
+have /ZnatP[n zn] : 0 <= z.
+  rewrite -(@ler0z R_numDomainType) -jz /j; case: ifPn => _; first exact: absr_ge0.
+  by rewrite addr_ge0 // floor_ge0 -absRE absr_ge0.
+exists n => // i; rewrite -(@ler_nat R_numDomainType); apply ler_trans.
+rewrite (@ler_trans _ j) //; last by rewrite jz zn.
+rewrite /j; case: ifPn => [_| _].
+by rewrite real_ler_norm // Num.Internals.num_real.
+by rewrite (ler_trans _ (ltrW (floorS_gtr _))) // real_ler_norm // Num.Internals.num_real.
+Grab Existential Variables. all: end_near. Qed.
+
+Lemma lim_invn : lim ((fun n => n.+1%:R^-1) : R^o ^nat) = 0.
+Proof. exact/flim_lim/flim_invn. Qed.
+
+Lemma cvg_invn : cvg ((fun n => n.+1%:R^-1) : R^o ^nat).
+Proof. by apply/cvg_ex; exists 0; apply/flim_invn. Qed.
 
 Section exp_base.
 
@@ -323,7 +408,6 @@ move: (mn); rewrite -(ltn_add2r 1) !addn1 => mn'.
 by rewrite ltn_subRL addn1 (leq_trans mn'){mn'} // -addnn -{1}(addn0 n) ltn_add2l (leq_trans _ mn).
 Qed.
 
-(* TODO: see also increasing_ler *)
 Let v_increasing_ler (n : nat) : forall i, (i < n)%nat -> v_ n.*2 0 <= v_ n.*2 i.
 Proof.
 elim=> // -[/= _ n1|i ih ni].
@@ -497,6 +581,115 @@ Qed.
 
 End exp_base.
 
+End example_of_sequences.
+
+Section cesaro.
+
+Definition cesaro_seq (u_ : R^o ^nat) : R^o ^nat:=
+  fun n => n.+1%:R^-1 * (\sum_(i < n.+1) u_ i).
+
+Definition cesaro_stmt (u_ : R^o ^nat) (l : R^o) :=
+  cvg u_ -> lim u_ = l ->
+  cvg (cesaro_seq u_) /\ lim (cesaro_seq u_) = l.
+
+Lemma cesaro (u_ : R^o ^nat) l : cesaro_stmt u_ l.
+Proof.
+suff H : forall u_, cesaro_stmt u_ 0.
+  move=> cu ul.
+  pose u' : R^o ^nat := fun n => u_ n - l.
+  have cu' : cvg u'.
+    rewrite /u' (_ : (fun n : nat => _) = u_ - cst l) //.
+    apply: cvg_add => //; rewrite cvg_opp; exact: cvg_cst.
+  have u'l : lim u' = 0.
+    rewrite /u' lim_add_sequence //; last by rewrite cvg_opp; exact: cvg_cst.
+    rewrite lim_opp_sequence; last exact: cvg_cst.
+    by rewrite lim_cst_sequence ul subrr.
+  case: {H}(H _ cu' u'l) => ? H.
+  have u'ul : cesaro_seq u' = cesaro_seq u_ - cst l.
+    rewrite /cesaro_seq /u' funeqE => i.
+    rewrite -[RHS]/(_ - _) big_split /= mulrDr; congr (_ + _).
+    rewrite [in LHS](eq_bigr (fun j => (- l) * 1)); last by rewrite mulr1.
+    rewrite -big_distrr /= mulrCA big_const card_ord -Monoid.iteropE.
+    by rewrite -/(_ %:R) mulVr ?mulr1 // unitfE pnatr_eq0.
+  move/eqP : (u'ul); rewrite -subr_eq opprK => /eqP <-.
+  split.
+  - apply cvg_add => //; exact: cvg_cst.
+  - rewrite lim_add_sequence //; last exact: cvg_cst.
+    by rewrite lim_cst_sequence H add0r.
+move=> {u_ l}u_ cu lu.
+have cesaro_split : forall n M, (M <= n)%nat ->
+  `|[n.+1%:R^-1 * \big[+%R/0]_(i < n.+1) u_ i]| <=
+    n.+1%:R^-1 * `|[\big[+%R/0]_(i < M.+1) u_ i]| +
+    n.+1%:R^-1 * `|[\big[+%R/0]_(M.+1 <= i < n.+1) u_ i]|.
+  move=> n M Mn.
+  rewrite (bigID (fun i : 'I_n.+1 => (i <= M)%nat)) /= mulrDr.
+  rewrite (eq_bigl (fun i : 'I_n.+1 => (i < M.+1)%nat)) // -big_ord_widen //.
+  rewrite (ler_trans (ler_normm_add _ _)) // ler_add //.
+    by rewrite normmZ ler_wpmul2r // absRE ger0_norm.
+  rewrite normmZ absRE ger0_norm // ler_wpmul2l //.
+  rewrite (eq_bigl (fun i : 'I__ => (M < i)%nat)); last first.
+    by move=> i; rewrite ltnNge.
+  rewrite -big_mkord -{1}(@subnKC M.+1 n.+1); last by rewrite ltnS.
+  rewrite {1}/index_iota subn0 iota_add big_cat -!/(index_iota _ _) add0n.
+  rewrite -/(index_iota 0 M.+1) /= big_mkord (eq_bigr (fun=> 0)); last first.
+    move=> /= i Mi; move: (ltn_ord i); rewrite ltnS => /(leq_trans Mi).
+    by rewrite ltnn.
+  rewrite big1 // add0r ler_eqVlt; apply/orP; left; apply/eqP; congr (`|[_]|).
+  rewrite [in RHS]big_nat_cond /= [in LHS]big_nat_cond /=; apply eq_bigl => i.
+  by rewrite andbAC andbb andbT.
+suff K : cesaro_seq u_ @ \oo --> (0 : R^o).
+  by split; [apply/cvg_ex; exists 0 | exact/flim_lim].
+have {cu lu}u0 : u_ @ \oo --> (0 : R^o).
+  case/cvg_ex : (cu) => /= x Hx.
+  by have <- : x = 0 by move/flim_lim : Hx; rewrite lu.
+apply/flim_normP => e e0; rewrite near_simpl.
+near \oo => M.
+near=> n.
+have Mn : (M <= n)%nat.
+  by near: n; rewrite nearE /locally /= /eventually; exists M.
+rewrite normmB subr0.
+rewrite (ler_lt_trans (cesaro_split _ _ Mn)) // (splitr e) ltr_add //.
+- near: n.
+  case/boolP : (`|[\big[+%R/0]_(i < M.+1) u_ i]| == 0) => [/eqP ->|H0].
+    by near=> n; rewrite mulr0 // divr_gt0.
+  have {H0}H1 : 0 < `|[\big[+%R/0]_(i < M.+1) u_ i]|.
+    by rewrite ltr_neqAle eq_sym H0 /= normm_ge0.
+  have H2 : 0 < e / `|[\big[+%R/0]_(i < M.+1) u_ i]| / 2.
+    by rewrite divr_gt0 // divr_gt0.
+  move/flim_norm : flim_invn => /(_ _ H2).
+  rewrite !near_simpl => H3.
+  near=> n.
+  rewrite -ltr_pdivl_mulr // mulrAC -(@ger0_norm _ n.+1%:R^-1) //.
+  rewrite -(@subr0 _ n.+1%:R^-1).
+  rewrite (_ : `|n.+1%:R^-1 - 0|%R = `|[(0 - n.+1%:R^-1) : R^o]|); last first.
+    by rewrite -absRE normmB.
+  by near: n.
+- rewrite (@ler_lt_trans _ (n.+1%:R^-1 * (n - M)%:R * (e / 2))) //; last first.
+    rewrite -[X in _ < X](mul1r (e / 2)) ltr_pmul2r // ?divr_gt0 //.
+    by rewrite lter_pdivr_mull // mulr1 ltr_nat ltnS leq_subLR leq_addl.
+  rewrite -mulrA ler_wpmul2l //.
+  rewrite (@ler_trans _ (\big[+%R/0]_(M.+1 <= i < n.+1) `|[ u_ i ]|)) //.
+    exact: ler_norm_big.
+  rewrite (@ler_trans _ (\big[+%R/0]_(M.+1 <= i < n.+1) (e / 2))) //; last first.
+    rewrite big_const_nat subSS ler_eqVlt; apply/orP; left.
+    elim : (n - M)%nat => /= [|k IH]; first by rewrite mul0r.
+    by rewrite -(addn1 k) natrD mulrDl (eqP IH) mul1r addrC.
+  rewrite big_nat_cond [in X in _ <= X]big_nat_cond; apply ler_sum.
+  move=> i; rewrite andbT => /andP[Mi _]; apply ltrW; move: i Mi.
+  near: M.
+  have H : \forall x \near \oo, `|[u_ x]| < e / 2.
+    near=> x.
+    rewrite -(@subr0 _ (u_ x)) normmB.
+    near: x.
+    have e20 : 0 < e / 2 by rewrite divr_gt0.
+    by move/flim_normP : u0 => /(_ _ e20) {e20}; rewrite near_map => H.
+  move: H; rewrite nearE => -[j _ Hj] /=.
+  rewrite nearE; exists j => // k Hk i ki.
+  by rewrite Hj // (leq_trans Hk) // ltnW.
+Grab Existential Variables. all: end_near. Qed.
+
+End cesaro.
+
 From mathcomp Require Import div ssrint rat.
 
 Lemma normq0 : normq 0 = 0.
@@ -524,8 +717,3 @@ Definition rat_AbsRingMixin : AbsRing.mixin_of rat_numDomainType :=
 Canonical rat_absRingType := AbsRingType rat rat_AbsRingMixin.
 Canonical rat_pointedType := [pointedType of rat for rat_absRingType].
 Canonical rat_filteredType := [filteredType rat of rat for rat_absRingType].
-
-Lemma scale_sequence (r_ : rat ^nat) (a : R) (a0 : 0 < a) :
-  lim r_ = 0 <-> lim (fun n => ratr (r_ n) * a) = 0.
-Proof.
-Abort.
