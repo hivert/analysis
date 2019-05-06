@@ -181,12 +181,44 @@ rewrite -mulrBr normmZ mulrC -ltr_pdivl_mulr ?normr_gt0 //; near: n.
 by move: ul => /flim_normP; apply; rewrite divr_gt0 // normr_gt0.
 Grab Existential Variables. all: end_near. Qed.
 
-Lemma cvg_abs (u_ : (R^o) ^nat) : u_ @ \oo --> lim u_ ->
+Lemma flim_abs (u_ : (R^o) ^nat) : u_ @ \oo --> lim u_ ->
   (fun n => `|[ u_ n ]|) @ \oo --> `|[ lim u_ ]|.
 Proof.
 move/flim_normP => H; apply/(@flim_normP _ [normedModType R of R^o]) => e e0.
 rewrite near_map; near=> x; rewrite (ler_lt_trans (ler_distm_dist _ _)) //.
 near: x; exact: H.
+Grab Existential Variables. all: end_near. Qed.
+
+Lemma flim_inv (u_ : (R^o) ^nat) : cvg u_ -> (forall n, 0 < u_ n) -> (0 < lim u_) ->
+  (fun n => (u_ n)^-1) @ \oo --> (lim u_)^-1.
+Proof.
+set u := lim u_ => cu un u0; apply/flim_normP => e e0.
+rewrite near_map; near=> n.
+rewrite (_ : `|[ _ ]| = `|[ u_ n - u ]| / (u * u_ n)); last first.
+  rewrite -{1}(div1r u) -(div1r (u_ n)) -mulNr addf_div ?lt0r_neq0 //.
+  rewrite mulN1r mul1r normmZ absRE; congr (_ * _).
+  by apply/normr_idP; rewrite invr_ge0 mulr_ge0 // ltrW.
+apply: (@ltr_le_trans _ ((e * u^+2 / 2) * (2 / u^+2))); last first.
+  rewrite mulrA -(mulrA (e * _)) mulVr ?unitfE // mulr1 -mulrA divrr ?mulr1 //.
+  by rewrite unitfE sqrf_eq0 lt0r_neq0.
+rewrite ltr_pmul //.
+- by rewrite invr_ge0 mulr_ge0 // ltrW.
+- rewrite normmB; near: n.
+  have H : 0 < e * u ^+ 2 / 2 by rewrite mulr_gt0 // mulr_gt0 // exprn_gt0.
+  by move/flim_normP : cu => /(_ _ H); rewrite near_map.
+- suff H : u_ n > u / 2.
+    rewrite invrM ?unitfE ?lt0r_neq0 // ltr_pdivr_mull // mulrA.
+    rewrite ltr_pdivl_mulr expr2 ?mulr_gt0 // mulrA mulVr ?unitfE ?lt0r_neq0 //.
+    by rewrite  mul1r mulrC -lter_pdivr_mull // mulrC.
+  near: n.
+  have u20 : 0 < u / 2 by rewrite divr_gt0.
+  move/flim_normP : cu => /(_ _ u20); rewrite near_map => H.
+  near=> n.
+  rewrite -(@ltr_add2r _ (u / 2)) -splitr -ltr_sub_addl.
+  case/boolP : (u < u_ n) => [uun|].
+    by rewrite (@ltr_le_trans _ 0) // ?subr_lt0 // divr_ge0 // ltrW.
+  rewrite -lerNgt -subr_ge0 => /normr_idP <-.
+  by near: n.
 Grab Existential Variables. all: end_near. Qed.
 
 End basic_properties_of_sequences.
