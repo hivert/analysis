@@ -1,8 +1,8 @@
 (* mathcomp analysis (c) 2017 Inria and AIST. License: CeCILL-C.              *)
 Require Import Reals.
 From mathcomp Require Import ssreflect ssrfun ssrbool ssrnat eqtype choice seq.
-From mathcomp Require Import ssralg ssrint ssrnum fintype bigop binomial matrix.
-From mathcomp Require Import interval.
+From mathcomp Require Import div ssralg ssrint ssrnum fintype bigop binomial.
+From mathcomp Require Import matrix interval rat.
 Require Import boolp reals Rstruct Rbar.
 Require Import classical_sets posnum topology normedtype landau forms.
 
@@ -13,21 +13,40 @@ Import GRing.Theory Num.Def Num.Theory.
 
 Local Open Scope classical_set_scope.
 
-(* wip: tentative formalization of sequences, started 2019-02-21 Thu
+(* wip: tentative formalization of sequences, started [2019-02-21 Thu]
    contents
-   1. Section nat_topologicalTypeMixin.
-   2. Section basic_properties_of_sequences.
-      (consequences of topology.v)
+   0. Section to_move.
+   1. Section nat_topologicalType.
+   2. Section rat_filteredType.
+   3. Section sequences_basis_normedModType.
+      mostly consequences of topology.v
+   4. Section sequences_basis_R.
    3. Section lemmas_about_sequences.
-      (converge -> upper bound, squeeze, diverge -> lower bound,
-       inequality w.r.t. limit, increase + bound -> converge,
-       converge -> cauchy)
+      - converge -> has_ub
+      - squeeze
+      - diverge <-> lower bound
+      - dvg / inequality
+      - cvg / point-wise inequality
+      - increasing + has_ub -> converge
+      - increasing + converge -> has_sup
+      - converge -> cauchy
    4. Section example_of_sequences.
       1/(n+1) -> 0
-      (1 + 1/n)^n converges, bounded by 4, and its limit is > 2
+      (1 + 1/n)^n is bounded by 4, increasing, its limit is > 2
    5. Section cesaro.
-   6. rat_filteredType
-    *)
+*)
+
+Reserved Notation "R ^nat" (at level 0).
+
+Definition sequence R := nat -> R.
+Notation "R ^nat" := (sequence R).
+
+Canonical eventually_filter := FilterType eventually _.
+Canonical eventually_pfilter := PFilterType eventually (filter_not_empty _).
+Notation eqolimn := (@eqolim _ _ _ eventually_filter).
+Notation eqolimPn := (@eqolimP _ _ _ eventually_filter).
+
+Section to_move.
 
 (* NB(rei): lemma available in the branch uniform-entourages *)
 Axiom bigmaxrD1 : forall (I : finType) j (P : pred I) (F : I -> R) x,
@@ -38,16 +57,16 @@ Lemma ler_bigmax_cond (I : finType) (P : pred I) (F : _ -> R) i0 :
   P i0 -> (forall x, 0 <= F x) -> F i0 <= \big[Num.max/0]_(i | P i) F i.
 Proof. by move=> Pi0 F0; rewrite (@bigmaxrD1 _ i0) //= ler_maxr lerr. Qed.
 
-(* TODO: move *)
-Lemma ler_norm_big (s : seq nat) (f : nat -> R^o) :
+(* TODO: move to normedtype.v, Section NormedModule1? *)
+Lemma ler_norm_big (K : absRingType) (V : normedModType K) (s : seq nat) (f : nat -> V) :
   `|[\big[+%R/0]_(i <- s) f i]| <= \big[+%R/0]_(i <- s) `|[f i]|.
 Proof.
 elim: s => [|h t ih].
-  rewrite big_nil normm0; apply sumr_ge0 => i _; exact: normr_ge0.
-by rewrite 2!big_cons (ler_trans (ler_norm_add _ _)) // ler_add2l.
+  rewrite big_nil normm0; apply sumr_ge0 => i _; exact: normm_ge0.
+by rewrite 2!big_cons (ler_trans (ler_normm_add _ _)) // ler_add2l.
 Qed.
 
-(* TODO: move *)
+(* TODO: move to topology.v? *)
 Lemma squeeze (T : Type) (f g h : T -> R) (a : filter_on T) :
   (\forall x \near a, f x <= g x <= h x) -> forall (l : R),
   f @ a --> l -> h @ a --> l -> g @ a --> l.
@@ -71,6 +90,8 @@ rewrite /ball /= /AbsRing_ball /= ltr_norml; apply/andP; split.
     by rewrite near_map.
 Grab Existential Variables. all: end_near. Qed.
 
+End to_move.
+
 Section nat_topologicalTypeMixin.
 Let D : set nat := setT.
 Let b : nat -> set nat := fun i => [set i].
@@ -81,19 +102,38 @@ Let bD : forall i j t, D i -> D j -> b i t -> b j t ->
 Proof. by move=> i j t _ _ ->{t} ->{i}; exists j. Qed.
 Definition nat_topologicalTypeMixin := topologyOfBaseMixin bT bD.
 Canonical nat_topologicalType := Topological.Pack
-  (@Topological.Class _
-                      (Filtered.Class (Pointed.class nat_pointedType) _)
-                      nat_topologicalTypeMixin)
+  (@Topological.Class _ (Filtered.Class (Pointed.class nat_pointedType) _)
+                        nat_topologicalTypeMixin)
   unit.
 End nat_topologicalTypeMixin.
 
-Definition sequence R := nat -> R.
-Notation "R ^nat" := (sequence R) (at level 0).
-
-Canonical eventually_filter := FilterType eventually _.
-Canonical eventually_pfilter := PFilterType eventually (filter_not_empty _).
-Notation eqolimn := (@eqolim _ _ _ eventually_filter).
-Notation eqolimPn := (@eqolimP _ _ _ eventually_filter).
+Section rat_fileredType.
+Lemma normq0 : normq 0 = 0.
+Proof. by rewrite /normq /numq /denq /= div0n mulr0 normr0 rat0 mul0r. Qed.
+Lemma numq0 : numq 0 = 0. Proof. by []. Qed.
+Lemma numq1 : numq 1 = 1. Proof. by []. Qed.
+Lemma denq1 : denq 1 = 1. Proof. by []. Qed.
+Definition Normq (x : rat) : R := `| ratr x | (*`|numq x|%:~R / `|denq x|%:~R*).
+Lemma Normq0 : Normq 0 = 0.
+Proof. by rewrite /Normq -ratr_norm normr0 /ratr numq0 mul0r. Qed.
+Lemma NormqN1 : Normq (-1) = 1.
+Proof. by rewrite /Normq -ratr_norm normrN1 (_ : 1 = 1%:R) // ratr_nat. Qed.
+Lemma ler_Normq_add (x y : rat) : Normq (x + y) <= Normq x + Normq y.
+Proof. by rewrite /Normq rmorphD /= (ler_trans _ (ler_norm_add _ _)). Qed.
+Lemma NormqM (x y : rat) : Normq (x * y) = Normq x * Normq y.
+Proof. by rewrite /Normq rmorphM /= normrM. Qed.
+Lemma Normq_eq0 (x : rat) : Normq x = 0 -> x = 0.
+Proof.
+rewrite /Normq -ratr_norm /ratr => /eqP; rewrite mulf_eq0 => /orP[|].
+by rewrite intr_eq0 numq_eq0 normr_eq0 => /eqP.
+by rewrite invr_eq0 intr_eq0 denq_eq0.
+Qed.
+Definition rat_AbsRingMixin : AbsRing.mixin_of rat_numDomainType :=
+  @AbsRing.Mixin _ _ Normq0 NormqN1 ler_Normq_add NormqM Normq_eq0.
+Canonical rat_absRingType := AbsRingType rat rat_AbsRingMixin.
+Canonical rat_pointedType := [pointedType of rat for rat_absRingType].
+Canonical rat_filteredType := [filteredType rat of rat for rat_absRingType].
+End rat_fileredType.
 
 Section test. (* ca. 2019-02-21 *)
 
@@ -123,65 +163,38 @@ Qed.
 
 End test.
 
-Section basic_properties_of_sequences.
+Section sequences_basis_normedModType.
 
-Lemma lim_cst_sequence (l : R^o) : lim (fun _ : nat => l) = l.
-Proof.
-apply/flim_map_lim/flim_normP => _/posnumP[/= e].
-by rewrite near_map subrr; near=> n; rewrite normm0.
-Grab Existential Variables. all: end_near. Qed.
+Variables (K : absRingType) (V : normedModType K).
 
-Lemma lim_opp_sequence (u_ : (R^o) ^nat) : cvg u_ -> lim (- u_) = - lim u_.
-Proof.
-by move=> u_cv; apply/flim_map_lim/(@lim_opp _ _ nat_topologicalType).
-Qed.
+Lemma lim_cst_sequence (l : V) : lim (fun _ : nat => l) = l.
+Proof. exact/flim_map_lim/flim_const. Qed.
 
-Lemma lim_add_sequence (u_ v_ : (R^o) ^nat) : cvg u_ -> cvg v_ ->
+Lemma lim_opp_sequence (u_ : V ^nat) : cvg u_ -> lim (- u_) = - lim u_.
+Proof. by move=> ?; apply/flim_map_lim/(@lim_opp _ _ nat_topologicalType). Qed.
+
+Lemma lim_add_sequence (u_ v_ : V ^nat) : cvg u_ -> cvg v_ ->
   lim (u_ + v_) = lim u_ + lim v_.
+Proof. by move=> *; apply/flim_map_lim/(@lim_add _ _ nat_topologicalType). Qed.
+
+Lemma cvg_cst (k : V) : cvg (fun _ : nat => k).
+Proof. apply/cvg_ex; exists k; exact/flim_const. Qed.
+
+Lemma cvg_opp (u_ : V ^nat) : cvg (- u_) = cvg u_.
 Proof.
-by move=> u_cv v_cv; apply/flim_map_lim/(@lim_add _ _ nat_topologicalType).
+rewrite propeqE; split; case/cvg_ex => /= l ul; apply/cvg_ex; exists (- l).
+- move/(@lim_opp _ _ nat_topologicalType) : ul => /subset_trans; apply.
+  by rewrite (_ : (fun x : nat => _) = u_) // funeqE => ?; rewrite opprK.
+- exact: (@lim_opp _ _ nat_topologicalType).
 Qed.
 
-Lemma lim_mul_sequence (u_ v_ : (R^o) ^nat) : cvg u_ -> cvg v_ ->
-  lim (u_ * v_) = lim u_ * lim v_.
+Lemma cvg_add (u_ v_ : V ^nat) : cvg u_ -> cvg v_ -> cvg (u_ + v_).
 Proof.
-by move=> cu cv; apply/flim_map_lim/(@lim_scale _ _ nat_topologicalType).
+move=> /cvg_ex[l ?] /cvg_ex[l' ?]; apply/cvg_ex; exists (l + l').
+exact/(@lim_add _ _ nat_topologicalType).
 Qed.
 
-Lemma cvg_opp (u_ : (R^o) ^nat) : cvg (- u_) = cvg u_.
-Proof.
-rewrite propeqE.
-split; case/cvg_ex => /= l ul; apply/cvg_ex; exists (- l); last first.
-  exact: (@lim_opp _ _ nat_topologicalType).
-move/(@lim_opp _ _ nat_topologicalType) : ul => /subset_trans; apply.
-by rewrite (_ : (fun x : nat => _) = u_) // funeqE => ?; rewrite opprK.
-Qed.
-
-Lemma cvg_cst (k : R^o) : cvg (fun _ : nat => k).
-Proof.
-move=> /= s; rewrite (_ : lim _ = k); last exact/flim_lim/flim_const.
-move/locally_normP => [_/posnumP[/= e]] kes.
-by exists O => // i _; exact/kes/ball_norm_center.
-Qed.
-
-Lemma cvg_add (u_ v_ : nat -> R^o) : cvg u_ -> cvg v_ -> cvg (u_ + v_).
-Proof.
-move=> /cvg_ex[l ul] /cvg_ex[l' vl']; apply/cvg_ex; exists (l + l').
-apply/flim_normP => _/posnumP[e]; rewrite near_map; near=> n.
-rewrite opprD addrACA (splitr e%:num) (ler_lt_trans (ler_normm_add _ _)) //.
-by rewrite ltr_add //; near: n; [move: ul | move: vl'] => /flim_normP; apply.
-Grab Existential Variables. all: end_near. Qed.
-
-Lemma cvg_scale (u_ : R^o ^nat) (k : R^o) :
-  k != 0 -> cvg u_ -> cvg (fun n => k * u_ n).
-Proof.
-move=> k0 /cvg_ex[l ul]; apply/cvg_ex; exists (k * l).
-apply/flim_normP => e e0; rewrite near_map; near=> n.
-rewrite -mulrBr normmZ mulrC -ltr_pdivl_mulr ?normr_gt0 //; near: n.
-by move: ul => /flim_normP; apply; rewrite divr_gt0 // normr_gt0.
-Grab Existential Variables. all: end_near. Qed.
-
-Lemma flim_abs (u_ : (R^o) ^nat) : u_ @ \oo --> lim u_ ->
+Lemma flim_abs (u_ : V ^nat) : u_ @ \oo --> lim u_ ->
   (fun n => `|[ u_ n ]|) @ \oo --> `|[ lim u_ ]|.
 Proof.
 move/flim_normP => H; apply/(@flim_normP _ [normedModType R of R^o]) => e e0.
@@ -189,7 +202,25 @@ rewrite near_map; near=> x; rewrite (ler_lt_trans (ler_distm_dist _ _)) //.
 near: x; exact: H.
 Grab Existential Variables. all: end_near. Qed.
 
-Lemma flim_inv (u_ : (R^o) ^nat) : cvg u_ -> (forall n, 0 < u_ n) -> (0 < lim u_) ->
+End sequences_basis_normedModType.
+
+Section sequences_basis_R.
+
+Lemma lim_mul_sequence (u_ v_ : R^o ^nat) : cvg u_ -> cvg v_ ->
+  lim (u_ * v_) = lim u_ * lim v_.
+Proof.
+by move=> *; apply/flim_map_lim/(@lim_scale _ _ nat_topologicalType).
+Qed.
+
+Lemma cvg_scale (u_ : R ^nat) (k : R^o) :
+  k != 0 -> cvg u_ -> cvg (fun n => k * u_ n).
+Proof.
+move=> k0 /cvg_ex[l ul]; apply/cvg_ex; exists (k * l).
+apply/(@lim_scale _ _ nat_topologicalType) => //; exact/flim_const.
+Qed.
+
+Lemma flim_inv (u_ : (R^o) ^nat) :
+  cvg u_ -> (forall n, 0 < u_ n) -> (0 < lim u_) ->
   (fun n => (u_ n)^-1) @ \oo --> (lim u_)^-1.
 Proof.
 set u := lim u_ => cu un u0; apply/flim_normP => e e0.
@@ -221,11 +252,11 @@ rewrite ltr_pmul //.
   by near: n.
 Grab Existential Variables. all: end_near. Qed.
 
-End basic_properties_of_sequences.
+End sequences_basis_R.
 
 Section lemmas_about_sequences.
 
-Lemma cvg_bound (u_ : R^o ^nat) : cvg u_ -> exists M, forall n, `|u_ n| <= M.
+Let cvg_upper_bound (u_ : R^o ^nat) : cvg u_ -> exists M, forall n, `| u_ n | <= M.
 Proof.
 move=> cu; set l : R^o := lim u_.
 have [n _ nu] : \forall n \near \oo, `|u_ n| <= 1 + `|l|.
@@ -244,10 +275,16 @@ case/boolP : (p <= N)%nat => [|].
   by near: N; exists n.
 Grab Existential Variables. all: end_near. Qed.
 
-Lemma squeeze_sequence (u_ v_ w_ : (R^o) ^nat) l :
+Lemma cvg_has_ub (u_ : R ^nat) :
+  cvg u_ -> has_ub [pred x | `[< exists n, `|u_ n| = x >] ].
+Proof.
+case/cvg_upper_bound => /= M uM; apply/has_ubP/nonemptyP.
+by exists M; apply/ubP => x; rewrite inE => /asboolP[n <-{x}] .
+Qed.
+
+Lemma squeeze_sequence (u_ v_ w_ : R^o ^nat) l :
   (\forall n \near \oo, u_ n <= v_ n <= w_ n) ->
-  cvg u_ -> lim u_ = l ->
-  cvg w_ -> lim w_ = l ->
+  cvg u_ -> lim u_ = l -> cvg w_ -> lim w_ = l ->
   cvg v_ /\ lim v_ = l.
 Proof.
 move=> uvw cvgu ul cvgw wl.
@@ -258,7 +295,8 @@ apply: (@squeeze _ _ _ _ _ uvw l).
 - case/cvg_ex : cvgw => /= x wx; by rewrite -wl (flim_lim wx).
 Qed.
 
-Lemma dvgP (u_ : (R^o) ^nat) : u_ --> +oo <-> forall A : posreal, \forall n \near \oo, A <= u_ n.
+Lemma dvgP (u_ : R ^nat) :
+  u_ --> +oo <-> forall A : posreal, \forall n \near \oo, A <= u_ n.
 Proof.
 split.
   move=> ulim A; rewrite -(near_map u_ \oo (<=%R A)).
@@ -271,7 +309,7 @@ apply: AX; rewrite (@ltr_le_trans _ ((maxr 0 A) +1)) //.
 by near: x; apply: u_ge; rewrite ltr_spaddr// ler_maxr lerr.
 Grab Existential Variables. all: end_near. Qed.
 
-Lemma dvg_seq (u_ v_ : (R^o) ^nat) : (\forall n \near \oo, u_ n <= v_ n) ->
+Lemma dvg_ler (u_ v_ : R ^nat) : (\forall n \near \oo, u_ n <= v_ n) ->
   u_ --> +oo -> v_ --> +oo.
 Proof.
 move=> uv.
@@ -282,7 +320,7 @@ have uA := dvgu A.
 rewrite (@ler_trans _ (u_ n)) //; by near: n.
 Grab Existential Variables. all: end_near. Qed.
 
-Lemma lim_ge0 (u_ : (R^o) ^nat) N :
+Lemma lim_ge0 (u_ : R^o ^nat) N :
   (forall n, (N <= n)%nat -> 0 <= u_ n) -> cvg u_ -> 0 <= lim u_.
 Proof.
 move=> H /flim_normP cu.
@@ -302,18 +340,19 @@ by apply H; near: m; exists N.
 Grab Existential Variables. all: end_near. Qed.
 
 Lemma lim_ler (u_ v_ : (R^o) ^nat) N :
-  (forall n : nat, (N <= n)%nat -> u_ n <= v_ n) ->
+  (forall n, (N <= n)%nat -> u_ n <= v_ n) ->
   cvg u_ -> cvg v_ -> lim u_ <= lim v_.
 Proof.
 move=> uv cu cv.
-rewrite -subr_ge0 -lim_opp_sequence // -lim_add_sequence // ?cvg_opp //.
+rewrite -subr_ge0 -(@lim_opp_sequence _ [normedModType R of R^o]) //.
+rewrite -(@lim_add_sequence _ [normedModType R of R^o]) // ?cvg_opp //.
 apply (@lim_ge0 _ N); last by apply/cvg_add => //; rewrite cvg_opp.
 move=> n; rewrite subr_ge0; exact/uv.
 Qed.
 
 Definition increasing (T : numDomainType) (u_ : T ^nat) := forall n, u_ n <= u_ n.+1.
 
-Lemma increasing_ler (u_ : (R^o) ^nat) : increasing u_ ->
+Lemma increasing_ler (T : numDomainType) (u_ : T ^nat) : increasing u_ ->
   forall n m, (n <= m)%nat -> u_ n <= u_ m.
 Proof.
 move=> iu n; elim=> [|m ih]; first by rewrite leqn0 => /eqP ->; exact/lerr.
@@ -321,8 +360,8 @@ rewrite leq_eqVlt => /orP[/eqP <-|]; first exact/lerr.
 rewrite ltnS => /ih/ler_trans; apply; apply iu.
 Qed.
 
-Lemma increasing_bound_cvg (u_ : (R^o) ^nat) N : increasing u_ ->
-  (forall n, u_ n <= N) -> cvg u_.
+Let increasing_upper_bound_cvg (u_ : (R^o) ^nat) N : increasing u_ ->
+  (forall n, u_ n <= N) -> cvg u_ /\ lim u_ = real_sup [pred x | `[< exists n, u_ n = x >] ].
 Proof.
 move=> iu uN.
 set S := fun x => `[< exists n, u_ n = x >].
@@ -334,7 +373,7 @@ have supS : has_sup S.
   rewrite in_setE => -[m] <-{x}; rewrite -ltrNge.
   by move: (uN m) => /ler_lt_trans H/H; rewrite ltrr.
 move: (real_sup_ub supS); rewrite -is_upper_boundE /is_upper_bound => ubS.
-apply/cvg_ex; exists l.
+suff ul : u_ @ \oo --> l by split; [apply/cvg_ex; exists l | exact/flim_lim].
 apply/flim_normW => _/posnumP[e]; rewrite near_map.
 have [m um] : exists m, l - e%:num <= u_ m <= l.
   case: (sup_adherent supS (posnum_gt0 e)) => uns.
@@ -355,10 +394,34 @@ near: p.
 rewrite nearE; by exists m.
 Grab Existential Variables. all: end_near. Qed.
 
-Definition cauchy_seq (u_ : (R^o) ^nat) :=
+Lemma increasing_has_ub_cvg (u_ : (R^o) ^nat) : increasing u_ ->
+  has_ub [pred x | `[< exists n, u_ n = x >] ] ->
+  cvg u_ /\ lim u_ = real_sup [pred x | `[< exists n, u_ n = x >] ].
+Proof.
+move=> iu /has_ubP/nonemptyP[N]; rewrite inE => /forallbP uN.
+apply/(@increasing_upper_bound_cvg _ N iu) => n.
+move: (uN (u_ n)); rewrite inE => /implyP; apply.
+by apply/asboolP; exists n.
+Qed.
+
+Lemma increasing_cvg_has_sup (u_ : (R^o) ^nat) : increasing u_ ->
+  cvg u_ -> has_sup [pred x | `[< exists n, u_ n = x >] ].
+Proof.
+move=> iu cu; move/cvg_ex : (cu) => [/= l ul].
+apply/has_supP; split.
+  by apply/nonemptyP; exists (u_ O); rewrite inE; apply/asboolP; exists O.
+apply/nonemptyP; exists l; apply/ubP => /= x; rewrite inE => /asboolP[p <-{x}].
+have : forall m, (m >= p)%nat -> u_ m >= u_ p by move=> m /(increasing_ler iu).
+move/lim_ler => /(_ (@cvg_cst _ [normedModType R of R^o] (u_ p)) cu).
+rewrite lim_cst_sequence => /ler_trans; apply.
+by move/flim_lim : ul => ->.
+Qed.
+
+Definition cauchy_seq (K : absRingType) (V : normedModType K) (u_ : V ^nat) :=
   forall eps : posreal, \forall n \near (\oo, \oo), `|[ u_ n.1 - u_ n.2 ]| <= eps.
 
-Lemma cvg_cauchy_seq (u_ : (R^o) ^nat) : cvg u_ -> cauchy_seq u_.
+Lemma cvg_cauchy_seq (K : absRingType) (V : normedModType K) (u_ : V ^nat) :
+  cvg u_ -> cauchy_seq u_.
 Proof.
 move/flim_normP => H e; near=> n.
 rewrite -(addrK (- lim u_) (u_ n.1)) opprK -(addrA (u_ n.1 - _)).
@@ -366,6 +429,26 @@ rewrite (ler_trans (ler_normm_add _ _)) // (splitr e%:num) ltrW //.
 rewrite ltr_add //; near: n; apply: filter_pair_near_of => /= x y xoo yoo.
 rewrite normmB; near: x; exact: H.
 near: y; exact: H.
+Grab Existential Variables. all: end_near. Qed.
+
+Lemma cauchy_bounded (u_ : R^o ^nat) :
+  cauchy_seq u_ -> exists M, forall n, `| u_ n | <= M.
+Proof.
+move=> csu.
+have H : \forall p \near \oo & n \near \oo, `|u_ p - u_ n| <= 1.
+  by move: csu; rewrite /cauchy_seq => /(_ 1%:pos).
+near \oo => N.
+exists (Num.max (\big[maxr/0]_(0 <= i < N) `|u_ i|) (`|u_ N| + 1)) => p.
+rewrite ler_maxr.
+case/boolP : (p < N)%nat => [pN|].
+- by rewrite big_mkord (@ler_bigmax_cond _ _ _ (Ordinal pN)).
+- rewrite -leqNgt => Np.
+  apply/orP; right;rewrite -ler_subl_addl (ler_trans (ler_sub_dist _ _)) //.
+  move: p Np; near: N; case: H => x [[i _ x1] [j _ x2]] Hx.
+  exists (maxn i j) => // k jk p kp.
+  apply (Hx (p, k)); split; [apply x1|apply x2] => /=.
+  by rewrite (leq_trans _ kp) // (leq_trans _ jk) // leq_maxl.
+  by rewrite (leq_trans _ jk) // leq_maxr.
 Grab Existential Variables. all: end_near. Qed.
 
 End lemmas_about_sequences.
@@ -589,9 +672,11 @@ End e_seq_increasing.
 
 Lemma cvg_e_seq : cvg e_seq.
 Proof.
-apply (@increasing_bound_cvg _ 4%:R).
+apply increasing_has_ub_cvg.
   by move=> n; exact/ltrW/increasing_e_seq.
-case.
+apply/has_ubP/nonemptyP; exists 4%:R; rewrite inE; apply/forallbP => /= x.
+rewrite inE; apply/implyP => /asboolP[n <-{x}].
+case: n.
 by rewrite e_seq0 {1}(_ : 1 = 1%:R) // ler_nat.
 by move=> n; apply/ltrW/e_seq_bound.
 Qed.
@@ -617,7 +702,7 @@ End example_of_sequences.
 
 Section cesaro.
 
-Definition cesaro_seq (u_ : R^o ^nat) : R^o ^nat:=
+Definition cesaro_seq (u_ : R^o ^nat) : R^o ^nat :=
   fun n => n.+1%:R^-1 * (\sum_(i < n.+1) u_ i).
 
 Definition cesaro_stmt (u_ : R^o ^nat) (l : R^o) :=
@@ -645,7 +730,7 @@ suff H : forall u_, cesaro_stmt u_ 0.
     by rewrite -/(_ %:R) mulVr ?mulr1 // unitfE pnatr_eq0.
   move/eqP : (u'ul); rewrite -subr_eq opprK => /eqP <-.
   split.
-  - apply cvg_add => //; exact: cvg_cst.
+  - apply (@cvg_add _ [normedModType R of R^o]) => //; exact: cvg_cst.
   - rewrite lim_add_sequence //; last exact: cvg_cst.
     by rewrite lim_cst_sequence H add0r.
 move=> {u_ l}u_ cu lu.
@@ -709,43 +794,15 @@ rewrite (ler_lt_trans (cesaro_split _ _ Mn)) // (splitr e) ltr_add //.
   rewrite big_nat_cond [in X in _ <= X]big_nat_cond; apply ler_sum.
   move=> i; rewrite andbT => /andP[Mi _]; apply ltrW; move: i Mi.
   near: M.
-  have H : \forall x \near \oo, `|[u_ x]| < e / 2.
+  have : \forall x \near \oo, `|[u_ x]| < e / 2.
     near=> x.
     rewrite -(@subr0 _ (u_ x)) normmB.
     near: x.
     have e20 : 0 < e / 2 by rewrite divr_gt0.
     by move/flim_normP : u0 => /(_ _ e20) {e20}; rewrite near_map => H.
-  move: H; rewrite nearE => -[j _ Hj] /=.
+  rewrite nearE => -[j _ Hj] /=.
   rewrite nearE; exists j => // k Hk i ki.
   by rewrite Hj // (leq_trans Hk) // ltnW.
 Grab Existential Variables. all: end_near. Qed.
 
 End cesaro.
-
-From mathcomp Require Import div ssrint rat.
-
-Lemma normq0 : normq 0 = 0.
-Proof. by rewrite /normq /numq /denq /= div0n mulr0 normr0 rat0 mul0r. Qed.
-Lemma numq0 : numq 0 = 0. Proof. by []. Qed.
-Lemma numq1 : numq 1 = 1. Proof. by []. Qed.
-Lemma denq1 : denq 1 = 1. Proof. by []. Qed.
-Definition Normq (x : rat) : R := `| ratr x | (*`|numq x|%:~R / `|denq x|%:~R*).
-Lemma Normq0 : Normq 0 = 0.
-Proof. by rewrite /Normq -ratr_norm normr0 /ratr numq0 mul0r. Qed.
-Lemma NormqN1 : Normq (-1) = 1.
-Proof. by rewrite /Normq -ratr_norm normrN1 (_ : 1 = 1%:R) // ratr_nat. Qed.
-Lemma ler_Normq_add (x y : rat) : Normq (x + y) <= Normq x + Normq y.
-Proof. by rewrite /Normq rmorphD /= (ler_trans _ (ler_norm_add _ _)). Qed.
-Lemma NormqM (x y : rat) : Normq (x * y) = Normq x * Normq y.
-Proof. by rewrite /Normq rmorphM /= normrM. Qed.
-Lemma Normq_eq0 (x : rat) : Normq x = 0 -> x = 0.
-Proof.
-rewrite /Normq -ratr_norm /ratr => /eqP; rewrite mulf_eq0 => /orP[|].
-by rewrite intr_eq0 numq_eq0 normr_eq0 => /eqP.
-by rewrite invr_eq0 intr_eq0 denq_eq0.
-Qed.
-Definition rat_AbsRingMixin : AbsRing.mixin_of rat_numDomainType :=
-  @AbsRing.Mixin _ _ Normq0 NormqN1 ler_Normq_add NormqM Normq_eq0.
-Canonical rat_absRingType := AbsRingType rat rat_AbsRingMixin.
-Canonical rat_pointedType := [pointedType of rat for rat_absRingType].
-Canonical rat_filteredType := [filteredType rat of rat for rat_absRingType].
