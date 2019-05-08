@@ -30,6 +30,8 @@ Local Open Scope classical_set_scope.
       - increasing + has_ub -> converge
       - increasing + converge -> has_sup
       - converge -> cauchy
+      - cauchy -> bounded
+      - equivalence with definition in terms of entourages
    4. Section example_of_sequences.
       1/(n+1) -> 0
       (1 + 1/n)^n is bounded by 4, increasing, its limit is > 2
@@ -43,8 +45,6 @@ Notation "R ^nat" := (sequence R).
 
 Canonical eventually_filter := FilterType eventually _.
 Canonical eventually_pfilter := PFilterType eventually (filter_not_empty _).
-Notation eqolimn := (@eqolim _ _ _ eventually_filter).
-Notation eqolimPn := (@eqolimP _ _ _ eventually_filter).
 
 Section to_move.
 
@@ -141,6 +141,9 @@ Lemma addo' (K : absRingType) (T : Type) (V W : normedModType K) (F : filter_on 
   (f g : T -> V) (e : T -> W) (F' := unkeyed F) :
   [o_F e of f] + [o_F' e of g] =o_F e.
 Proof. exact: addo. Qed.
+
+Local Notation eqolimn := (@eqolim _ _ _ eventually_filter).
+Local Notation eqolimPn := (@eqolimP _ _ _ eventually_filter).
 
 Lemma lim_add3sequence (u_ v_ w_ : (R^o) ^nat) : cvg u_ -> cvg v_ -> cvg w_ ->
   lim (u_ + v_ + w_) = lim u_ + lim v_ +  lim w_.
@@ -418,14 +421,14 @@ by move/flim_lim : ul => ->.
 Qed.
 
 Definition cauchy_seq (K : absRingType) (V : normedModType K) (u_ : V ^nat) :=
-  forall eps : posreal, \forall n \near (\oo, \oo), `|[ u_ n.1 - u_ n.2 ]| <= eps.
+  forall eps : posreal, \forall n \near (\oo, \oo), `|[ u_ n.1 - u_ n.2 ]| < eps.
 
 Lemma cvg_cauchy_seq (K : absRingType) (V : normedModType K) (u_ : V ^nat) :
   cvg u_ -> cauchy_seq u_.
 Proof.
 move/flim_normP => H e; near=> n.
 rewrite -(addrK (- lim u_) (u_ n.1)) opprK -(addrA (u_ n.1 - _)).
-rewrite (ler_trans (ler_normm_add _ _)) // (splitr e%:num) ltrW //.
+rewrite (ler_lt_trans (ler_normm_add _ _)) // (splitr e%:num).
 rewrite ltr_add //; near: n; apply: filter_pair_near_of => /= x y xoo yoo.
 rewrite normmB; near: x; exact: H.
 near: y; exact: H.
@@ -435,7 +438,7 @@ Lemma cauchy_bounded (u_ : R^o ^nat) :
   cauchy_seq u_ -> exists M, forall n, `| u_ n | <= M.
 Proof.
 move=> csu.
-have H : \forall p \near \oo & n \near \oo, `|u_ p - u_ n| <= 1.
+have H : \forall p \near \oo & n \near \oo, `|u_ p - u_ n| < 1.
   by move: csu; rewrite /cauchy_seq => /(_ 1%:pos).
 near \oo => N.
 exists (Num.max (\big[maxr/0]_(0 <= i < N) `|u_ i|) (`|u_ N| + 1)) => p.
@@ -446,9 +449,39 @@ case/boolP : (p < N)%nat => [pN|].
   apply/orP; right;rewrite -ler_subl_addl (ler_trans (ler_sub_dist _ _)) //.
   move: p Np; near: N; case: H => x [[i _ x1] [j _ x2]] Hx.
   exists (maxn i j) => // k jk p kp.
-  apply (Hx (p, k)); split; [apply x1|apply x2] => /=.
+  apply/ltrW/(Hx (p, k)); split; [apply x1|apply x2] => /=.
   by rewrite (leq_trans _ kp) // (leq_trans _ jk) // leq_maxl.
   by rewrite (leq_trans _ jk) // leq_maxr.
+Grab Existential Variables. all: end_near. Qed.
+
+Definition cauchy_seq_entourages (K : absRingType) (V : normedModType K) (u_ : V ^nat) :=
+  forall E, E \in entourages -> exists n,
+    forall x, (x.1 >= n)%nat -> (x.2 >= n)%nat -> (u_ x.1, u_ x.2) \in E.
+
+Lemma cauchy_seqP (K : absRingType) (V : normedModType K) (u_ : V ^nat) :
+  cauchy_seq u_ <-> cauchy_seq_entourages u_.
+Proof.
+rewrite /cauchy_seq /cauchy_seq_entourages; split=> [csu E|csu -[e e0]].
+- rewrite inE => /asboolP; rewrite /entourages => -[e e0 HE].
+  have {csu}csu := csu (PosNumDef e0).
+  near \oo => N; exists N => X NX1 NX2.
+  rewrite inE; apply/asboolP/HE => /=; rewrite -ball_normE /ball_.
+  move: X NX1 NX2; near: N.
+  move: csu; rewrite -near2_pair => -[[x1 x2] /= [Hx1 Hx2] x1x2].
+  near=> N; move=> -[y1 y2] /= Ny1 Ny2.
+  apply (x1x2 (y1, y2)); split => /=.
+  move: y1 Ny1; near: N; move: Hx1 => [i _ Hi].
+  by exists i => // j ij y1 ?; apply Hi; rewrite (leq_trans ij).
+  move: y2 Ny2; near: N; move: Hx2 => [i _ Hi].
+  by exists i => // j ij y2 jy2; apply Hi; rewrite (leq_trans ij).
+- have /asboolP HE : @entourages V (fun x => `|[x.1 - x.2]| < e).
+    by exists e => // x; rewrite -ball_normE.
+  move: csu => /(_ (fun x => `|[x.1 - x.2]| < e)); rewrite inE => /(_ HE){HE} [N csu].
+  near=> n.
+  apply/asboolP; move: csu => /(_ n); rewrite inE /=; apply;
+    near: n; rewrite near_simpl -near2_pair /=.
+  + by apply filter_prod1; exists N.
+  + by apply filter_prod2; exists N.
 Grab Existential Variables. all: end_near. Qed.
 
 End lemmas_about_sequences.
