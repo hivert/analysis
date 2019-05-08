@@ -31,6 +31,7 @@ Local Open Scope classical_set_scope.
       - increasing + converge -> has_sup
       - converge -> cauchy
       - cauchy -> bounded
+      - equivalence with definition in terms of filter
       - equivalence with definition in terms of entourages
    4. Section example_of_sequences.
       1/(n+1) -> 0
@@ -454,6 +455,18 @@ case/boolP : (p < N)%nat => [pN|].
   by rewrite (leq_trans _ jk) // leq_maxr.
 Grab Existential Variables. all: end_near. Qed.
 
+Lemma cauchy_seq_cauchy (u_ : R^o ^nat) : cauchy_seq u_ <-> cauchy (u_ @ \oo).
+Proof.
+split=> [csu e e0 | csu e].
+- rewrite near_simpl; near=> x => /=; rewrite -ball_normE /ball_.
+  by near: x; have := csu (PosNumDef e0).
+- near=> x; rewrite -/(ball_ norm _ _ _) ball_normE; near: x.
+  by have := csu e (posnum_gt0 e); rewrite !near_simpl near2E.
+Grab Existential Variables. all: end_near. Qed.
+
+Lemma cauchy_seq_cvg (u_ : R^o ^nat) : cauchy_seq u_ -> cvg u_.
+Proof. move/cauchy_seq_cauchy; exact: R_complete. Qed.
+
 Definition cauchy_seq_entourages (K : absRingType) (V : normedModType K) (u_ : V ^nat) :=
   forall E, E \in entourages -> exists n,
     forall x, (x.1 >= n)%nat -> (x.2 >= n)%nat -> (u_ x.1, u_ x.2) \in E.
@@ -839,3 +852,53 @@ rewrite (ler_lt_trans (cesaro_split _ _ Mn)) // (splitr e) ltr_add //.
 Grab Existential Variables. all: end_near. Qed.
 
 End cesaro.
+
+Lemma cvg_restrict (K : absRingType) (V : normedModType K)
+  (u_ : V ^nat) N (f : nat -> V) :
+  u_ @ \oo --> (0 : V) -> (fun n => if (n <= N)%nat then f n else u_ n) @ \oo --> (0 : V).
+Proof.
+move/flim_normP => H; apply/flim_normP => e e0; rewrite near_map; near=> i.
+rewrite normmB subr0.
+case: ifPn => [|_]; last by rewrite -(subr0 (u_ i)) normmB; near: i; exact: H.
+rewrite leqNgt => /negP H0; exfalso; move: H0; apply.
+by near: i; rewrite nearE; exists N.+1.
+Grab Existential Variables. all: end_near. Qed.
+
+Section series.
+
+Variables (K : absRingType) (V : normedModType K).
+Variable (u_ : V ^nat).
+
+Definition psum : V ^nat := fun n => \sum_(k < n.+1) (u_ k).
+
+Definition series_cvg := cvg psum.
+
+Lemma psumD (n : nat) : n != O -> u_ n = psum n - psum n.-1.
+Proof.
+by case: n => // n _; rewrite /psum big_ord_recr /= addrAC subrr add0r.
+Qed.
+
+Lemma series_cvg_cvg : series_cvg -> lim u_ = 0.
+Proof.
+move=> psum_cvg; apply/flim_lim.
+rewrite (_ : u_ = fun n => if (n <= O)%nat then u_ n else psum n - psum n.-1); last first.
+  rewrite funeqE => i; case: ifPn=> [|]; first by rewrite leqn0 => /eqP ->.
+  rewrite leqNgt negbK lt0n; exact: psumD.
+apply: (@cvg_restrict K V _ O u_).
+rewrite -(subrr (lim psum)).
+apply/(@lim_add _ _ nat_topologicalType) => //.
+apply/(@lim_opp _ _ nat_topologicalType).
+rewrite (_ : (fun x : nat => _) = psum \o predn); last first.
+  by rewrite funeqE => i.
+apply (@subset_trans _ (psum @ \oo)) => //.
+apply: flim_eq_loc.
+near=> x.
+simpl.
+rewrite /psum big_ord_recr /=.
+destruct x.
+  by rewrite big_ord0 add0r /= big_ord_recr /= big_ord0 add0r.
+rewrite /=.
+apply/eqP; rewrite eq_sym addrC -subr_eq subrr eq_sym; apply/eqP.
+Abort.
+
+End series.
