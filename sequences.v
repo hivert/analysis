@@ -37,7 +37,10 @@ Local Open Scope classical_set_scope.
       1/(n+1) -> 0
       (1 + 1/n)^n is bounded by 4, increasing, its limit is > 2
    5. Section cesaro.
-   5. Section partial_sum.
+   6. Section partial_sum.
+      - partial sum converges -> sequence converges to 0
+   7. Section series_R
+      - Cauchy criterion for series
 *)
 
 Reserved Notation "R ^nat" (at level 0).
@@ -48,12 +51,80 @@ Notation "R ^nat" := (sequence R).
 Canonical eventually_filter := FilterType eventually _.
 Canonical eventually_pfilter := PFilterType eventually (filter_not_empty _).
 
-Section to_move.
+(* NB(rei): from the branch uniform-entourages*)
+(*Section Bigmaxr.
 
-(* NB(rei): lemma available in the branch uniform-entourages *)
+Variable (R : realDomainType).
+
+Lemma bigmaxr_mkcond I r (P : pred I) (F : I -> R) x :
+  \big[maxr/x]_(i <- r | P i) F i =
+     \big[maxr/x]_(i <- r) (if P i then F i else x).
+Proof.
+rewrite unlock; elim: r x => //= i r ihr x.
+case P; rewrite ihr // maxr_r //; elim: r {ihr} => //= j r ihr.
+by rewrite ler_maxr ihr orbT.
+Qed.
+
+Lemma bigmaxr_split I r (P : pred I) (F1 F2 : I -> R) x :
+  \big[maxr/x]_(i <- r | P i) (maxr (F1 i) (F2 i)) =
+  maxr (\big[maxr/x]_(i <- r | P i) F1 i) (\big[maxr/x]_(i <- r | P i) F2 i).
+Proof.
+by elim/big_rec3: _ => [|i y z _ _ ->]; rewrite ?maxrr // maxrCA -!maxrA maxrCA.
+Qed.
+
+Lemma filter_andb I r (a P : pred I) :
+  [seq i <- r | P i && a i] = [seq i <- [seq j <- r | P j] | a i].
+Proof. by elim: r => //= i r ->; case P. Qed.
+
+Lemma bigmaxr_idl I r (P : pred I) (F : I -> R) x :
+  \big[maxr/x]_(i <- r | P i) F i = maxr x (\big[maxr/x]_(i <- r | P i) F i).
+Proof.
+rewrite -big_filter; elim: [seq i <- r | P i] => [|i l ihl].
+  by rewrite big_nil maxrr.
+by rewrite big_cons maxrCA -ihl.
+Qed.
+
+Lemma bigmaxrID I r (a P : pred I) (F : I -> R) x :
+  \big[maxr/x]_(i <- r | P i) F i =
+  maxr (\big[maxr/x]_(i <- r | P i && a i) F i)
+    (\big[maxr/x]_(i <- r | P i && ~~ a i) F i).
+Proof.
+rewrite -!(big_filter _ (fun _ => _ && _)) !filter_andb !big_filter.
+rewrite ![in RHS](bigmaxr_mkcond _ _ F) !big_filter -bigmaxr_split.
+have eqmax : forall i, P i ->
+  maxr (if a i then F i else x) (if ~~ a i then F i else x) = maxr (F i) x.
+  by move=> i _; case: (a i) => //=; rewrite maxrC.
+rewrite [RHS](eq_bigr _ eqmax) -!(big_filter _ P).
+elim: [seq j <- r | P j] => [|j l ihl]; first by rewrite !big_nil.
+by rewrite !big_cons -maxrA -bigmaxr_idl ihl.
+Qed.
+
+Lemma bigmaxr_seq1 I (i : I) (F : I -> R) x :
+  \big[maxr/x]_(j <- [:: i]) F j = maxr (F i) x.
+Proof. by rewrite unlock /=. Qed.
+
+Lemma bigmaxr_pred1_eq (I : finType) (i : I) (F : I -> R) x :
+  \big[maxr/x]_(j | j == i) F j = maxr (F i) x.
+Proof. by rewrite -big_filter filter_index_enum enum1 bigmaxr_seq1. Qed.
+
+Lemma bigmaxr_pred1 (I : finType) i (P : pred I) (F : I -> R) x :
+  P =1 pred1 i -> \big[maxr/x]_(j | P j) F j = maxr (F i) x.
+Proof. by move/(eq_bigl _ _)->; apply: bigmaxr_pred1_eq. Qed.
+
+Lemma bigmaxrD1 (I : finType) j (P : pred I) (F : I -> R) x :
+  P j -> \big[maxr/x]_(i | P i) F i
+    = maxr (F j) (\big[maxr/x]_(i | P i && (i != j)) F i).
+Proof.
+move=> Pj; rewrite (bigmaxrID _ (pred1 j)) [in RHS]bigmaxr_idl maxrA.
+by congr maxr; apply: bigmaxr_pred1 => i; rewrite /= andbC; case: eqP => //->.
+Qed.
+
+End Bigmaxr.*)
 Axiom bigmaxrD1 : forall (I : finType) j (P : pred I) (F : I -> R) x,
   P j -> \big[maxr/x]_(i | P i) F i
     = maxr (F j) (\big[maxr/x]_(i | P i && (i != j)) F i).
+
+Section to_move.
 
 Lemma ler_bigmax_cond (I : finType) (P : pred I) (F : _ -> R) i0 :
   P i0 -> (forall x, 0 <= F x) -> F i0 <= \big[Num.max/0]_(i | P i) F i.
@@ -63,9 +134,8 @@ Proof. by move=> Pi0 F0; rewrite (@bigmaxrD1 _ i0) //= ler_maxr lerr. Qed.
 Lemma ler_norm_big (K : absRingType) (V : normedModType K) (s : seq nat) (f : nat -> V) :
   `|[\big[+%R/0]_(i <- s) f i]| <= \big[+%R/0]_(i <- s) `|[f i]|.
 Proof.
-elim: s => [|h t ih].
-  rewrite big_nil normm0; apply sumr_ge0 => i _; exact: normm_ge0.
-by rewrite 2!big_cons (ler_trans (ler_normm_add _ _)) // ler_add2l.
+elim: s => *; [rewrite big_nil normm0; apply sumr_ge0 => *; exact: normm_ge0 |
+by rewrite 2!big_cons (ler_trans (ler_normm_add _ _)) // ler_add2l].
 Qed.
 
 (* TODO: move to topology.v? *)
@@ -865,7 +935,7 @@ rewrite leqNgt => /negP H0; exfalso; move: H0; apply.
 by near: i; rewrite nearE; exists N.+1.
 Grab Existential Variables. all: end_near. Qed.
 
-Lemma flim_predn (K : absRingType) (V : normedModType K) (u_ : V ^nat) (l : V) (N : nat) :
+Lemma flim_subn (K : absRingType) (V : normedModType K) (u_ : V ^nat) (l : V) (N : nat) :
   u_ --> l -> (fun n => u_ (n - N)%nat) --> l.
 Proof.
 move=> ul; move/flim_normP : (ul) => H.
@@ -896,6 +966,7 @@ Section partial_sum.
 Variables (K : absRingType) (V : normedModType K).
 Variable (u_ : V ^nat).
 
+(* suite des sommes partielles *)
 Definition psum : V ^nat := fun n => \sum_(k < n.+1) (u_ k).
 
 Lemma psumD (n : nat) : n != O -> u_ n = psum n - psum n.-1.
@@ -917,7 +988,43 @@ apply/(@lim_add _ _ nat_topologicalType) => //.
 apply/(@lim_opp _ _ nat_topologicalType).
 rewrite (_ : (fun _ => _) = (fun x => psum (x - 1)%nat)); last first.
   by rewrite funeqE => i; rewrite subn1.
-exact/flim_predn.
+exact/flim_subn.
 Qed.
 
 End partial_sum.
+
+Section series_R.
+
+Variable (u_ : R^o ^nat).
+
+Lemma psum_cvg_cauchy : psum_cvg u_ <->
+  forall e : posreal, \forall n \near (\oo, \oo), (n.1 < n.2)%nat -> `|[ \sum_(n.1.+1 <= k < n.2.+1) u_ k]| < e.
+Proof.
+split => [|H].
+- move/cvg_cauchy_seq; rewrite /cauchy_seq => H e; near=> np => Hnp.
+  rewrite -(subr0 (\big[_/_]_(_ <- _) _)).
+  rewrite -{2}(subrr (\big[+%R/0]_(i < np.1.+1) u_ i)) opprB addrCA addrA.
+  rewrite -(big_mkord xpredT) -big_cat -iota_add subn0 subnKC; last first.
+    by rewrite ltnW.
+  rewrite (@big_mkord _ _ _ _ xpredT) -(subn0 np.2.+1).
+  rewrite (@big_mkord _ _ _ np.2.+1 xpredT) normmB {Hnp}.
+  near: np; exact: H.
+- apply/cauchy_seq_cvg => e; near=> np.
+  case/boolP : (np.1 < np.2)%nat => [|].
+  + rewrite -ltnS => Hnp.
+    rewrite normmB /= /psum -2!(big_mkord xpredT) -{1}(subnKC (ltnW Hnp)).
+    rewrite {1}/index_iota subn0 iota_add big_cat add0n addrAC subrr add0r.
+    move: Hnp; near: np; exact: H.
+  + rewrite -leqNgt leq_eqVlt => -/orP[/eqP ->|]; first by rewrite subrr normm0.
+  + rewrite -ltnS => Hnp.
+    rewrite normmB /= /psum -2!(big_mkord xpredT) -{1}(subnKC (ltnW Hnp)).
+    rewrite {2}/index_iota subn0 iota_add big_cat add0n.
+    rewrite opprD addrA subrr normmB subr0.
+    move: Hnp; near: np.
+    move: (H e).
+    rewrite -(near2_curry _ _ (fun x2 => fun x1 => (x2.+1 < x1.+1)%N ->
+      `|[\big[+%R/0]_(i <- iota x2.+1 (x1.+1 - x2.+1)) u_ i]| < e)).
+    by rewrite near_swap near2_curry.
+Grab Existential Variables. all: end_near. Qed.
+
+End series_R.
