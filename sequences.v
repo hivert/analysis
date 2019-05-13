@@ -37,6 +37,7 @@ Local Open Scope classical_set_scope.
       1/(n+1) -> 0
       (1 + 1/n)^n is bounded by 4, increasing, its limit is > 2
    5. Section cesaro.
+   5. Section partial_sum.
 *)
 
 Reserved Notation "R ^nat" (at level 0).
@@ -864,21 +865,47 @@ rewrite leqNgt => /negP H0; exfalso; move: H0; apply.
 by near: i; rewrite nearE; exists N.+1.
 Grab Existential Variables. all: end_near. Qed.
 
-Section series.
+Lemma flim_predn (K : absRingType) (V : normedModType K) (u_ : V ^nat) (l : V) (N : nat) :
+  u_ --> l -> (fun n => u_ (n - N)%nat) --> l.
+Proof.
+move=> ul; move/flim_normP : (ul) => H.
+apply/flim_normP => e e0; rewrite near_map; near=> n.
+rewrite -normmB -(add0r l) -(subrr (u_ n)) -(addrA (u_ n)) opprD.
+rewrite (addrA (u_ (n - N)%nat)) (ler_lt_trans (ler_normm_add _ _)) // (splitr e).
+rewrite  ltr_add //; last first.
+  rewrite normmN addrC; near: n.
+  suff : 0 < e / 2 by move/H.
+  by rewrite divr_gt0.
+near: n.
+have /cvg_cauchy_seq : cvg u_ by apply/cvg_ex; exists l.
+have e20 : 0 < e / 2 by rewrite divr_gt0.
+rewrite /cauchy_seq => /(_ (PosNumDef e20)) /=.
+move=> [[a b] /= [aoo boo] ab]; near=> n.
+apply (ab ((n - N)%nat, n)); split => /=.
+- near: n; case: aoo => a0 _ a0a; near=> n.
+  apply a0a; near: n.
+  rewrite nearE; exists (a0 + N)%nat => // y.
+  by move/(leq_sub2r N); rewrite addnK.
+- near: n; case: boo => b0 _ b0b; near=> n.
+  apply b0b; near: n.
+  by rewrite nearE; exists b0.
+Grab Existential Variables. all: end_near. Qed.
+
+Section partial_sum.
 
 Variables (K : absRingType) (V : normedModType K).
 Variable (u_ : V ^nat).
 
 Definition psum : V ^nat := fun n => \sum_(k < n.+1) (u_ k).
 
-Definition series_cvg := cvg psum.
-
 Lemma psumD (n : nat) : n != O -> u_ n = psum n - psum n.-1.
 Proof.
 by case: n => // n _; rewrite /psum big_ord_recr /= addrAC subrr add0r.
 Qed.
 
-Lemma series_cvg_cvg : series_cvg -> lim u_ = 0.
+Definition psum_cvg := cvg psum.
+
+Lemma psum_cvg_cvg : psum_cvg -> lim u_ = 0.
 Proof.
 move=> psum_cvg; apply/flim_lim.
 rewrite (_ : u_ = fun n => if (n <= O)%nat then u_ n else psum n - psum n.-1); last first.
@@ -888,17 +915,9 @@ apply: (@cvg_restrict K V _ O u_).
 rewrite -(subrr (lim psum)).
 apply/(@lim_add _ _ nat_topologicalType) => //.
 apply/(@lim_opp _ _ nat_topologicalType).
-rewrite (_ : (fun x : nat => _) = psum \o predn); last first.
-  by rewrite funeqE => i.
-apply (@subset_trans _ (psum @ \oo)) => //.
-apply: flim_eq_loc.
-near=> x.
-simpl.
-rewrite /psum big_ord_recr /=.
-destruct x.
-  by rewrite big_ord0 add0r /= big_ord_recr /= big_ord0 add0r.
-rewrite /=.
-apply/eqP; rewrite eq_sym addrC -subr_eq subrr eq_sym; apply/eqP.
-Abort.
+rewrite (_ : (fun _ => _) = (fun x => psum (x - 1)%nat)); last first.
+  by rewrite funeqE => i; rewrite subn1.
+exact/flim_predn.
+Qed.
 
-End series.
+End partial_sum.
