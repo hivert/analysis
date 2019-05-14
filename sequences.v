@@ -38,9 +38,11 @@ Local Open Scope classical_set_scope.
       (1 + 1/n)^n is bounded by 4, increasing, its limit is > 2
    5. Section cesaro.
    6. Section partial_sum.
+   7. Section series_convergence.
       - partial sum converges -> sequence converges to 0
-   7. Section series_R
+   8. Section series_R.
       - Cauchy criterion for series
+      - absolute convergence -> convergence
 *)
 
 Reserved Notation "R ^nat" (at level 0).
@@ -855,15 +857,15 @@ have cesaro_split : forall n M, (M <= n)%nat ->
   `|[n.+1%:R^-1 * \big[+%R/0]_(i < n.+1) u_ i]| <=
     n.+1%:R^-1 * `|[\big[+%R/0]_(i < M.+1) u_ i]| +
     n.+1%:R^-1 * `|[\big[+%R/0]_(M.+1 <= i < n.+1) u_ i]|.
-  move=> n M Mn.
+  move=> n M; rewrite -ltnS => Mn.
   rewrite (bigID (fun i : 'I_n.+1 => (i <= M)%nat)) /= mulrDr.
   rewrite (eq_bigl (fun i : 'I_n.+1 => (i < M.+1)%nat)) // -big_ord_widen //.
   rewrite (ler_trans (ler_normm_add _ _)) // ler_add //.
     by rewrite normmZ ler_wpmul2r // absRE ger0_norm.
   rewrite normmZ absRE ger0_norm // ler_wpmul2l //.
   rewrite (eq_bigl (fun i : 'I__ => (M < i)%nat)); last first.
-    by move=> i; rewrite ltnNge.
-  rewrite -big_mkord -{1}(@subnKC M.+1 n.+1); last by rewrite ltnS.
+    by move=> ?; rewrite ltnNge.
+  rewrite -big_mkord -{1}(subnKC Mn).
   rewrite {1}/index_iota subn0 iota_add big_cat -!/(index_iota _ _) add0n.
   rewrite -/(index_iota 0 M.+1) /= big_mkord (eq_bigr (fun=> 0)); last first.
     move=> /= i Mi; move: (ltn_ord i); rewrite ltnS => /(leq_trans Mi).
@@ -893,17 +895,12 @@ rewrite (ler_lt_trans (cesaro_split _ _ Mn)) // (splitr e) ltr_add //.
   move/flim_norm : flim_invn => /(_ _ H2).
   rewrite !near_simpl => H3.
   near=> n.
-  rewrite -ltr_pdivl_mulr // mulrAC -(@ger0_norm _ n.+1%:R^-1) //.
-  rewrite -(@subr0 _ n.+1%:R^-1).
-  rewrite (_ : `|n.+1%:R^-1 - 0|%R = `|[(0 - n.+1%:R^-1) : R^o]|); last first.
-    by rewrite -absRE normmB.
-  by near: n.
+  rewrite -ltr_pdivl_mulr // mulrAC -[X in X < _]ger0_norm //.
+  by rewrite -[X in `|X|%R]subr0 distrC; near: n.
 - rewrite (@ler_lt_trans _ (n.+1%:R^-1 * (n - M)%:R * (e / 2))) //; last first.
     rewrite -[X in _ < X](mul1r (e / 2)) ltr_pmul2r // ?divr_gt0 //.
     by rewrite lter_pdivr_mull // mulr1 ltr_nat ltnS leq_subLR leq_addl.
-  rewrite -mulrA ler_wpmul2l //.
-  rewrite (@ler_trans _ (\big[+%R/0]_(M.+1 <= i < n.+1) `|[ u_ i ]|)) //.
-    exact: ler_norm_big.
+  rewrite -mulrA ler_wpmul2l // (ler_trans (ler_norm_big _ _)) //.
   rewrite (@ler_trans _ (\big[+%R/0]_(M.+1 <= i < n.+1) (e / 2))) //; last first.
     rewrite big_const_nat subSS ler_eqVlt; apply/orP; left.
     elim : (n - M)%nat => /= [|k IH]; first by rewrite mul0r.
@@ -912,11 +909,8 @@ rewrite (ler_lt_trans (cesaro_split _ _ Mn)) // (splitr e) ltr_add //.
   move=> i; rewrite andbT => /andP[Mi _]; apply ltrW; move: i Mi.
   near: M.
   have : \forall x \near \oo, `|[u_ x]| < e / 2.
-    near=> x.
-    rewrite -(@subr0 _ (u_ x)) normmB.
-    near: x.
-    have e20 : 0 < e / 2 by rewrite divr_gt0.
-    by move/flim_normP : u0 => /(_ _ e20) {e20}; rewrite near_map => H.
+    near=> x; rewrite -(subr0 (u_ x)) normmB; near: x.
+    move/flim_normP : u0; apply; by rewrite divr_gt0.
   rewrite nearE => -[j _ Hj] /=.
   rewrite nearE; exists j => // k Hk i ki.
   by rewrite Hj // (leq_trans Hk) // ltnW.
@@ -924,7 +918,7 @@ Grab Existential Variables. all: end_near. Qed.
 
 End cesaro.
 
-Lemma cvg_restrict (K : absRingType) (V : normedModType K)
+Lemma flim_restrict (K : absRingType) (V : normedModType K)
   (u_ : V ^nat) N (f : nat -> V) :
   u_ @ \oo --> (0 : V) -> (fun n => if (n <= N)%nat then f n else u_ n) @ \oo --> (0 : V).
 Proof.
@@ -940,33 +934,25 @@ Lemma flim_subn (K : absRingType) (V : normedModType K) (u_ : V ^nat) (l : V) (N
 Proof.
 move=> ul; move/flim_normP : (ul) => H.
 apply/flim_normP => e e0; rewrite near_map; near=> n.
-rewrite -normmB -(add0r l) -(subrr (u_ n)) -(addrA (u_ n)) opprD.
-rewrite (addrA (u_ (n - N)%nat)) (ler_lt_trans (ler_normm_add _ _)) // (splitr e).
-rewrite  ltr_add //; last first.
-  rewrite normmN addrC; near: n.
-  suff : 0 < e / 2 by move/H.
-  by rewrite divr_gt0.
+rewrite normmB -(subrKA (u_ n)) (ler_lt_trans (ler_normm_add _ _)) //.
+rewrite (splitr e)  ltr_add //; last first.
+  by rewrite normmB; near: n; apply H; rewrite divr_gt0.
 near: n.
 have /cvg_cauchy_seq : cvg u_ by apply/cvg_ex; exists l.
 have e20 : 0 < e / 2 by rewrite divr_gt0.
-rewrite /cauchy_seq => /(_ (PosNumDef e20)) /=.
-move=> [[a b] /= [aoo boo] ab]; near=> n.
+rewrite /cauchy_seq => /(_ (PosNumDef e20)) /= -[[a b] /= [ao bo] ab]; near=> n.
 apply (ab ((n - N)%nat, n)); split => /=.
-- near: n; case: aoo => a0 _ a0a; near=> n.
+- near: n; case: ao => a0 _ a0a; near=> n.
   apply a0a; near: n.
-  rewrite nearE; exists (a0 + N)%nat => // y.
-  by move/(leq_sub2r N); rewrite addnK.
-- near: n; case: boo => b0 _ b0b; near=> n.
-  apply b0b; near: n.
-  by rewrite nearE; exists b0.
+  by rewrite nearE; exists (a0 + N)%nat => // y /(leq_sub2r N); rewrite addnK.
+- near: n; case: bo => b0 _ b0b; near=> n.
+  by apply b0b; near: n; rewrite nearE; exists b0.
 Grab Existential Variables. all: end_near. Qed.
 
+(* sequence of partial sums *)
 Section partial_sum.
+Variables (K : absRingType) (V : normedModType K) (u_ : V ^nat).
 
-Variables (K : absRingType) (V : normedModType K).
-Variable (u_ : V ^nat).
-
-(* suite des sommes partielles *)
 Definition psum : V ^nat := fun n => \sum_(k < n.+1) (u_ k).
 
 Lemma psumD (n : nat) : n != O -> u_ n = psum n - psum n.-1.
@@ -974,57 +960,82 @@ Proof.
 by case: n => // n _; rewrite /psum big_ord_recr /= addrAC subrr add0r.
 Qed.
 
-Definition psum_cvg := cvg psum.
+End partial_sum.
 
-Lemma psum_cvg_cvg : psum_cvg -> lim u_ = 0.
+Section series_convergence.
+
+Definition psum_cvg (K : absRingType) (V : normedModType K) (u_ : V ^nat) :=
+  cvg (psum u_).
+
+Lemma psum_cvg_cvg (K : absRingType) (V : normedModType K) (u_ : V ^nat) :
+  psum_cvg u_ -> lim u_ = 0.
 Proof.
-move=> psum_cvg; apply/flim_lim.
-rewrite (_ : u_ = fun n => if (n <= O)%nat then u_ n else psum n - psum n.-1); last first.
+move=> psum_cvg; apply/flim_lim; rewrite (_ : u_ = fun n =>
+  if (n <= O)%nat then u_ n else psum u_ n - psum u_ (n - 1)%nat); last first.
   rewrite funeqE => i; case: ifPn=> [|]; first by rewrite leqn0 => /eqP ->.
-  rewrite leqNgt negbK lt0n; exact: psumD.
-apply: (@cvg_restrict K V _ O u_).
-rewrite -(subrr (lim psum)).
+  rewrite leqNgt negbK lt0n subn1; exact: psumD.
+apply flim_restrict; rewrite -(subrr (lim (psum u_))).
 apply/(@lim_add _ _ nat_topologicalType) => //.
-apply/(@lim_opp _ _ nat_topologicalType).
-rewrite (_ : (fun _ => _) = (fun x => psum (x - 1)%nat)); last first.
-  by rewrite funeqE => i; rewrite subn1.
-exact/flim_subn.
+exact/(@lim_opp _ _ nat_topologicalType)/flim_subn.
 Qed.
 
-End partial_sum.
+(* absolute convergence *)
+Definition acvg (K : absRingType) (V : normedModType K) (u_ : V^nat) :=
+  @psum_cvg _ [normedModType R of R^o ] (fun n => `|[ u_ n ]|).
+
+End series_convergence.
 
 Section series_R.
 
-Variable (u_ : R^o ^nat).
-
-Lemma psum_cvg_cauchy : psum_cvg u_ <->
-  forall e : posreal, \forall n \near (\oo, \oo), (n.1 < n.2)%nat -> `|[ \sum_(n.1.+1 <= k < n.2.+1) u_ k]| < e.
+Lemma psum_cvg_cauchy (u_ : R^o ^nat) : psum_cvg u_ <->
+  forall e : posreal, \forall n \near (\oo, \oo), (n.1 < n.2)%nat ->
+                 `|[ \sum_(n.1.+1 <= k < n.2.+1) u_ k]| < e.
 Proof.
-split => [|H].
-- move/cvg_cauchy_seq; rewrite /cauchy_seq => H e; near=> np => Hnp.
-  rewrite -(subr0 (\big[_/_]_(_ <- _) _)).
-  rewrite -{2}(subrr (\big[+%R/0]_(i < np.1.+1) u_ i)) opprB addrCA addrA.
-  rewrite -(big_mkord xpredT) -big_cat -iota_add subn0 subnKC; last first.
-    by rewrite ltnW.
-  rewrite (@big_mkord _ _ _ _ xpredT) -(subn0 np.2.+1).
-  rewrite (@big_mkord _ _ _ np.2.+1 xpredT) normmB {Hnp}.
+split=> [/cvg_cauchy_seq|H].
+- rewrite /cauchy_seq => H e; near=> np => Hnp.
+  rewrite -[X in `|[ X ]|](addrK (\big[+%R/0]_(i < np.1.+1) u_ i)).
+  rewrite [in X in `|[ X - _ ]|]addrC -{1}(big_mkord xpredT).
+  rewrite -big_cat -iota_add subn0 subnKC; last exact: ltnW.
+  rewrite -(subn0 np.2.+1) (@big_mkord _ _ _ np.2.+1 xpredT) normmB {Hnp}.
   near: np; exact: H.
 - apply/cauchy_seq_cvg => e; near=> np.
-  case/boolP : (np.1 < np.2)%nat => [|].
-  + rewrite -ltnS => Hnp.
-    rewrite normmB /= /psum -2!(big_mkord xpredT) -{1}(subnKC (ltnW Hnp)).
+  have [Hnp|] := boolP (np.1.+1 < np.2.+1)%nat.
+  + rewrite normmB /psum -2!(big_mkord xpredT) -{1}(subnKC (ltnW Hnp)).
     rewrite {1}/index_iota subn0 iota_add big_cat add0n addrAC subrr add0r.
     move: Hnp; near: np; exact: H.
-  + rewrite -leqNgt leq_eqVlt => -/orP[/eqP ->|]; first by rewrite subrr normm0.
-  + rewrite -ltnS => Hnp.
-    rewrite normmB /= /psum -2!(big_mkord xpredT) -{1}(subnKC (ltnW Hnp)).
-    rewrite {2}/index_iota subn0 iota_add big_cat add0n.
-    rewrite opprD addrA subrr normmB subr0.
-    move: Hnp; near: np.
-    move: (H e).
-    rewrite -(near2_curry _ _ (fun x2 => fun x1 => (x2.+1 < x1.+1)%N ->
-      `|[\big[+%R/0]_(i <- iota x2.+1 (x1.+1 - x2.+1)) u_ i]| < e)).
-    by rewrite near_swap near2_curry.
+  + rewrite -leqNgt leq_eqVlt eqSS => -/orP[/eqP ->|Hnp].
+      by rewrite subrr normm0.
+    rewrite normmB /psum -[X in `|[_ - X]|](big_mkord xpredT).
+    rewrite -{1}(subnKC (ltnW Hnp)) /index_iota subn0 iota_add big_cat add0n.
+    rewrite [np.2.+1]lock /= -lock.
+    rewrite -(big_mkord xpredT) -[X in `|[X - _]|]add0r addrKA sub0r normmN.
+    move: Hnp; near: np; move: (H e).
+    by rewrite -(near2_curry _ _ (fun b => fun a => (b.+1 < a.+1)%N ->
+      `|[\sum_(i <- iota b.+1 (a.+1 - b.+1)) u_ i]| < e)) near_swap near2_curry.
+Grab Existential Variables. all: end_near. Qed.
+
+Lemma acvg_cvg (u_ : R^o ^nat) : acvg u_ -> psum_cvg u_.
+Proof.
+move/psum_cvg_cauchy => H; apply/cauchy_seq_cvg => e; near=> np.
+- have [Hnp|] := boolP (np.2.+1 < np.1.+1)%nat.
+  + rewrite /psum -(big_mkord xpredT) -{1}(subnKC (ltnW Hnp)) /index_iota subn0.
+    rewrite iota_add big_cat [np.2.+1]lock /= -lock add0n addrAC.
+    rewrite -(big_mkord xpredT) subrr add0r (ler_lt_trans (ler_norm_big _ _)) //.
+    rewrite -[X in X < _](@ger0_norm _ _); last first.
+      exact: (sumr_ge0 _ (fun i => fun=>normm_ge0 (u_ i))).
+    move: Hnp; rewrite ltnS; near: np; move: (H e).
+    rewrite -(near2_curry _ _ (fun a => fun b => (a < b)%N ->
+      `|\big[+%R/0]_(a.+1 <= k < b.+1) `|[u_ k]| | < e)) near_swap near2_curry.
+    exact.
+  + rewrite -leqNgt leq_eqVlt eqSS => /orP[/eqP <-|Hnp].
+      by rewrite subrr normm0.
+    rewrite /psum -[X in _ - X](big_mkord xpredT) /index_iota subn0.
+    rewrite -(subnKC (ltnW Hnp)) iota_add big_cat [np.1.+1]lock /= -lock add0n.
+    rewrite -(big_mkord xpredT) -[X in `|[X - _]|]add0r addrKA sub0r normmN.
+    rewrite (ler_lt_trans (ler_norm_big _ _)) //.
+    rewrite -[X in X < _](@ger0_norm _ _); last first.
+      exact: (sumr_ge0 _ (fun i => fun=>normm_ge0 (u_ i))).
+    by move: Hnp; rewrite ltnS; near: np; move: (H e).
 Grab Existential Variables. all: end_near. Qed.
 
 End series_R.
