@@ -356,10 +356,10 @@ case/boolP : (p <= N)%nat => [|].
 Grab Existential Variables. all: end_near. Qed.
 
 Lemma cvg_has_ub (u_ : R ^nat) :
-  cvg u_ -> has_ub [pred x | `[< exists n, `|u_ n| = x >] ].
+  cvg u_ -> has_ub (in_set [set `|u_ n| | n in setT]).
 Proof.
 case/cvg_upper_bound => /= M uM; apply/has_ubP/nonemptyP.
-by exists M; apply/ubP => x; rewrite inE => /asboolP[n <-{x}] .
+by exists M; apply/ubP => x; rewrite inE => /asboolP[n _ <-{x}].
 Qed.
 
 Lemma squeeze_sequence (u_ v_ w_ : R^o ^nat) l :
@@ -441,23 +441,23 @@ rewrite ltnS => /ih/ler_trans; apply; apply iu.
 Qed.
 
 Let increasing_upper_bound_cvg (u_ : (R^o) ^nat) N : increasing u_ ->
-  (forall n, u_ n <= N) -> cvg u_ /\ lim u_ = real_sup [pred x | `[< exists n, u_ n = x >] ].
+  (forall n, u_ n <= N) -> cvg u_ /\ lim u_ = real_sup (in_set [set u_ n | n in setT]).
 Proof.
 move=> iu uN.
-set S := fun x => `[< exists n, u_ n = x >].
+set S := in_set [set u_ n | n in setT].
 set l := real_sup S.
 have supS : has_sup S.
   apply/has_supP; split; first by exists (u_ O); rewrite in_setE; exists O.
   exists N; rewrite in_setE => /= x.
   rewrite negb_imply; apply propF => /andP[].
-  rewrite in_setE => -[m] <-{x}; rewrite -ltrNge.
+  rewrite in_setE=> -[m _] <-{x}; rewrite -ltrNge.
   by move: (uN m) => /ler_lt_trans H/H; rewrite ltrr.
 move: (real_sup_ub supS); rewrite -is_upper_boundE /is_upper_bound => ubS.
 suff ul : u_ @ \oo --> l by split; [apply/cvg_ex; exists l | exact/flim_lim].
 apply/flim_normW => _/posnumP[e]; rewrite near_map.
 have [m um] : exists m, l - e%:num <= u_ m <= l.
   case: (sup_adherent supS (posnum_gt0 e)) => uns.
-  rewrite in_setE => -[p] <-{uns} => supep.
+  rewrite in_setE => -[p _] <-{uns} => supep.
   exists p; rewrite ltrW //=.
   have /ubS : S (u_ p) by apply/asboolP; exists p.
   by move/RleP.
@@ -475,8 +475,8 @@ rewrite nearE; by exists m.
 Grab Existential Variables. all: end_near. Qed.
 
 Lemma increasing_has_ub_cvg (u_ : (R^o) ^nat) : increasing u_ ->
-  has_ub [pred x | `[< exists n, u_ n = x >] ] ->
-  cvg u_ /\ lim u_ = real_sup [pred x | `[< exists n, u_ n = x >] ].
+  has_ub (in_set [set u_ n | n in setT]) ->
+  cvg u_ /\ lim u_ = real_sup (in_set [set u_ n | n in setT]).
 Proof.
 move=> iu /has_ubP/nonemptyP[N]; rewrite inE => /forallbP uN.
 apply/(@increasing_upper_bound_cvg _ N iu) => n.
@@ -485,12 +485,12 @@ by apply/asboolP; exists n.
 Qed.
 
 Lemma increasing_cvg_has_sup (u_ : (R^o) ^nat) : increasing u_ ->
-  cvg u_ -> has_sup [pred x | `[< exists n, u_ n = x >] ].
+  cvg u_ -> has_sup (in_set [set u_ n | n in setT]).
 Proof.
 move=> iu cu; move/cvg_ex : (cu) => [/= l ul].
 apply/has_supP; split.
   by apply/nonemptyP; exists (u_ O); rewrite inE; apply/asboolP; exists O.
-apply/nonemptyP; exists l; apply/ubP => /= x; rewrite inE => /asboolP[p <-{x}].
+apply/nonemptyP; exists l; apply/ubP => /= x; rewrite inE => /asboolP[p _ <-{x}].
 have : forall m, (m >= p)%nat -> u_ m >= u_ p by move=> m /(increasing_ler iu).
 move/lim_ler => /(_ (@cvg_cst _ [normedModType R of R^o] (u_ p)) cu).
 rewrite lim_cst_sequence => /ler_trans; apply.
@@ -578,12 +578,15 @@ End lemmas_about_sequences.
 
 Section example_of_sequences.
 
-Definition harmonic : R^o ^nat := fun n => n.+1%:R^-1.
+Definition harmonic_seq : R^o ^nat := fun n => n.+1%:R^-1.
 
-Lemma harmonic_gt0 i : 0 < harmonic i.
-Proof. by rewrite /harmonic invr_gt0 ltr0n. Qed.
+Lemma harmonic_seq_gt0 i : 0 < harmonic_seq i.
+Proof. by rewrite /harmonic_seq invr_gt0 ltr0n. Qed.
 
-Lemma flim_harmonic : harmonic @ \oo --> (0 : R^o).
+Lemma harmonic_seq_ge0 i : 0 <= harmonic_seq i.
+Proof. exact/ltrW/harmonic_seq_gt0. Qed.
+
+Lemma flim_harmonic_seq : harmonic_seq @ \oo --> (0 : R^o).
 Proof.
 apply/flim_normW => e e0; rewrite near_map; near=> i.
 rewrite normmB subr0 (_ : `|[ _ ]| = `|i.+1%:R^-1|%R) //.
@@ -605,11 +608,11 @@ by rewrite real_ler_norm // Num.Internals.num_real.
 by rewrite (ler_trans _ (ltrW (floorS_gtr _))) // real_ler_norm // Num.Internals.num_real.
 Grab Existential Variables. all: end_near. Qed.
 
-Lemma lim_harmonic : lim harmonic = 0.
-Proof. exact/flim_lim/flim_harmonic. Qed.
+Lemma lim_harmonic_seq : lim harmonic_seq = 0.
+Proof. exact/flim_lim/flim_harmonic_seq. Qed.
 
-Lemma cvg_harmonic : cvg harmonic.
-Proof. by apply/cvg_ex; exists 0; apply/flim_harmonic. Qed.
+Lemma cvg_harmonic_seq : cvg harmonic_seq.
+Proof. by apply/cvg_ex; exists 0; apply/flim_harmonic_seq. Qed.
 
 Section exp_base.
 
@@ -803,7 +806,7 @@ Proof.
 apply increasing_has_ub_cvg.
   by move=> n; exact/ltrW/increasing_e_seq.
 apply/has_ubP/nonemptyP; exists 4%:R; rewrite inE; apply/forallbP => /= x.
-rewrite inE; apply/implyP => /asboolP[n <-{x}].
+rewrite inE; apply/implyP => /asboolP[n _ <-{x}].
 case: n.
 by rewrite e_seq0 {1}(_ : 1 = 1%:R) // ler_nat.
 by move=> n; apply/ltrW/e_seq_bound.
@@ -837,13 +840,20 @@ End exp_base.
 Section exp_fun.
 
 (* TODO: prove existence *)
-Definition pow_fun (a : R) (*(a0 : 0 < a)*) (*(a1 : a != 1)*) : R -> R :=
-  classical_sets.get (fun f : R -> R => {morph f : x y / x + y >-> x * y} /\
-    {mono f : x y / x <= y} /\ (forall x, 0 < f x) /\ f a = 1).
+Axiom pow_fun : forall a : R, R -> R.
+Axiom pow_fun1 : pow_fun 1 = fun=> 1.
+Axiom pow_fun_gt0 : forall a : R, 0 < a -> (forall x, 0 < pow_fun a x).
+Axiom pow_fun_morph : forall a : R, 0 < a -> {morph pow_fun a : x y / x + y >-> x * y}.
+Axiom pow_funa1 : forall a : R, 0 < a -> pow_fun a 1 = a.
+Axiom pow_fun_mono_leq : forall a : R, 1 < a -> {mono pow_fun a : x y / x <= y}.
+Axiom pow_fun_mono_geq : forall a : R, 0 < a -> a < 1 -> {mono pow_fun a : x y / x >= y}.
 
 Definition exp_fun : R -> R := pow_fun exp_base.
 
-Definition riemann_seq (a : R) : R^o ^nat := fun n => (pow_fun n%:R a)^-1.
+Definition riemann_seq (a : R) : R^o ^nat := fun n => (pow_fun n.+1%:R a)^-1.
+
+Lemma riemann_seq_gt0 a i : 0 < a -> 0 < riemann_seq a i.
+Proof. move=> ?; by rewrite /riemann_seq invr_gt0 pow_fun_gt0. Qed.
 
 End exp_fun.
 
@@ -922,7 +932,7 @@ rewrite (ler_lt_trans (cesaro_split _ _ Mn)) // (splitr e) ltr_add //.
     by rewrite ltr_neqAle eq_sym H0 /= normm_ge0.
   have H2 : 0 < e / `|[\big[+%R/0]_(i < M.+1) u_ i]| / 2.
     by rewrite divr_gt0 // divr_gt0.
-  move/flim_norm : flim_harmonic => /(_ _ H2).
+  move/flim_norm : flim_harmonic_seq => /(_ _ H2).
   rewrite !near_simpl => H3.
   near=> n.
   rewrite -ltr_pdivl_mulr // mulrAC -[X in X < _]ger0_norm //.
@@ -1026,6 +1036,26 @@ exact/flim_addn.
 exact/(@lim_opp _ _ nat_topologicalType).
 Qed.
 
+Lemma increasing_psum (u_ : R^o ^nat) : (forall n, 0 <= u_ n) ->
+  increasing (psum u_).
+Proof. by move=> u0 n; rewrite {2}/psum big_ord_recr /= ler_addl. Qed.
+
+Lemma psum_ler (u_ v_ : R^o ^nat) : (forall n, 0 <= u_ n) -> (forall n, 0 <= v_ n) ->
+  (forall n, u_ n <= v_ n) ->
+  psum_cvg v_ -> psum_cvg u_.
+Proof.
+move=> u0 v0 uv.
+have UV n : psum u_ n <= psum v_ n by apply ler_sum => *; exact: uv.
+move/cvg_has_ub => /nonemptyP[M] /ubP vub.
+have : has_ub (in_set [set psum u_ n | n in setT]).
+  apply/has_ubP/nonemptyP; exists M; apply/ubP => x.
+  rewrite inE => /asboolP[y _ <-{x}].
+  rewrite (@ler_trans _ (psum v_ y)) // vub // inE.
+  apply/asboolP; exists y => //.
+  rewrite [LHS]ger0_norm //; by apply sumr_ge0 => *; exact/v0.
+by case/(increasing_has_ub_cvg (increasing_psum u0)).
+Qed.
+
 (* absolute convergence *)
 Definition acvg (K : absRingType) (V : normedModType K) (u_ : V^nat) :=
   @psum_cvg _ [normedModType R of R^o ] (fun n => `|[ u_ n ]|).
@@ -1090,15 +1120,15 @@ End series_R.
 
 Section example_of_series_R.
 
-Lemma harmonic_cvg : ~ psum_cvg harmonic.
+Lemma harmonic_dvg : ~ psum_cvg harmonic_seq.
 Proof.
-have psum_harmonic n : psum harmonic n.*2 - psum harmonic n =
-         \big[+%R/0]_(n <= i < n.*2) harmonic i.
+have psum_harmonic n : psum harmonic_seq n.*2 - psum harmonic_seq n =
+         \big[+%R/0]_(n <= i < n.*2) harmonic_seq i.
   rewrite /psum -(@subnKC n n.*2); last by rewrite -addnn leq_addr.
   rewrite -(big_mkord xpredT) {1}/index_iota subn0 iota_add big_cat /=.
   rewrite addrAC -(big_mkord xpredT) -{1}(subn0 n) subrr add0r add0n.
   by rewrite /index_iota subnKC // -addnn leq_addr.
-have H : forall n, (0 < n)%nat -> 2^-1 <= psum harmonic n.*2 - psum harmonic n.
+have H : forall n, (0 < n)%nat -> 2^-1 <= psum harmonic_seq n.*2 - psum harmonic_seq n.
   move=> n n0.
   rewrite psum_harmonic.
   rewrite (@ler_trans _ (\sum_(n <= i < n.*2) n.*2%:R^-1)) //; last first.
@@ -1106,7 +1136,7 @@ have H : forall n, (0 < n)%nat -> 2^-1 <= psum harmonic n.*2 - psum harmonic n.
     apply ler_sum => i; rewrite andbT mem_iota subnKC; last first.
       by rewrite -addnn leq_addr.
     move/andP => [ni ni2].
-    rewrite /harmonic -(mulr1 i.+1%:R^-1) ler_pdivl_mull ?ltr0n //.
+    rewrite /harmonic_seq -(mulr1 i.+1%:R^-1) ler_pdivl_mull ?ltr0n //.
     by rewrite ler_pdivr_mulr ?mul1r ?ler_nat // ltr0n (leq_ltn_trans _ ni2).
   rewrite (eq_bigr (fun=> n.*2%:R^-1 * 1)); last by move=> *; rewrite mulr1.
   rewrite -big_distrr /= big_const_nat -{2}(addnn n) addnK.
@@ -1122,8 +1152,23 @@ have ab : ((maxn a b).+1 < (maxn a b).+1.*2)%nat.
   by rewrite -addnn addSn ltnS addnS ltnS leq_addr.
 move/(_ _ _ Aab Bab ab); apply/negP.
 rewrite -lerNgt [X in _ <= X]ger0_norm; last first.
-  by apply sumr_ge0 => i _; apply ltrW; exact: harmonic_gt0.
+  by apply sumr_ge0 => i _; exact: harmonic_seq_ge0.
 move: (H (maxn a b).+1); rewrite psum_harmonic; exact.
+Qed.
+
+Lemma riemann_dvg a : 0 < a <= 1 -> ~ psum_cvg (riemann_seq a).
+Proof.
+case/andP => a0; rewrite ler_eqVlt => /orP[/eqP ->|a1].
+  rewrite (_ : riemann_seq 1 = harmonic_seq); first exact: harmonic_dvg.
+  by rewrite funeqE => i; rewrite /riemann_seq pow_funa1.
+have : forall n, harmonic_seq n <= riemann_seq a n.
+  rewrite /harmonic_seq /riemann_seq.
+  case=> [|n]; first by rewrite pow_fun1 invr1.
+  rewrite -[X in _ <= X]div1r ler_pdivl_mulr ?pow_fun_gt0 // mulrC.
+  rewrite ler_pdivr_mulr // mul1r -[X in _ <= X]pow_funa1 //.
+  by rewrite (pow_fun_mono_leq) // ?ltr1n // ltrW.
+move/(psum_ler harmonic_seq_ge0 (fun i => ltrW (riemann_seq_gt0 i a0))).
+move/contrap; apply; exact: harmonic_dvg.
 Qed.
 
 End example_of_series_R.
