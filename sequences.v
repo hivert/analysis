@@ -36,6 +36,7 @@ Local Open Scope classical_set_scope.
    4. Section example_of_sequences.
       1/(n+1) -> 0
       (1 + 1/n)^n is bounded by 4, increasing, its limit is > 2
+      a + n * z -> +oo
    5. Section cesaro.
    6. Section partial_sum.
    7. Section series_convergence.
@@ -45,12 +46,16 @@ Local Open Scope classical_set_scope.
       - absolute convergence -> convergence
    9. Section example_of_series_R.
       - harmonic series diverge
+      - divergence case of the Riemann series
 *)
 
 Reserved Notation "R ^nat" (at level 0).
+Reserved Notation "a `^ x" (at level 11).
 
 Definition sequence R := nat -> R.
-Notation "R ^nat" := (sequence R).
+Notation "R ^nat" := (sequence R) : sequences_scope.
+
+Local Open Scope sequences_scope.
 
 Canonical eventually_filter := FilterType eventually _.
 Canonical eventually_pfilter := PFilterType eventually (filter_not_empty _).
@@ -841,23 +846,42 @@ Section exp_fun.
 
 (* TODO: prove existence *)
 Axiom pow_fun : forall a : R, R -> R.
+Local Notation "a `^ x" := (pow_fun a x).
 Axiom pow_fun1 : pow_fun 1 = fun=> 1.
-Axiom pow_fun_gt0 : forall a : R, 0 < a -> (forall x, 0 < pow_fun a x).
+Axiom pow_fun_gt0 : forall a : R, 0 < a -> (forall x, 0 < a `^ x).
 Axiom pow_fun_morph : forall a : R, 0 < a -> {morph pow_fun a : x y / x + y >-> x * y}.
-Axiom pow_funa1 : forall a : R, 0 < a -> pow_fun a 1 = a.
+Axiom pow_funa1 : forall a : R, 0 < a -> a `^ 1 = a.
 Axiom pow_fun_mono_leq : forall a : R, 1 < a -> {mono pow_fun a : x y / x <= y}.
 Axiom pow_fun_mono_geq : forall a : R, 0 < a -> a < 1 -> {mono pow_fun a : x y / x >= y}.
 
 Definition exp_fun : R -> R := pow_fun exp_base.
 
-Definition riemann_seq (a : R) : R^o ^nat := fun n => (pow_fun n.+1%:R a)^-1.
+Definition riemann_seq (a : R) : R^o ^nat := fun n => (n.+1%:R `^ a)^-1.
 
 Lemma riemann_seq_gt0 a i : 0 < a -> 0 < riemann_seq a i.
 Proof. move=> ?; by rewrite /riemann_seq invr_gt0 pow_fun_gt0. Qed.
 
+Definition arithmetic_seq (a z : R) : R^o ^nat := fun n => a + z *+ n.
+
+Lemma arithmetic_seq_dvg (a : R) (z : R^o) : z > 0 -> arithmetic_seq a z --> +oo.
+Proof.
+move=> z0; apply/dvgP => A; rewrite nearE.
+exists (`| (ifloor ((A%:num - a) / z) + 1)%R |%N) => // i.
+rewrite -(@ler_nat [numDomainType of R]) => Hi.
+rewrite -ler_subl_addl -mulr_natr -ler_pdivr_mull // mulrC (ler_trans _ Hi) //.
+case: (ltrP (A%:num - a) 0) => Aa0.
+  by rewrite (@ler_trans _ 0) // pmulr_lle0 // ?invr_gt0 // ltrW.
+move: (ltrW (floorS_gtr ((A%:num - a) / z))) => /ler_trans; apply.
+rewrite [X in X + _ <= _](floorE _) {2}(_ : 1 = 1%:~R) // -intrD.
+rewrite -mulrz_nat ler_int -{1}(@gez0_abs (_ + _)) ?natz //.
+by rewrite addr_ge0 // ifloor_ge0 divr_ge0 // ltrW.
+Qed.
+
 End exp_fun.
 
 End example_of_sequences.
+
+Notation "a `^ x" := (pow_fun a x) : sequences_scope.
 
 Section cesaro.
 
