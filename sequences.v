@@ -26,6 +26,7 @@ Local Open Scope classical_set_scope.
       - squeeze
       - diverge <-> lower bound
       - dvg / inequality
+      - u -> +oo <-> -u -> -oo
       - cvg / point-wise inequality
       - increasing + has_ub -> converge
       - increasing + converge -> has_sup
@@ -33,6 +34,7 @@ Local Open Scope classical_set_scope.
       - cauchy -> bounded
       - equivalence with definition in terms of filter
       - equivalence with definition in terms of entourages
+      - adjacent sequences
    4. Section example_of_sequences.
       1/(n+1) -> 0
       (1 + 1/n)^n is bounded by 4, increasing, its limit is > 2
@@ -188,7 +190,7 @@ Canonical nat_topologicalType := Topological.Pack
   unit.
 End nat_topologicalTypeMixin.
 
-Section rat_fileredType.
+Section rat_filteredType.
 Lemma normq0 : normq 0 = 0.
 Proof. by rewrite /normq /numq /denq /= div0n mulr0 normr0 rat0 mul0r. Qed.
 Lemma numq0 : numq 0 = 0. Proof. by []. Qed.
@@ -214,7 +216,7 @@ Definition rat_AbsRingMixin : AbsRing.mixin_of rat_numDomainType :=
 Canonical rat_absRingType := AbsRingType rat rat_AbsRingMixin.
 Canonical rat_pointedType := [pointedType of rat for rat_absRingType].
 Canonical rat_filteredType := [filteredType rat of rat for rat_absRingType].
-End rat_fileredType.
+End rat_filteredType.
 
 Section test. (* ca. 2019-02-21 *)
 
@@ -276,6 +278,13 @@ Lemma cvg_add (u_ v_ : V ^nat) : cvg u_ -> cvg v_ -> cvg (u_ + v_).
 Proof.
 move=> /cvg_ex[l ?] /cvg_ex[l' ?]; apply/cvg_ex; exists (l + l').
 exact/(@lim_add _ _ nat_topologicalType).
+Qed.
+
+Lemma lim_sub_sequence (u_ v_ : V ^nat) : cvg u_ -> cvg v_ ->
+  lim (u_ - v_) = lim u_ - lim v_.
+Proof.
+move=> ? ?.
+rewrite lim_add_sequence //; by [rewrite lim_opp_sequence|rewrite cvg_opp].
 Qed.
 
 Lemma flim_abs (u_ : V ^nat) : u_ @ \oo --> lim u_ ->
@@ -394,6 +403,47 @@ apply: AX; rewrite (@ltr_le_trans _ ((maxr 0 A) +1)) //.
 by near: x; apply: u_ge; rewrite ltr_spaddr// ler_maxr lerr.
 Grab Existential Variables. all: end_near. Qed.
 
+Lemma dvgN (u_ : R^o ^nat) : u_ --> -oo <-> - u_ --> +oo.
+Proof.
+split; move=> uo /= x ox; move: (uo ((fun z => - z) @` x)) => {uo}uo.
+- rewrite (_ : _ x = [filter of u_] ([eta -%R] @` x)); last first.
+    rewrite propeqE; split; move=> -[] i _ Hi; exists i => //; apply (subset_trans Hi) => j /=.
+    + by move=> xuj; exists ((- u_) j) => //; rewrite opprK.
+    + by move=> -[z xz /eqP]; rewrite eqr_oppLR => /eqP zuj; rewrite zuj in xz.
+  apply uo.
+  rewrite (_ : _ (_ x) = [filter of +oo] x) //.
+  rewrite propeqE; split; move=> -[z zx]; exists (- z) => y zy; move: (zx (- y)).
+  by rewrite ltr_oppl => /(_ zy) => -[u xu /eqP]; rewrite eqr_opp => /eqP <-.
+  by rewrite ltr_oppr => /(_ zy) => xy; exists (- y) => //; rewrite opprK.
+- rewrite (_ : _ x = [filter of - u_] ([eta -%R] @` x)); last first.
+    rewrite propeqE; split; move=> -[] i _ Hi; exists i => //; apply (subset_trans Hi) => j /=.
+    + by move=> xuj; exists (u_ j).
+    + by move=> -[z xz /eqP]; rewrite eqr_opp => /eqP <-.
+  apply uo.
+  rewrite (_ : _ (_ x) = [filter of -oo] x) //.
+  rewrite propeqE; split; move=> -[z zx]; exists (- z) => y zy; move: (zx (- y)).
+  by rewrite ltr_oppr => /(_ zy) => -[u xu /eqP]; rewrite eqr_opp => /eqP <-.
+  by rewrite ltr_oppl => /(_ zy) xy; exists (- y) => //; rewrite opprK.
+Qed.
+
+Lemma dvgNP (u_ : R ^nat) :
+  u_ --> -oo <-> forall A : R, A < 0 -> \forall n \near \oo, A >= u_ n.
+Proof.
+split; [have H := proj1 (dvgP (- u_)) | have H := proj2 (dvgP (- u_))].
+- move/dvgN/dvgP => Au A A0.
+  have @A' : posreal.
+    by apply: PosNum; rewrite -(opprK A) ltr_oppl oppr0 in A0; exact: A0.
+  near=> n.
+  rewrite -(opprK (u_ _)) ler_oppl.
+  suff : A' <= - u_ n by rewrite (_ : A'%:num = - A :> R).
+  by near: n.
+- move=> Au; apply/dvgN/dvgP => A.
+  move: (Au (- A%:num)); rewrite ltr_oppl oppr0 => /(_ (posnum_gt0 A)) => {Au}Au.
+  near=> n.
+  rewrite -(opprK A%:num) ler_oppl opprK.
+  by near: n.
+Grab Existential Variables. all: end_near. Qed.
+
 Lemma dvg_ler (u_ v_ : R ^nat) : (\forall n \near \oo, u_ n <= v_ n) ->
   u_ --> +oo -> v_ --> +oo.
 Proof.
@@ -405,10 +455,10 @@ have uA := dvgu A.
 rewrite (@ler_trans _ (u_ n)) //; by near: n.
 Grab Existential Variables. all: end_near. Qed.
 
-Lemma lim_ge0 (u_ : R^o ^nat) N :
-  (forall n, (N <= n)%nat -> 0 <= u_ n) -> cvg u_ -> 0 <= lim u_.
+Lemma lim_ge0 (u_ : R^o ^nat) N : cvg u_ ->
+  (forall n, (N <= n)%nat -> 0 <= u_ n) -> 0 <= lim u_.
 Proof.
-move=> H /flim_normP cu.
+move=> /flim_normP cu H.
 rewrite lerNgt; apply/negP => u0.
 have /cu : 0 < `|[ lim u_ ]|.
   by rewrite -normmN normm_gt0 eqr_oppLR ltr_eqF // oppr0.
@@ -431,11 +481,13 @@ Proof.
 move=> uv cu cv.
 rewrite -subr_ge0 -(@lim_opp_sequence _ [normedModType R of R^o]) //.
 rewrite -(@lim_add_sequence _ [normedModType R of R^o]) // ?cvg_opp //.
-apply (@lim_ge0 _ N); last by apply/cvg_add => //; rewrite cvg_opp.
+apply (@lim_ge0 _ N); first by apply/cvg_add => //; rewrite cvg_opp.
 move=> n; rewrite subr_ge0; exact/uv.
 Qed.
 
 Definition increasing (T : numDomainType) (u_ : T ^nat) := forall n, u_ n <= u_ n.+1.
+
+Definition decreasing (T : numDomainType) (u_ : T ^nat) := increasing (- u_).
 
 Lemma increasing_ler (T : numDomainType) (u_ : T ^nat) : increasing u_ ->
   forall n m, (n <= m)%nat -> u_ n <= u_ m.
@@ -445,7 +497,7 @@ rewrite leq_eqVlt => /orP[/eqP <-|]; first exact/lerr.
 rewrite ltnS => /ih/ler_trans; apply; apply iu.
 Qed.
 
-Let increasing_upper_bound_cvg (u_ : (R^o) ^nat) N : increasing u_ ->
+Lemma increasing_upper_bound_cvg (u_ : (R^o) ^nat) N : increasing u_ ->
   (forall n, u_ n <= N) -> cvg u_ /\ lim u_ = real_sup (in_set [set u_ n | n in setT]).
 Proof.
 move=> iu uN.
@@ -478,6 +530,14 @@ suff : (m <= p)%nat by move/increasing_ler; exact.
 near: p.
 rewrite nearE; by exists m.
 Grab Existential Variables. all: end_near. Qed.
+
+Lemma decreasing_lower_bound_cvg (u_ : (R^o) ^nat) N : decreasing u_ ->
+  (forall n, N <= u_ n) -> cvg u_.
+Proof.
+move=> du Nu.
+have {Nu} : forall n, (- u_) n <= - N by move=> ?; rewrite ler_oppl opprK.
+case/(increasing_upper_bound_cvg du); by rewrite cvg_opp.
+Qed.
 
 Lemma increasing_has_ub_cvg (u_ : (R^o) ^nat) : increasing u_ ->
   has_ub (in_set [set u_ n | n in setT]) ->
@@ -579,9 +639,62 @@ rewrite /cauchy_seq /cauchy_seq_entourages; split=> [csu E|csu -[e e0]].
   + by apply filter_prod2; exists N.
 Grab Existential Variables. all: end_near. Qed.
 
+Lemma decreasing_cvg0_ge0 (u_ : R^o ^nat) : decreasing u_ -> lim u_ = 0 -> cvg u_ ->
+  forall n, 0 <= u_ n.
+Proof.
+move=> du u0 /cvg_ex[ l ul] p; rewrite lerNgt; apply/negP => up0.
+have abs : forall n, (n >= p)%nat -> u_ n <= u_ p.
+  by move=> n pn; move: (increasing_ler du pn); rewrite ler_oppl opprK.
+move/flim_lim : (ul); rewrite u0 => l0; move: ul; rewrite -{}l0 {l u0}.
+move/flim_normP => /(_ `|u_ p|%R); rewrite {1}ltr0_norm // -ltr_oppr.
+rewrite oppr0 => /(_ up0); rewrite near_map => ul.
+near \oo => N.
+have /abs uNp : (p <= N)%nat by near: N; rewrite nearE; exists p.
+have : `|[0 - u_ N]| >= `|u_ p|%R.
+  rewrite ltr0_norm // normmB subr0 ler_oppl (ler_trans _ uNp) //.
+  by rewrite (_ : `|[ _ ]| = `|u_ N|%R) // ler0_norm // ?opprK // (ler_trans uNp) // ltrW.
+rewrite lerNgt => /negP; apply; by near: N.
+Grab Existential Variables. all: end_near. Qed.
+
+Lemma adjacent (u_ v_ : R^o ^nat) : increasing u_ -> decreasing v_ ->
+  (u_ - v_) --> (0 : R^o) -> lim u_ = lim v_.
+Proof.
+move=> iu dv uv0.
+have vu : forall n, v_ n >= u_ n.
+  pose w_ : R^o ^nat := v_ - u_.
+  have dw : decreasing w_.
+    move=> n; rewrite /w_ opprB -subr_ge0 opprB addrA addrC 2!addrA -addrA addr_ge0 //.
+    rewrite addrC subr_ge0; exact: iu.
+    rewrite -(opprK (v_ n)) subr_ge0; exact: dv.
+  have {dw}w0 : forall n, 0 <= w_ n.
+    move=> n.
+    have ? : lim w_ = 0.
+      apply/flim_lim; move/(@lim_opp _ _ nat_topologicalType) : uv0.
+      by rewrite oppr0 (_ : (fun _ => _) = v_ - u_) // funeqE => ?; rewrite opprB.
+    have ? : cvg w_.
+      apply/cvg_ex; exists 0.
+      rewrite (_ : w_ = - (u_ - v_)); last by rewrite funeqE => i; rewrite opprB.
+      by rewrite -oppr0; apply/(@lim_opp _ _ nat_topologicalType).
+    exact: decreasing_cvg0_ge0.
+  by move=> n; rewrite -subr_ge0 w0.
+have cu : cvg u_.
+  have : forall n, u_ n <= v_ O.
+    move=> n; rewrite (ler_trans (vu _)) //.
+    by move/increasing_ler : dv => /(_ O n (leq0n n)); rewrite ler_oppl opprK.
+  by case/(increasing_upper_bound_cvg iu).
+have cv : cvg v_.
+  have ?: forall n, u_ O <= v_ n.
+    by move=> n; rewrite (ler_trans _ (vu _)) //; exact: increasing_ler.
+  exact: (@decreasing_lower_bound_cvg _ (u_ O)).
+case/cvg_ex : (cu) => l Hl.
+case/cvg_ex : (cv) => l' Hl'.
+apply/eqP.
+rewrite -subr_eq0 -lim_sub_sequence //; exact/eqP/flim_lim.
+Qed.
+
 End lemmas_about_sequences.
 
-Section example_of_sequences.
+Section examples_of_sequences.
 
 Definition harmonic_seq : R^o ^nat := fun n => n.+1%:R^-1.
 
@@ -591,7 +704,7 @@ Proof. by rewrite /harmonic_seq invr_gt0 ltr0n. Qed.
 Lemma harmonic_seq_ge0 i : 0 <= harmonic_seq i.
 Proof. exact/ltrW/harmonic_seq_gt0. Qed.
 
-Lemma flim_harmonic_seq : harmonic_seq @ \oo --> (0 : R^o).
+Lemma flim_harmonic_seq : harmonic_seq --> (0 : R^o).
 Proof.
 apply/flim_normW => e e0; rewrite near_map; near=> i.
 rewrite normmB subr0 (_ : `|[ _ ]| = `|i.+1%:R^-1|%R) //.
@@ -618,6 +731,32 @@ Proof. exact/flim_lim/flim_harmonic_seq. Qed.
 
 Lemma cvg_harmonic_seq : cvg harmonic_seq.
 Proof. by apply/cvg_ex; exists 0; apply/flim_harmonic_seq. Qed.
+
+Definition geometric_seq_half : R^o ^nat := fun n => ratr (1%:Q / (2 ^ n)%:Q).
+
+Lemma flim_geometric_seq_half : geometric_seq_half --> (0 : R^o).
+Proof.
+have H : forall n : nat, ratr (1%:Q / (2 ^ n)%:~R) <= harmonic_seq n.
+  suff H : forall n : nat, n.+1%:~R <= (2 ^ n)%:~R :> R.
+    move=> n.
+    rewrite /harmonic_seq (_ : n.+1%:R^-1 = ratr (1%:Q / n.+1%:Q)); last first.
+      by rewrite rmorph_div /= ?unitfE ?intq_eq0 // !ratr_int div1r.
+    rewrite ler_rat // !div1r ler_pinv //=; last first.
+      by rewrite !inE ltr0z andbT unitfE intq_eq0.
+      rewrite inE ltr0z unitfE intr_eq0 expf_neq0 //= ltr_neqAle eq_sym.
+      by rewrite expf_neq0 //= -exprnP // exprn_ge0.
+    rewrite ler_int.
+    move: (H n).
+    by rewrite ler_int.
+  elim => [|n]; first by rewrite ler_int.
+  rewrite ler_int => ih.
+  rewrite -{1}addn1 ler_int exprSz mul2z PoszD ler_add // -exprnP.
+  by destruct n => //; rewrite (ler_trans _  ih).
+apply (@squeeze _ (fun=> (0 : R^o)) geometric_seq_half harmonic_seq).
+near=> n; by rewrite H andbT ler0q divr_ge0 // ler0z -exprnP exprn_ge0.
+exact: flim_const.
+exact: flim_harmonic_seq.
+Grab Existential Variables. all: end_near. Qed.
 
 Section exp_base.
 
@@ -844,15 +983,208 @@ End exp_base.
 
 Section exp_fun.
 
+Section iso_theo_wip.
+
+Lemma R_archimedien (a b : R) : 0 < a ->
+  {m : int | m%:~R * a <= b < (m + 1)%:~R * a}.
+Proof.
+move=> a0; exists (ifloor (b / a)); apply/andP; split.
+  by rewrite -ler_pdivl_mulr // (ler_trans _ (floor_ler _)) // -floorE.
+by rewrite -ltr_pdivr_mulr // (ltr_le_trans (floorS_gtr _)) // intrD floorE.
+Qed.
+
+Lemma ratr_fracq (p : int) (q : nat) :
+  (p + 1)%:~R / q.+1%:~R = @ratr [unitRingType of R] ((p + 1)%:Q / q.+1%:Q).
+Proof. by rewrite rmorph_div /= ?ratr_int // unitfE. Qed.
+
+Lemma R_dense (a : R) : 0 < a -> forall (x y : R), x < y ->
+  {q : rat | x < ratr q * a < y}.
+Proof.
+move=> a0 x y xy.
+have [q Hq] : {q : nat | q.+1%:~R * (y - x) > a}.
+  exists (Num.bound (a / (y - x))).-1.
+  have ayx : 0 <= a / (y - x).
+    by apply/divr_ge0; [exact/ltrW | rewrite subr_ge0; exact/ltrW].
+  move/archi_boundP : (ayx) => ayx'; move: (ayx').
+  rewrite ltr_pdivr_mulr ?subr_gt0 // prednK //.
+  by rewrite -(@ltr_nat [numDomainType of R]) (ler_lt_trans _ ayx').
+case: (R_archimedien (x * q.+1%:~R) a0) => p /andP[p0 p1].
+exists ((p + 1)%:Q / q.+1%:Q); apply/andP; split.
+- move: p1; rewrite -ltr_pdivl_mulr ?ltr0z //.
+  rewrite mulrAC // => /(@ltr_le_trans [numDomainType of R]) -> //.
+  by rewrite ler_eqVlt; apply/orP; left; rewrite -ratr_fracq.
+- rewrite -ratr_fracq mulrAC ltr_pdivr_mulr // intrD mulrDl mul1r.
+  rewrite (@ler_lt_trans _ (x * q.+1%:~R + a)) // ?ler_add //.
+  by rewrite addrC -ltr_subr_addr -mulrBl mulrC.
+Qed.
+
+(* sequence in Q.a that converges to x \in R *)
+Section archi_div_seq.
+Variables (a x : R) (m : int).
+
+Fixpoint seq_Q (n : nat) : rat :=
+    match n with
+    | 0 => m%:~R
+    | n'.+1 =>
+      if x - ratr (seq_Q n') * a < ratr (1%:Q / (2^n'.+1)%:Q) * a then
+        seq_Q n'
+      else if x - ratr (seq_Q n') * a > ratr (1%:Q / (2^n'.+1)%:Q) * a then
+             seq_Q n' + 1%:Q / (2^n'.+1)%:Q
+           else
+             0 (* should not happen *)
+    end.
+
+Lemma increasing_seq_Q : 0 < a -> (forall q : rat, x != ratr q * a) ->
+   forall n, seq_Q n <= seq_Q n.+1.
+Proof.
+move=> a0 xa n /=; case: ifPn => //; rewrite -lerNgt ler_eqVlt => /orP[/eqP abs|->].
+  exfalso; move/eqP : abs; apply/negP.
+  rewrite eq_sym subr_eq -mulrDl -rmorphD /=; exact: xa.
+by rewrite ler_addl mulr_ge0 // ltrW // invr_gt0 // ltr0z exprn_gt0.
+Qed.
+
+Hypothesis xma : x < (1 + m)%:~R * a.
+
+Lemma cvg_seq_Q : 0 < a -> (forall q : rat, x != ratr q * a) ->
+   forall n, x - ratr (seq_Q n) * a < ratr (1%:Q / (2^n)%:Q) * a.
+Proof.
+move=> a0 xqa; elim => [|n ih] /=.
+  by rewrite expr0z divr1 ltr_subl_addr -mulrDl 2!ratr_int -intrD.
+case: ifPn => [//|].
+rewrite -lerNgt ler_eqVlt => /orP[abs|H1].
+  exfalso; move: abs; apply/negP.
+  rewrite eq_sym subr_eq -mulrDl -rmorphD /=; exact: xqa.
+rewrite H1 rmorphD /= mulrDl opprD addrA ltr_sub_addr -mulrDl -rmorphD.
+rewrite -mulrDl /= -intrD exprSz intrM invrM; last 2 first.
+  by rewrite unitfE intr_eq0.
+  by rewrite unitfE intr_eq0 expf_neq0.
+rewrite mulrCA divrr ?unitfE ?intr_eq0 // mulr1.
+by rewrite div1r in ih.
+Qed.
+
+Hypothesis max : m%:~R * a <= x.
+
+Lemma seq_Q_ub : 0 < a -> (forall q : rat, x != ratr q * a) ->
+   forall n, ratr (seq_Q n) * a <= x.
+Proof.
+move=> a0 xa; elim.
+  by rewrite /= ratr_int.
+move=> n unx.
+move: (cvg_seq_Q a0 xa) => H /=.
+case: ifPn => //.
+rewrite -lerNgt ler_eqVlt => /orP[abs|K].
+- exfalso.
+  move: abs; apply/negP.
+  by rewrite eq_sym subr_eq -mulrDl -rmorphD /= xa.
+- by rewrite K rmorphD /= mulrDl -lter_sub_addl ltrW.
+Qed.
+
+End archi_div_seq.
+
+Lemma R_dense_corollaire (a x : R) : 0 < a ->
+  {x_ : rat ^nat | increasing x_ /\ cvg (fun n => ratr (x_ n) : R) /\ lim (fun n => ratr (x_ n) * a) = x}.
+Proof.
+move=> a0.
+have [xa|xa] := pselect (forall q : rat, x != ratr q * a); last first.
+  have [q xqa] : {q : rat | x = ratr q * a}.
+    apply/cid/asboolP/negPn/negP => abs; apply xa => {xa} q.
+    apply: contra abs => /eqP ->.
+    by apply/asboolP; exists q.
+  exists (fun=> q); split.
+  by [].
+  split.
+  exact: (@cvg_cst _ [normedModType R of R^o]).
+  rewrite xqa; exact: (@lim_cst_sequence _ [normedModType R of R^o]).
+have [m /andP[Hm1 Hm2]] : {m : int | m%:~R * a < x < (m + 1)%:~R * a}.
+  exists (ifloor (x / a)); apply/andP; split; last first.
+    by rewrite -ltr_pdivr_mulr // intrD -floorE floorS_gtr.
+  rewrite -ltr_pdivl_mulr // ltr_neqAle -{2}floorE floor_ler andbT.
+  apply/negP => /eqP H.
+  move: (xa (ifloor (x / a))%:~R) => /negP; apply; apply/eqP.
+  by rewrite ratr_int H -mulrA mulVr ?mulr1 // unitfE gtr_eqF.
+set x0 := m%:~R * a; set x_ := seq_Q a x m; exists (seq_Q a x m).
+rewrite addrC in Hm2.
+split; first by move=> n; exact: increasing_seq_Q.
+split.
+  apply: (proj1 (@increasing_upper_bound_cvg _ (x/a) _ _)).
+  by move=> n; rewrite ler_rat; exact: increasing_seq_Q.
+  by move=> n; rewrite ler_pdivl_mulr //; apply seq_Q_ub => //; exact/ltrW.
+apply/(@flim_lim _ [normedModType R of R^o])/(@flim_normP _ [normedModType R of R^o]) => e e0.
+rewrite near_map; near=> n.
+move: (seq_Q_ub Hm2 (ltrW Hm1) a0 xa n) => H1.
+rewrite [X in X < _](_ : _ = `|x - ratr (seq_Q a x m n) * a|%R) // ger0_norm // ?subr_ge0 //.
+move: (cvg_seq_Q Hm2 a0 xa) => H.
+rewrite (ltr_le_trans (H _)) // -ler_pdivl_mulr // ltrW //.
+rewrite [X in X < _](_ : _ = `|[ (0 - ratr (1%:Q / (2 ^ n)%:Q)) : R^o ]|); last first.
+  rewrite normmB subr0 [RHS](_ : _ = `|ratr (1%:~R / (2 ^ n)%:~R)|%R) //.
+  by rewrite ger0_norm // ler0q divr_ge0 // ler0z // -exprnP exprn_ge0.
+near: n.
+have K : geometric_seq_half--> (0 : R^o) by apply flim_geometric_seq_half.
+have ea0 : 0 < e / a by rewrite divr_gt0.
+by move/flim_normP : K => /(_ _ ea0) /=; rewrite near_map.
+Grab Existential Variables. all: end_near. Qed.
+
+Section iso_theo.
+Variables (a alpha : R).
+Hypotheses (a0 : 0 < a) (alpha0 : 0 < alpha).
+
+Definition iso_theo_f (x : R) : R :=
+  let r_ := get [set r_ : rat ^nat |
+    increasing r_ /\ (fun n => ratr (r_ n) * a) --> x ] in
+  ratr (lim r_) * alpha.
+
+Lemma iso_theo_strictly_increasing (x y : R) : x < y -> iso_theo_f x < iso_theo_f y.
+Proof.
+move=> xy.
+case: (R_dense a0 xy) => c'.
+set c := ratr c' * a.
+move/andP => [xc cy].
+case: (R_dense a0 xc) => b'.
+set b := ratr b' * a.
+move/andP => [xb bc].
+case: (@R_dense_corollaire a x a0) => r_ Hr_.
+case: (@R_dense_corollaire a y a0) => s_ Hs_.
+suff : [&& iso_theo_f x <= iso_theo_f b, iso_theo_f b < iso_theo_f c & iso_theo_f c <= iso_theo_f y].
+  case/and3P => fxfb fbfc fcfy.
+  by rewrite (ler_lt_trans fxfb) // (ltr_le_trans _ fcfy) // ltrW.
+suff H : iso_theo_f b < iso_theo_f c /\ forall n, (ratr (r_ n) * alpha < iso_theo_f b) /\
+                                            (iso_theo_f c < ratr (s_ n) * alpha).
+  case: H => ? H.
+  apply/and3P; split; [|assumption|].
+  - rewrite {1}/iso_theo_f.
+    admit.
+  - rewrite {2}/iso_theo_f.
+    admit.
+Abort.
+
+End iso_theo.
+
+End iso_theo_wip.
+
 (* TODO: prove existence *)
 Axiom pow_fun : forall a : R, R -> R.
 Local Notation "a `^ x" := (pow_fun a x).
 Axiom pow_fun1 : pow_fun 1 = fun=> 1.
 Axiom pow_fun_gt0 : forall a : R, 0 < a -> (forall x, 0 < a `^ x).
 Axiom pow_fun_morph : forall a : R, 0 < a -> {morph pow_fun a : x y / x + y >-> x * y}.
+Axiom pow_funa0 : forall a : R, 0 < a -> a `^ 0 = 1.
 Axiom pow_funa1 : forall a : R, 0 < a -> a `^ 1 = a.
-Axiom pow_fun_mono_leq : forall a : R, 1 < a -> {mono pow_fun a : x y / x <= y}.
-Axiom pow_fun_mono_geq : forall a : R, 0 < a -> a < 1 -> {mono pow_fun a : x y / x >= y}.
+Axiom pow_fun_homo_leq : forall a : R, 1 < a -> {homo pow_fun a : x y / x <= y}.
+Axiom pow_fun_homo_geq : forall a : R, 0 < a -> a < 1 -> {homo pow_fun a : x y / x >= y}.
+
+Lemma pow_fun_inv (a : R) : 0 < a -> a `^ (-1) = a ^-1.
+Proof.
+move=> a0.
+apply/(@mulrI _ a); first by rewrite unitfE gtr_eqF.
+rewrite -{1}(pow_funa1 a0) -pow_fun_morph // subrr pow_funa0 //.
+by rewrite divrr // unitfE gtr_eqF.
+Qed.
+
+Lemma pow_fun_mulrn (a : R) (n : nat) : 0 < a -> pow_fun a n%:R = a ^+ n.
+Proof.
+move=> a0; elim: n => [|n ih]; first by rewrite mulr0n expr0 pow_funa0.
+by rewrite -addn1 natrD pow_fun_morph // exprD ih pow_funa1.
+Qed.
 
 Definition exp_fun : R -> R := pow_fun exp_base.
 
@@ -877,9 +1209,11 @@ rewrite -mulrz_nat ler_int -{1}(@gez0_abs (_ + _)) ?natz //.
 by rewrite addr_ge0 // ifloor_ge0 divr_ge0 // ltrW.
 Qed.
 
+Definition geometric_seq (a z : R) : R^o ^nat := fun n => a * z ^+ n.
+
 End exp_fun.
 
-End example_of_sequences.
+End examples_of_sequences.
 
 Notation "a `^ x" := (pow_fun a x) : sequences_scope.
 
@@ -1190,7 +1524,7 @@ have : forall n, harmonic_seq n <= riemann_seq a n.
   case=> [|n]; first by rewrite pow_fun1 invr1.
   rewrite -[X in _ <= X]div1r ler_pdivl_mulr ?pow_fun_gt0 // mulrC.
   rewrite ler_pdivr_mulr // mul1r -[X in _ <= X]pow_funa1 //.
-  by rewrite (pow_fun_mono_leq) // ?ltr1n // ltrW.
+  by rewrite (pow_fun_homo_leq) // ?ltr1n // ltrW.
 move/(psum_ler harmonic_seq_ge0 (fun i => ltrW (riemann_seq_gt0 i a0))).
 move/contrap; apply; exact: harmonic_dvg.
 Qed.
