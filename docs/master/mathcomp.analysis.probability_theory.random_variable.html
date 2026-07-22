@@ -5,7 +5,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title>Module mathcomp.analysis.probability_theory.random_variable</title>
-<meta name="description" content="Documentation of Coq module Mathcomp Analysis 9320323 2026.07.21-19:59" />
+<meta name="description" content="Documentation of Coq module Mathcomp Analysis 9320323 2026.07.22-19:56" />
 <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex/dist/katex.min.css">
 <script src="https://cdn.jsdelivr.net/npm/markdown-it/dist/markdown-it.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/katex/dist/katex.min.js"></script>
@@ -726,20 +726,7 @@ Qed.</div></details>
 <br/>
 <span class="vernacular">End</span><span class="id"> lebesgue_stieltjes_measure_of_cdf</span>.<br/>
 <br/>
-<span class="vernacular">Definition</span><span class="id"> </span><span id="ccdf" class="id"><div name="ccdf" class=" tooltip">ccdf<span class='tooltip-area'><p>random_variable :
-forall [d d' : measurable_structure.measure_display]
-  [T : measurable_structure.Measurable.type d],
-measurable_structure.Measurable.type d' ->
-forall [R : realType], probability_measure.Probability.type T R -> Type
-
-random_variable is not universe polymorphic
-Arguments random_variable [d d']%_measure_display_scope [T] T' [R] P
-random_variable is transparent
-Expands to: Constant
-            mathcomp.analysis.probability_theory.random_variable.random_variable
-Declared in
-library mathcomp.analysis.probability_theory.random_variable, line 73, characters 11-26
-</p><hr/><a href='https://github.com/math-comp/analysis/tree/9320323497de2d2c16a7ef3f983166eac0759308/theories/probability_theory/random_variable.v#L423' target='_blank'>Source code</a></span></div></span><span class="id"> </span><span id="d:166" class="id"><div name="d:166" class=" tooltip">d<span class='tooltip-area'><hr/><a href='https://github.com/math-comp/analysis/tree/9320323497de2d2c16a7ef3f983166eac0759308/theories/probability_theory/random_variable.v#L423' target='_blank'>Source code</a></span></div></span> (<span id="T:167" class="id"><div name="T:167" class=" tooltip">T<span class='tooltip-area'><hr/><a href='https://github.com/math-comp/analysis/tree/9320323497de2d2c16a7ef3f983166eac0759308/theories/probability_theory/random_variable.v#L423' target='_blank'>Source code</a></span></div></span><span class="id"> :</span><span class="id"> </span><span class="id"><a href="mathcomp.analysis.measure_theory.measurable_structure.html#Measurable.Exports.measurableType">measurableType</a></span><span class="id"> </span><span class="id"><a href="mathcomp.analysis.probability_theory.random_variable.html#d:166">d</a></span>) (<span id="R:168" class="id"><div name="R:168" class=" tooltip">R<span class='tooltip-area'><hr/><a href='https://github.com/math-comp/analysis/tree/9320323497de2d2c16a7ef3f983166eac0759308/theories/probability_theory/random_variable.v#L423' target='_blank'>Source code</a></span></div></span><span class="id"> :</span><span class="id"> </span><span class="id"><a href="mathcomp.reals.reals.html#Real.Exports.realType">realType</a></span>) (<span id="P:169" class="id"><div name="P:169" class=" tooltip">P<span class='tooltip-area'><hr/><a href='https://github.com/math-comp/analysis/tree/9320323497de2d2c16a7ef3f983166eac0759308/theories/probability_theory/random_variable.v#L423' target='_blank'>Source code</a></span></div></span><span class="id"> :</span><span class="id"> </span><span class="id"><a href="mathcomp.analysis.measure_theory.probability_measure.html#Probability.Exports.probability">probability</a></span><span class="id"> </span><span class="id"><a href="mathcomp.analysis.probability_theory.random_variable.html#T:167">T</a></span><span class="id"> </span><span class="id"><a href="mathcomp.analysis.probability_theory.random_variable.html#R:168">R</a></span>)<br/>
+<span class="vernacular">Definition</span><span class="id"> </span><span id="ccdf" class="id"><div name="ccdf" class=" tooltip">ccdf<span class='tooltip-area'><hr/><a href='https://github.com/math-comp/analysis/tree/9320323497de2d2c16a7ef3f983166eac0759308/theories/probability_theory/random_variable.v#L423' target='_blank'>Source code</a></span></div></span><span class="id"> </span><span id="d:166" class="id"><div name="d:166" class=" tooltip">d<span class='tooltip-area'><hr/><a href='https://github.com/math-comp/analysis/tree/9320323497de2d2c16a7ef3f983166eac0759308/theories/probability_theory/random_variable.v#L423' target='_blank'>Source code</a></span></div></span> (<span id="T:167" class="id"><div name="T:167" class=" tooltip">T<span class='tooltip-area'><hr/><a href='https://github.com/math-comp/analysis/tree/9320323497de2d2c16a7ef3f983166eac0759308/theories/probability_theory/random_variable.v#L423' target='_blank'>Source code</a></span></div></span><span class="id"> :</span><span class="id"> </span><span class="id"><a href="mathcomp.analysis.measure_theory.measurable_structure.html#Measurable.Exports.measurableType">measurableType</a></span><span class="id"> </span><span class="id"><a href="mathcomp.analysis.probability_theory.random_variable.html#d:166">d</a></span>) (<span id="R:168" class="id"><div name="R:168" class=" tooltip">R<span class='tooltip-area'><hr/><a href='https://github.com/math-comp/analysis/tree/9320323497de2d2c16a7ef3f983166eac0759308/theories/probability_theory/random_variable.v#L423' target='_blank'>Source code</a></span></div></span><span class="id"> :</span><span class="id"> </span><span class="id"><a href="mathcomp.reals.reals.html#Real.Exports.realType">realType</a></span>) (<span id="P:169" class="id"><div name="P:169" class=" tooltip">P<span class='tooltip-area'><hr/><a href='https://github.com/math-comp/analysis/tree/9320323497de2d2c16a7ef3f983166eac0759308/theories/probability_theory/random_variable.v#L423' target='_blank'>Source code</a></span></div></span><span class="id"> :</span><span class="id"> </span><span class="id"><a href="mathcomp.analysis.measure_theory.probability_measure.html#Probability.Exports.probability">probability</a></span><span class="id"> </span><span class="id"><a href="mathcomp.analysis.probability_theory.random_variable.html#T:167">T</a></span><span class="id"> </span><span class="id"><a href="mathcomp.analysis.probability_theory.random_variable.html#R:168">R</a></span>)<br/>
 &nbsp;&nbsp;(<span id="X:170" class="id"><div name="X:170" class=" tooltip">X<span class='tooltip-area'><hr/><a href='https://github.com/math-comp/analysis/tree/9320323497de2d2c16a7ef3f983166eac0759308/theories/probability_theory/random_variable.v#L424' target='_blank'>Source code</a></span></div></span><span class="id"> :</span><span class="id"> </span><span class="id"><a href="mathcomp.analysis.probability_theory.random_variable.html#31c5002a151d32a5908113f99aedfaa1">{RV</a></span><span class="id"><a href="mathcomp.analysis.probability_theory.random_variable.html#31c5002a151d32a5908113f99aedfaa1"> </a></span><span class="id"><a href="mathcomp.analysis.probability_theory.random_variable.html#P:169">P</a></span><span class="id"><a href="mathcomp.analysis.probability_theory.random_variable.html#31c5002a151d32a5908113f99aedfaa1"> &gt;-&gt;</a></span><span class="id"><a href="mathcomp.analysis.probability_theory.random_variable.html#31c5002a151d32a5908113f99aedfaa1"> </a></span><span class="id"><a href="mathcomp.analysis.probability_theory.random_variable.html#R:168">R</a></span><span class="id"><a href="mathcomp.analysis.probability_theory.random_variable.html#31c5002a151d32a5908113f99aedfaa1">}</a></span>) (<span id="r:171" class="id"><div name="r:171" class=" tooltip">r<span class='tooltip-area'><hr/><a href='https://github.com/math-comp/analysis/tree/9320323497de2d2c16a7ef3f983166eac0759308/theories/probability_theory/random_variable.v#L424' target='_blank'>Source code</a></span></div></span><span class="id"> :</span><span class="id"> </span><span class="id"><a href="mathcomp.analysis.probability_theory.random_variable.html#R:168">R</a></span>)<span class="id"> :=</span><span class="id"> </span><span class="id"><a href="mathcomp.analysis.probability_theory.random_variable.html#distribution">distribution</a></span><span class="id"> </span><span class="id"><a href="mathcomp.analysis.probability_theory.random_variable.html#P:169">P</a></span><span class="id"> </span><span class="id"><a href="mathcomp.analysis.probability_theory.random_variable.html#X:170">X</a></span><span class="id"> </span><span class="id"><a href="mathcomp.classical.classical_sets.html#eca7c03119ea7bbb2c5bd6c3655e6974">`]</a></span><span class="id"><a href="mathcomp.analysis.probability_theory.random_variable.html#r:171">r</a></span><span class="id"><a href="mathcomp.classical.classical_sets.html#eca7c03119ea7bbb2c5bd6c3655e6974">,</a></span><span class="id"><a href="mathcomp.classical.classical_sets.html#eca7c03119ea7bbb2c5bd6c3655e6974"> +oo[</a></span>.<br/>
 <br/>
 <span class="vernacular">Section</span><span class="id"> complementary_cumulative_distribution_function</span>.<br/>
@@ -818,21 +805,21 @@ Qed.</div></details>
 <br/>
 <span class="vernacular">End</span><span class="id"> complementary_cumulative_distribution_function</span>.<br/>
 <br/>
-<span id="expectation_unlock_subterm" class="id"><span id="expectation" class="id"><span id="expectation.unlock" class="id"><span id="expectation.body" class="id"><span id="expectation" class="id"><span id="expectation_Locked.unlock" class="id"><span id="expectation_Locked.body" class="id"><span id="expectation_Locked" class="id"><div name="expectation_unlock_subterm" class=" tooltip">HB<span class='tooltip-area'><p>distribution :
-forall [d d' : measurable_structure.measure_display]
-  [T : measurable_structure.Measurable.type d]
-  [T' : measurable_structure.Measurable.type d'] [R : realType],
-probability_measure.Probability.type T R ->
-measurable_function.MeasurableFun.type
-  (measurable_structure.Measurable.Exports.measurable_structure_Measurable__to__measurable_structure_SigmaRing
-     T)
-  (measurable_structure.Measurable.Exports.measurable_structure_Measurable__to__measurable_structure_SigmaRing
-     T') ->
-set
-  (measurable_structure.SigmaRing.sort
-     (measurable_structure.Measurable.Exports.measurable_structure_Measurable__to__measurable_structure_SigmaRing
-        T')) ->
-\bar R
+<span id="expectation_unlock_subterm" class="id"><span id="expectation" class="id"><span id="expectation.unlock" class="id"><span id="expectation.body" class="id"><span id="expectation" class="id"><span id="expectation_Locked.unlock" class="id"><span id="expectation_Locked.body" class="id"><span id="expectation_Locked" class="id"><div name="expectation_unlock_subterm" class=" tooltip">HB<span class='tooltip-area'><hr/><a href='https://github.com/math-comp/analysis/tree/9320323497de2d2c16a7ef3f983166eac0759308/theories/probability_theory/random_variable.v#L480' target='_blank'>Source code</a></span></div></span></span></span></span></span></span></span></span>.<span id="expectation_unlock_subterm" class="id"><span id="expectation" class="id"><span id="expectation.unlock" class="id"><span id="expectation.body" class="id"><span id="expectation" class="id"><span id="expectation_Locked.unlock" class="id"><span id="expectation_Locked.body" class="id"><span id="expectation_Locked" class="id"><div name="expectation_unlock_subterm" class=" tooltip">lock<span class='tooltip-area'><hr/><a href='https://github.com/math-comp/analysis/tree/9320323497de2d2c16a7ef3f983166eac0759308/theories/probability_theory/random_variable.v#L480' target='_blank'>Source code</a></span></div></span></span></span></span></span></span></span></span><span id="expectation_unlock_subterm" class="id"><span id="expectation" class="id"><span id="expectation.unlock" class="id"><span id="expectation.body" class="id"><span id="expectation" class="id"><span id="expectation_Locked.unlock" class="id"><span id="expectation_Locked.body" class="id"><span id="expectation_Locked" class="id"><div name="expectation_unlock_subterm" class=" tooltip"> Definition<span class='tooltip-area'><p>random_variable :
+forall [d d' : measure_display] [T : measurableType d],
+measurableType d' -> forall [R : realType], probability T R -> Type
+
+random_variable is not universe polymorphic
+Arguments random_variable [d d']%_measure_display_scope [T] T' [R] P
+random_variable is transparent
+Expands to: Constant
+            mathcomp.analysis.probability_theory.random_variable.random_variable
+Declared in
+library mathcomp.analysis.probability_theory.random_variable, line 73, characters 11-26
+</p><hr/><a href='https://github.com/math-comp/analysis/tree/9320323497de2d2c16a7ef3f983166eac0759308/theories/probability_theory/random_variable.v#L480' target='_blank'>Source code</a></span></div></span></span></span></span></span></span></span></span><span id="expectation_unlock_subterm" class="id"><span id="expectation" class="id"><span id="expectation.unlock" class="id"><span id="expectation.body" class="id"><span id="expectation" class="id"><span id="expectation_Locked.unlock" class="id"><span id="expectation_Locked.body" class="id"><span id="expectation_Locked" class="id"><div name="expectation_unlock_subterm" class=" tooltip"> expectation<span class='tooltip-area'><p>distribution :
+forall [d d' : measure_display] [T : measurableType d]
+  [T' : measurableType d'] [R : realType],
+probability T R -> {mfun T >-> T'} -> set T' -> \bar R
 
 distribution is not universe polymorphic
 Arguments distribution [d d']%_measure_display_scope 
@@ -842,10 +829,9 @@ Expands to: Constant
             mathcomp.analysis.probability_theory.random_variable.distribution
 Declared in
 library mathcomp.analysis.probability_theory.random_variable, line 88, characters 11-23
-</p><hr/><a href='https://github.com/math-comp/analysis/tree/9320323497de2d2c16a7ef3f983166eac0759308/theories/probability_theory/random_variable.v#L480' target='_blank'>Source code</a></span></div></span></span></span></span></span></span></span></span>.<span id="expectation_unlock_subterm" class="id"><span id="expectation" class="id"><span id="expectation.unlock" class="id"><span id="expectation.body" class="id"><span id="expectation" class="id"><span id="expectation_Locked.unlock" class="id"><span id="expectation_Locked.body" class="id"><span id="expectation_Locked" class="id"><div name="expectation_unlock_subterm" class=" tooltip">lock<span class='tooltip-area'><p>pmf :
-forall {d : measurable_structure.measure_display}
-  {T : measurable_structure.Measurable.type d} {R : realType}
-  [P : probability_measure.Probability.type T R],
+</p><hr/><a href='https://github.com/math-comp/analysis/tree/9320323497de2d2c16a7ef3f983166eac0759308/theories/probability_theory/random_variable.v#L480' target='_blank'>Source code</a></span></div></span></span></span></span></span></span></span></span><span id="expectation_unlock_subterm" class="id"><span id="expectation" class="id"><span id="expectation.unlock" class="id"><span id="expectation.body" class="id"><span id="expectation" class="id"><span id="expectation_Locked.unlock" class="id"><span id="expectation_Locked.body" class="id"><span id="expectation_Locked" class="id"><div name="expectation_unlock_subterm" class=" tooltip"> {d}<span class='tooltip-area'><p>pmf :
+forall {d : measure_display} {T : measurableType d} 
+  {R : realType} [P : probability T R],
 {RV P >-> R} -> R -> R
 
 pmf is not universe polymorphic
@@ -854,10 +840,11 @@ pmf is transparent
 Expands to: Constant mathcomp.analysis.probability_theory.random_variable.pmf
 Declared in
 library mathcomp.analysis.probability_theory.random_variable, line 143, characters 11-14
-</p><hr/><a href='https://github.com/math-comp/analysis/tree/9320323497de2d2c16a7ef3f983166eac0759308/theories/probability_theory/random_variable.v#L480' target='_blank'>Source code</a></span></div></span></span></span></span></span></span></span></span><span id="expectation_unlock_subterm" class="id"><span id="expectation" class="id"><span id="expectation.unlock" class="id"><span id="expectation.body" class="id"><span id="expectation" class="id"><span id="expectation_Locked.unlock" class="id"><span id="expectation_Locked.body" class="id"><span id="expectation_Locked" class="id"><div name="expectation_unlock_subterm" class=" tooltip"> Definition<span class='tooltip-area'><p>cdf :
-forall [d : measurable_structure.measure_display]
-  [T : measurable_structure.Measurable.type d] [R : realType]
-  [P : probability_measure.Probability.type T R],
+</p><hr/><a href='https://github.com/math-comp/analysis/tree/9320323497de2d2c16a7ef3f983166eac0759308/theories/probability_theory/random_variable.v#L480' target='_blank'>Source code</a></span></div></span></span></span></span></span></span></span></span><span class="id"> {</span><span id="T:188" class="id"><div name="T:188" class=" tooltip">T<span class='tooltip-area'><hr/><a href='https://github.com/math-comp/analysis/tree/9320323497de2d2c16a7ef3f983166eac0759308/theories/probability_theory/random_variable.v#L480' target='_blank'>Source code</a></span></div></span><span class="id"> :</span><span class="id"> </span><span class="id"><a href="mathcomp.analysis.measure_theory.measurable_structure.html#Measurable.Exports.measurableType">measurableType</a></span><span class="id"> </span><span class="id"><a href="mathcomp.analysis.probability_theory.random_variable.html#d:187">d</a></span><span class="id">}</span><span class="id"> {</span><span id="R:189" class="id"><div name="R:189" class=" tooltip">R<span class='tooltip-area'><hr/><a href='https://github.com/math-comp/analysis/tree/9320323497de2d2c16a7ef3f983166eac0759308/theories/probability_theory/random_variable.v#L480' target='_blank'>Source code</a></span></div></span><span class="id"> :</span><span class="id"> </span><span class="id"><a href="mathcomp.reals.reals.html#Real.Exports.realType">realType</a></span><span class="id">}</span><br/>
+&nbsp;&nbsp;(<span id="P:190" class="id"><div name="P:190" class=" tooltip">P<span class='tooltip-area'><hr/><a href='https://github.com/math-comp/analysis/tree/9320323497de2d2c16a7ef3f983166eac0759308/theories/probability_theory/random_variable.v#L481' target='_blank'>Source code</a></span></div></span><span class="id"> :</span><span class="id"> </span><span class="id"><a href="mathcomp.analysis.measure_theory.probability_measure.html#Probability.Exports.probability">probability</a></span><span class="id"> </span><span class="id"><a href="mathcomp.analysis.probability_theory.random_variable.html#T:188">T</a></span><span class="id"> </span><span class="id"><a href="mathcomp.analysis.probability_theory.random_variable.html#R:189">R</a></span>) (<span id="X:191" class="id"><div name="X:191" class=" tooltip">X<span class='tooltip-area'><hr/><a href='https://github.com/math-comp/analysis/tree/9320323497de2d2c16a7ef3f983166eac0759308/theories/probability_theory/random_variable.v#L481' target='_blank'>Source code</a></span></div></span><span class="id"> :</span><span class="id"> </span><span class="id"><a href="mathcomp.analysis.probability_theory.random_variable.html#T:188">T</a></span><span class="id"><a href="https://rocq-prover.org/corelib/Corelib.Init.Logic.html#::type_scope:x_'-&gt;'_x"> -&gt;</a></span><span class="id"><a href="https://rocq-prover.org/corelib/Corelib.Init.Logic.html#::type_scope:x_'-&gt;'_x"> </a></span><span class="id"><a href="mathcomp.analysis.probability_theory.random_variable.html#R:189">R</a></span>)<span class="id"> :=</span> (<span class="id"><a href="mathcomp.analysis.lebesgue_integral_theory.lebesgue_integral_definition.html#3e4826d90e3d691004f544dc3de2d121">\int[</a></span><span class="id"><a href="mathcomp.analysis.probability_theory.random_variable.html#P:190">P</a></span><span class="id"><a href="mathcomp.analysis.lebesgue_integral_theory.lebesgue_integral_definition.html#3e4826d90e3d691004f544dc3de2d121">]_</a></span><span id="w:192" class="id"><div name="w:192" class=" tooltip">w<span class='tooltip-area'><hr/><a href='https://github.com/math-comp/analysis/tree/9320323497de2d2c16a7ef3f983166eac0759308/theories/probability_theory/random_variable.v#L481' target='_blank'>Source code</a></span></div></span> (<span class="id"><a href="mathcomp.analysis.probability_theory.random_variable.html#X:191">X</a></span><span class="id"> </span><span class="id"><a href="mathcomp.analysis.probability_theory.random_variable.html#w:192">w</a></span>)<span class="id"><a href="mathcomp.reals.constructive_ereal.html#bc34d0712444fb7fddc80987d6cdcb61">%:E</a></span>)<span class="id">%E</span>.<br/>
+<span class="vernacular">Canonical</span><span class="id"> </span><span id="expectation_unlockable" class="id"><div name="expectation_unlockable" class=" tooltip">expectation_unlockable<span class='tooltip-area'><p>cdf :
+forall [d : measure_display] [T : measurableType d] 
+  [R : realType] [P : probability T R],
 {RV P >-> R} -> R -> \bar R
 
 cdf is not universe polymorphic
@@ -866,49 +853,6 @@ cdf is transparent
 Expands to: Constant mathcomp.analysis.probability_theory.random_variable.cdf
 Declared in
 library mathcomp.analysis.probability_theory.random_variable, line 238, characters 11-14
-</p><hr/><a href='https://github.com/math-comp/analysis/tree/9320323497de2d2c16a7ef3f983166eac0759308/theories/probability_theory/random_variable.v#L480' target='_blank'>Source code</a></span></div></span></span></span></span></span></span></span></span><span id="expectation_unlock_subterm" class="id"><span id="expectation" class="id"><span id="expectation.unlock" class="id"><span id="expectation.body" class="id"><span id="expectation" class="id"><span id="expectation_Locked.unlock" class="id"><span id="expectation_Locked.body" class="id"><span id="expectation_Locked" class="id"><div name="expectation_unlock_subterm" class=" tooltip"> expectation<span class='tooltip-area'><p>ccdf :
-forall [d : measurable_structure.measure_display]
-  [T : measurable_structure.Measurable.type d] [R : realType]
-  [P : probability_measure.Probability.type T R],
-{RV P >-> R} -> R -> \bar R
-
-ccdf is not universe polymorphic
-Arguments ccdf [d]%_measure_display_scope [T R P] X r%_ring_scope
-ccdf is transparent
-Expands to: Constant
-            mathcomp.analysis.probability_theory.random_variable.ccdf
-Declared in
-library mathcomp.analysis.probability_theory.random_variable, line 423, characters 11-15
-</p><hr/><a href='https://github.com/math-comp/analysis/tree/9320323497de2d2c16a7ef3f983166eac0759308/theories/probability_theory/random_variable.v#L480' target='_blank'>Source code</a></span></div></span></span></span></span></span></span></span></span><span id="expectation_unlock_subterm" class="id"><span id="expectation" class="id"><span id="expectation.unlock" class="id"><span id="expectation.body" class="id"><span id="expectation" class="id"><span id="expectation_Locked.unlock" class="id"><span id="expectation_Locked.body" class="id"><span id="expectation_Locked" class="id"><div name="expectation_unlock_subterm" class=" tooltip"> {d}<span class='tooltip-area'><p>expectation_unlock_subterm :
-unlockable
-  (fun (d : measurable_structure.measure_display)
-     (T : measurable_structure.Measurable.type d) 
-     (R : realType) (P : probability_measure.Probability.type T R)
-     (X : measurable_structure.Measurable.sort T -> R) =>
-   (\int[probability_measure.Probability.sort P]_w (X w)%:E)%E)
-
-expectation_unlock_subterm is not universe polymorphic
-expectation_unlock_subterm is transparent
-Expands to: Constant
-            mathcomp.analysis.probability_theory.random_variable.expectation_unlock_subterm
-Declared in
-library mathcomp.analysis.probability_theory.random_variable, line 480, characters 0-136
-</p><hr/><a href='https://github.com/math-comp/analysis/tree/9320323497de2d2c16a7ef3f983166eac0759308/theories/probability_theory/random_variable.v#L480' target='_blank'>Source code</a></span></div></span></span></span></span></span></span></span></span><span class="id"> {</span><span id="T:188" class="id"><div name="T:188" class=" tooltip">T<span class='tooltip-area'><hr/><a href='https://github.com/math-comp/analysis/tree/9320323497de2d2c16a7ef3f983166eac0759308/theories/probability_theory/random_variable.v#L480' target='_blank'>Source code</a></span></div></span><span class="id"> :</span><span class="id"> </span><span class="id"><a href="mathcomp.analysis.measure_theory.measurable_structure.html#Measurable.Exports.measurableType">measurableType</a></span><span class="id"> </span><span class="id"><a href="mathcomp.analysis.probability_theory.random_variable.html#d:187">d</a></span><span class="id">}</span><span class="id"> {</span><span id="R:189" class="id"><div name="R:189" class=" tooltip">R<span class='tooltip-area'><hr/><a href='https://github.com/math-comp/analysis/tree/9320323497de2d2c16a7ef3f983166eac0759308/theories/probability_theory/random_variable.v#L480' target='_blank'>Source code</a></span></div></span><span class="id"> :</span><span class="id"> </span><span class="id"><a href="mathcomp.reals.reals.html#Real.Exports.realType">realType</a></span><span class="id">}</span><br/>
-&nbsp;&nbsp;(<span id="P:190" class="id"><div name="P:190" class=" tooltip">P<span class='tooltip-area'><hr/><a href='https://github.com/math-comp/analysis/tree/9320323497de2d2c16a7ef3f983166eac0759308/theories/probability_theory/random_variable.v#L481' target='_blank'>Source code</a></span></div></span><span class="id"> :</span><span class="id"> </span><span class="id"><a href="mathcomp.analysis.measure_theory.probability_measure.html#Probability.Exports.probability">probability</a></span><span class="id"> </span><span class="id"><a href="mathcomp.analysis.probability_theory.random_variable.html#T:188">T</a></span><span class="id"> </span><span class="id"><a href="mathcomp.analysis.probability_theory.random_variable.html#R:189">R</a></span>) (<span id="X:191" class="id"><div name="X:191" class=" tooltip">X<span class='tooltip-area'><hr/><a href='https://github.com/math-comp/analysis/tree/9320323497de2d2c16a7ef3f983166eac0759308/theories/probability_theory/random_variable.v#L481' target='_blank'>Source code</a></span></div></span><span class="id"> :</span><span class="id"> </span><span class="id"><a href="mathcomp.analysis.probability_theory.random_variable.html#T:188">T</a></span><span class="id"><a href="https://rocq-prover.org/corelib/Corelib.Init.Logic.html#::type_scope:x_'-&gt;'_x"> -&gt;</a></span><span class="id"><a href="https://rocq-prover.org/corelib/Corelib.Init.Logic.html#::type_scope:x_'-&gt;'_x"> </a></span><span class="id"><a href="mathcomp.analysis.probability_theory.random_variable.html#R:189">R</a></span>)<span class="id"> :=</span> (<span class="id"><a href="mathcomp.analysis.lebesgue_integral_theory.lebesgue_integral_definition.html#3e4826d90e3d691004f544dc3de2d121">\int[</a></span><span class="id"><a href="mathcomp.analysis.probability_theory.random_variable.html#P:190">P</a></span><span class="id"><a href="mathcomp.analysis.lebesgue_integral_theory.lebesgue_integral_definition.html#3e4826d90e3d691004f544dc3de2d121">]_</a></span><span id="w:192" class="id"><div name="w:192" class=" tooltip">w<span class='tooltip-area'><hr/><a href='https://github.com/math-comp/analysis/tree/9320323497de2d2c16a7ef3f983166eac0759308/theories/probability_theory/random_variable.v#L481' target='_blank'>Source code</a></span></div></span> (<span class="id"><a href="mathcomp.analysis.probability_theory.random_variable.html#X:191">X</a></span><span class="id"> </span><span class="id"><a href="mathcomp.analysis.probability_theory.random_variable.html#w:192">w</a></span>)<span class="id"><a href="mathcomp.reals.constructive_ereal.html#bc34d0712444fb7fddc80987d6cdcb61">%:E</a></span>)<span class="id">%E</span>.<br/>
-<span class="vernacular">Canonical</span><span class="id"> </span><span id="expectation_unlockable" class="id"><div name="expectation_unlockable" class=" tooltip">expectation_unlockable<span class='tooltip-area'><p>expectation_unlock_subterm :
-unlockable
-  (fun (d : measurable_structure.measure_display)
-     (T : measurable_structure.Measurable.type d) 
-     (R : realType) (P : probability_measure.Probability.type T R)
-     (X : measurable_structure.Measurable.sort T -> R) =>
-   (\int[probability_measure.Probability.sort P]_w (X w)%:E)%E)
-
-expectation_unlock_subterm is not universe polymorphic
-expectation_unlock_subterm is transparent
-Expands to: Constant
-            mathcomp.analysis.probability_theory.random_variable.expectation_unlock_subterm
-Declared in
-library mathcomp.analysis.probability_theory.random_variable, line 480, characters 0-136
 </p><hr/><a href='https://github.com/math-comp/analysis/tree/9320323497de2d2c16a7ef3f983166eac0759308/theories/probability_theory/random_variable.v#L482' target='_blank'>Source code</a></span></div></span><span class="id"> :=</span><span class="id"> </span><span class="id"><a href="https://rocq-prover.org/corelib/Corelib.ssr.ssreflect.html#Unlockable">Unlockable</a></span><span class="id"> </span><span class="id"><a href="mathcomp.analysis.probability_theory.random_variable.html#unlock">expectation</a></span>.<span class="id"><a href="mathcomp.analysis.probability_theory.random_variable.html#unlock">unlock</a></span>.<br/>
 <span class="vernacular">Arguments</span><span class="id"> </span><span class="id"><a href="mathcomp.analysis.probability_theory.random_variable.html#body">expectation</a></span><span class="id"> {d</span><span class="id"> T</span><span class="id"> R}</span><span class="id"> P</span><span class="id"> _%_R</span>.<br/>
 <span class="vernacular">Notation</span> <span id="69ec4e730a589c79df0349357bb8311f" class="id"><div name="69ec4e730a589c79df0349357bb8311f" class=" tooltip">&quot;''E_' P [ X ]&quot;<span class='tooltip-area'><hr/><a href='https://github.com/math-comp/analysis/tree/9320323497de2d2c16a7ef3f983166eac0759308/theories/probability_theory/random_variable.v#L484' target='_blank'>Source code</a></span></div></span><span class="id"> :=</span> (<span class="id">@</span><span class="id"><a href="mathcomp.analysis.probability_theory.random_variable.html#expectation">expectation</a></span><span class="id"> _</span><span class="id"> _</span><span class="id"> _</span><span class="id"> P</span><span class="id"> X</span>)<span class="id"> :</span><span class="id"> ereal_scope</span>.<br/>
@@ -1187,13 +1131,23 @@ Qed.</div></details>
 <br/>
 <span class="vernacular">End</span><span class="id"> tail_expectation_formula</span>.<br/>
 <br/>
-<span id="covariance_unlock_subterm" class="id"><span id="covariance" class="id"><span id="covariance.unlock" class="id"><span id="covariance.body" class="id"><span id="covariance" class="id"><span id="covariance_Locked.unlock" class="id"><span id="covariance_Locked.body" class="id"><span id="covariance_Locked" class="id"><div name="covariance_unlock_subterm" class=" tooltip">HB<span class='tooltip-area'><p>expectation_unlock_subterm :
+<span id="covariance_unlock_subterm" class="id"><span id="covariance" class="id"><span id="covariance.unlock" class="id"><span id="covariance.body" class="id"><span id="covariance" class="id"><span id="covariance_Locked.unlock" class="id"><span id="covariance_Locked.body" class="id"><span id="covariance_Locked" class="id"><div name="covariance_unlock_subterm" class=" tooltip">HB<span class='tooltip-area'><p>ccdf :
+forall [d : measure_display] [T : measurableType d] 
+  [R : realType] [P : probability T R],
+{RV P >-> R} -> R -> \bar R
+
+ccdf is not universe polymorphic
+Arguments ccdf [d]%_measure_display_scope [T R P] X r%_ring_scope
+ccdf is transparent
+Expands to: Constant
+            mathcomp.analysis.probability_theory.random_variable.ccdf
+Declared in
+library mathcomp.analysis.probability_theory.random_variable, line 423, characters 11-15
+expectation_unlock_subterm :
 unlockable
-  (fun (d : measurable_structure.measure_display)
-     (T : measurable_structure.Measurable.type d) 
-     (R : realType) (P : probability_measure.Probability.type T R)
-     (X : measurable_structure.Measurable.sort T -> R) =>
-   (\int[probability_measure.Probability.sort P]_w (X w)%:E)%E)
+  (fun (d : measure_display) (T : measurableType d) 
+     (R : realType) (P : probability T R) (X : T -> R) =>
+   (\int[P]_w (X w)%:E)%E)
 
 expectation_unlock_subterm is not universe polymorphic
 expectation_unlock_subterm is transparent
@@ -1203,11 +1157,9 @@ Declared in
 library mathcomp.analysis.probability_theory.random_variable, line 480, characters 0-136
 </p><hr/><a href='https://github.com/math-comp/analysis/tree/9320323497de2d2c16a7ef3f983166eac0759308/theories/probability_theory/random_variable.v#L723' target='_blank'>Source code</a></span></div></span></span></span></span></span></span></span></span>.<span id="covariance_unlock_subterm" class="id"><span id="covariance" class="id"><span id="covariance.unlock" class="id"><span id="covariance.body" class="id"><span id="covariance" class="id"><span id="covariance_Locked.unlock" class="id"><span id="covariance_Locked.body" class="id"><span id="covariance_Locked" class="id"><div name="covariance_unlock_subterm" class=" tooltip">lock<span class='tooltip-area'><p>expectation_unlock_subterm :
 unlockable
-  (fun (d : measurable_structure.measure_display)
-     (T : measurable_structure.Measurable.type d) 
-     (R : realType) (P : probability_measure.Probability.type T R)
-     (X : measurable_structure.Measurable.sort T -> R) =>
-   (\int[probability_measure.Probability.sort P]_w (X w)%:E)%E)
+  (fun (d : measure_display) (T : measurableType d) 
+     (R : realType) (P : probability T R) (X : T -> R) =>
+   (\int[P]_w (X w)%:E)%E)
 
 expectation_unlock_subterm is not universe polymorphic
 expectation_unlock_subterm is transparent
@@ -1217,11 +1169,9 @@ Declared in
 library mathcomp.analysis.probability_theory.random_variable, line 480, characters 0-136
 </p><hr/><a href='https://github.com/math-comp/analysis/tree/9320323497de2d2c16a7ef3f983166eac0759308/theories/probability_theory/random_variable.v#L723' target='_blank'>Source code</a></span></div></span></span></span></span></span></span></span></span><span id="covariance_unlock_subterm" class="id"><span id="covariance" class="id"><span id="covariance.unlock" class="id"><span id="covariance.body" class="id"><span id="covariance" class="id"><span id="covariance_Locked.unlock" class="id"><span id="covariance_Locked.body" class="id"><span id="covariance_Locked" class="id"><div name="covariance_unlock_subterm" class=" tooltip"> Definition<span class='tooltip-area'><p>expectation_unlock_subterm :
 unlockable
-  (fun (d : measurable_structure.measure_display)
-     (T : measurable_structure.Measurable.type d) 
-     (R : realType) (P : probability_measure.Probability.type T R)
-     (X : measurable_structure.Measurable.sort T -> R) =>
-   (\int[probability_measure.Probability.sort P]_w (X w)%:E)%E)
+  (fun (d : measure_display) (T : measurableType d) 
+     (R : realType) (P : probability T R) (X : T -> R) =>
+   (\int[P]_w (X w)%:E)%E)
 
 expectation_unlock_subterm is not universe polymorphic
 expectation_unlock_subterm is transparent
@@ -1229,13 +1179,38 @@ Expands to: Constant
             mathcomp.analysis.probability_theory.random_variable.expectation_unlock_subterm
 Declared in
 library mathcomp.analysis.probability_theory.random_variable, line 480, characters 0-136
-</p><hr/><a href='https://github.com/math-comp/analysis/tree/9320323497de2d2c16a7ef3f983166eac0759308/theories/probability_theory/random_variable.v#L723' target='_blank'>Source code</a></span></div></span></span></span></span></span></span></span></span><span id="covariance_unlock_subterm" class="id"><span id="covariance" class="id"><span id="covariance.unlock" class="id"><span id="covariance.body" class="id"><span id="covariance" class="id"><span id="covariance_Locked.unlock" class="id"><span id="covariance_Locked.body" class="id"><span id="covariance_Locked" class="id"><div name="covariance_unlock_subterm" class=" tooltip"> covariance<span class='tooltip-area'><p>expectation_unlockable :
+</p><hr/><a href='https://github.com/math-comp/analysis/tree/9320323497de2d2c16a7ef3f983166eac0759308/theories/probability_theory/random_variable.v#L723' target='_blank'>Source code</a></span></div></span></span></span></span></span></span></span></span><span id="covariance_unlock_subterm" class="id"><span id="covariance" class="id"><span id="covariance.unlock" class="id"><span id="covariance.body" class="id"><span id="covariance" class="id"><span id="covariance_Locked.unlock" class="id"><span id="covariance_Locked.body" class="id"><span id="covariance_Locked" class="id"><div name="covariance_unlock_subterm" class=" tooltip"> covariance<span class='tooltip-area'><p>expectation_unlock_subterm :
 unlockable
-  (fun (d : measurable_structure.measure_display)
-     (T : measurable_structure.Measurable.type d) 
-     (R : realType) (P : probability_measure.Probability.type T R)
-     (X : measurable_structure.Measurable.sort T -> R) =>
-   (\int[probability_measure.Probability.sort P]_w (X w)%:E)%E)
+  (fun (d : measure_display) (T : measurableType d) 
+     (R : realType) (P : probability T R) (X : T -> R) =>
+   (\int[P]_w (X w)%:E)%E)
+
+expectation_unlock_subterm is not universe polymorphic
+expectation_unlock_subterm is transparent
+Expands to: Constant
+            mathcomp.analysis.probability_theory.random_variable.expectation_unlock_subterm
+Declared in
+library mathcomp.analysis.probability_theory.random_variable, line 480, characters 0-136
+</p><hr/><a href='https://github.com/math-comp/analysis/tree/9320323497de2d2c16a7ef3f983166eac0759308/theories/probability_theory/random_variable.v#L723' target='_blank'>Source code</a></span></div></span></span></span></span></span></span></span></span><span id="covariance_unlock_subterm" class="id"><span id="covariance" class="id"><span id="covariance.unlock" class="id"><span id="covariance.body" class="id"><span id="covariance" class="id"><span id="covariance_Locked.unlock" class="id"><span id="covariance_Locked.body" class="id"><span id="covariance_Locked" class="id"><div name="covariance_unlock_subterm" class=" tooltip"> {d}<span class='tooltip-area'><p>expectation_unlock_subterm :
+unlockable
+  (fun (d : measure_display) (T : measurableType d) 
+     (R : realType) (P : probability T R) (X : T -> R) =>
+   (\int[P]_w (X w)%:E)%E)
+
+expectation_unlock_subterm is not universe polymorphic
+expectation_unlock_subterm is transparent
+Expands to: Constant
+            mathcomp.analysis.probability_theory.random_variable.expectation_unlock_subterm
+Declared in
+library mathcomp.analysis.probability_theory.random_variable, line 480, characters 0-136
+</p><hr/><a href='https://github.com/math-comp/analysis/tree/9320323497de2d2c16a7ef3f983166eac0759308/theories/probability_theory/random_variable.v#L723' target='_blank'>Source code</a></span></div></span></span></span></span></span></span></span></span><span class="id"> {</span><span id="T:290" class="id"><div name="T:290" class=" tooltip">T<span class='tooltip-area'><hr/><a href='https://github.com/math-comp/analysis/tree/9320323497de2d2c16a7ef3f983166eac0759308/theories/probability_theory/random_variable.v#L723' target='_blank'>Source code</a></span></div></span><span class="id"> :</span><span class="id"> </span><span class="id"><a href="mathcomp.analysis.measure_theory.measurable_structure.html#Measurable.Exports.measurableType">measurableType</a></span><span class="id"> </span><span class="id"><a href="mathcomp.analysis.probability_theory.random_variable.html#d:289">d</a></span><span class="id">}</span><span class="id"> {</span><span id="R:291" class="id"><div name="R:291" class=" tooltip">R<span class='tooltip-area'><hr/><a href='https://github.com/math-comp/analysis/tree/9320323497de2d2c16a7ef3f983166eac0759308/theories/probability_theory/random_variable.v#L723' target='_blank'>Source code</a></span></div></span><span class="id"> :</span><span class="id"> </span><span class="id"><a href="mathcomp.reals.reals.html#Real.Exports.realType">realType</a></span><span class="id">}</span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;(<span id="P:292" class="id"><div name="P:292" class=" tooltip">P<span class='tooltip-area'><hr/><a href='https://github.com/math-comp/analysis/tree/9320323497de2d2c16a7ef3f983166eac0759308/theories/probability_theory/random_variable.v#L724' target='_blank'>Source code</a></span></div></span><span class="id"> :</span><span class="id"> </span><span class="id"><a href="mathcomp.analysis.measure_theory.probability_measure.html#Probability.Exports.probability">probability</a></span><span class="id"> </span><span class="id"><a href="mathcomp.analysis.probability_theory.random_variable.html#T:290">T</a></span><span class="id"> </span><span class="id"><a href="mathcomp.analysis.probability_theory.random_variable.html#R:291">R</a></span>) (<span id="X:293" class="id"><div name="X:293" class=" tooltip">X<span class='tooltip-area'><hr/><a href='https://github.com/math-comp/analysis/tree/9320323497de2d2c16a7ef3f983166eac0759308/theories/probability_theory/random_variable.v#L724' target='_blank'>Source code</a></span></div></span><span class="id"> </span><span id="Y:294" class="id"><div name="Y:294" class=" tooltip">Y<span class='tooltip-area'><hr/><a href='https://github.com/math-comp/analysis/tree/9320323497de2d2c16a7ef3f983166eac0759308/theories/probability_theory/random_variable.v#L724' target='_blank'>Source code</a></span></div></span><span class="id"> :</span><span class="id"> </span><span class="id"><a href="mathcomp.analysis.probability_theory.random_variable.html#T:290">T</a></span><span class="id"><a href="https://rocq-prover.org/corelib/Corelib.Init.Logic.html#::type_scope:x_'-&gt;'_x"> -&gt;</a></span><span class="id"><a href="https://rocq-prover.org/corelib/Corelib.Init.Logic.html#::type_scope:x_'-&gt;'_x"> </a></span><span class="id"><a href="mathcomp.analysis.probability_theory.random_variable.html#R:291">R</a></span>)<span class="id"> :=</span><br/>
+&nbsp;&nbsp;<span class="id"><a href="mathcomp.analysis.probability_theory.random_variable.html#69ec4e730a589c79df0349357bb8311f">'E_</a></span><span class="id"><a href="mathcomp.analysis.probability_theory.random_variable.html#P:292">P</a></span><span class="id"><a href="mathcomp.analysis.probability_theory.random_variable.html#69ec4e730a589c79df0349357bb8311f">[</a></span>(<span class="id"><a href="mathcomp.analysis.probability_theory.random_variable.html#X:293">X</a></span><span class="id"><a href="https://math-comp.github.io/htmldoc_2_5_0/mathcomp.algebra.algebraic_hierarchy.rings_modules_and_algebras.html#0bb5d11fe8761db1e6494d75cb45a3cb"> \-</a></span><span class="id"><a href="https://math-comp.github.io/htmldoc_2_5_0/mathcomp.algebra.algebraic_hierarchy.rings_modules_and_algebras.html#0bb5d11fe8761db1e6494d75cb45a3cb"> </a></span><span class="id"><a href="mathcomp.classical.functions.html#cst">cst</a></span> (<span class="id"><a href="mathcomp.reals.constructive_ereal.html#fine">fine</a></span><span class="id"> </span><span class="id"><a href="mathcomp.analysis.probability_theory.random_variable.html#69ec4e730a589c79df0349357bb8311f">'E_</a></span><span class="id"><a href="mathcomp.analysis.probability_theory.random_variable.html#P:292">P</a></span><span class="id"><a href="mathcomp.analysis.probability_theory.random_variable.html#69ec4e730a589c79df0349357bb8311f">[</a></span><span class="id"><a href="mathcomp.analysis.probability_theory.random_variable.html#X:293">X</a></span><span class="id"><a href="mathcomp.analysis.probability_theory.random_variable.html#69ec4e730a589c79df0349357bb8311f">]</a></span>))<span class="id"><a href="https://math-comp.github.io/htmldoc_2_5_0/mathcomp.algebra.algebraic_hierarchy.rings_modules_and_algebras.html#2d0cfb150261028f4ebd2ba355623dcc"> *</a></span> (<span class="id"><a href="mathcomp.analysis.probability_theory.random_variable.html#Y:294">Y</a></span><span class="id"><a href="https://math-comp.github.io/htmldoc_2_5_0/mathcomp.algebra.algebraic_hierarchy.rings_modules_and_algebras.html#0bb5d11fe8761db1e6494d75cb45a3cb"> \-</a></span><span class="id"><a href="https://math-comp.github.io/htmldoc_2_5_0/mathcomp.algebra.algebraic_hierarchy.rings_modules_and_algebras.html#0bb5d11fe8761db1e6494d75cb45a3cb"> </a></span><span class="id"><a href="mathcomp.classical.functions.html#cst">cst</a></span> (<span class="id"><a href="mathcomp.reals.constructive_ereal.html#fine">fine</a></span><span class="id"> </span><span class="id"><a href="mathcomp.analysis.probability_theory.random_variable.html#69ec4e730a589c79df0349357bb8311f">'E_</a></span><span class="id"><a href="mathcomp.analysis.probability_theory.random_variable.html#P:292">P</a></span><span class="id"><a href="mathcomp.analysis.probability_theory.random_variable.html#69ec4e730a589c79df0349357bb8311f">[</a></span><span class="id"><a href="mathcomp.analysis.probability_theory.random_variable.html#Y:294">Y</a></span><span class="id"><a href="mathcomp.analysis.probability_theory.random_variable.html#69ec4e730a589c79df0349357bb8311f">]</a></span>))<span class="id"><a href="mathcomp.analysis.probability_theory.random_variable.html#69ec4e730a589c79df0349357bb8311f">]</a></span><span class="id">%E</span>.<br/>
+<span class="vernacular">Canonical</span><span class="id"> </span><span id="covariance_unlockable" class="id"><div name="covariance_unlockable" class=" tooltip">covariance_unlockable<span class='tooltip-area'><p>expectation_unlockable :
+unlockable
+  (fun (d : measure_display) (T : measurableType d) 
+     (R : realType) (P : probability T R) (X : T -> R) =>
+   (\int[P]_w (X w)%:E)%E)
 
 expectation_unlockable is not universe polymorphic
 expectation_unlockable is transparent
@@ -1243,37 +1218,6 @@ Expands to: Constant
             mathcomp.analysis.probability_theory.random_variable.expectation_unlockable
 Declared in
 library mathcomp.analysis.probability_theory.random_variable, line 482, characters 10-32
-</p><hr/><a href='https://github.com/math-comp/analysis/tree/9320323497de2d2c16a7ef3f983166eac0759308/theories/probability_theory/random_variable.v#L723' target='_blank'>Source code</a></span></div></span></span></span></span></span></span></span></span><span id="covariance_unlock_subterm" class="id"><span id="covariance" class="id"><span id="covariance.unlock" class="id"><span id="covariance.body" class="id"><span id="covariance" class="id"><span id="covariance_Locked.unlock" class="id"><span id="covariance_Locked.body" class="id"><span id="covariance_Locked" class="id"><div name="covariance_unlock_subterm" class=" tooltip"> {d}<span class='tooltip-area'><p>covariance_unlock_subterm :
-unlockable
-  (fun (d : measurable_structure.measure_display)
-     (T : measurable_structure.Measurable.type d) 
-     (R : realType) (P : probability_measure.Probability.type T R)
-     (X Y : measurable_structure.Measurable.sort T -> R) =>
-   ('E_P[((X \- cst (fine 'E_P[X])) * (Y \- cst (fine 'E_P[Y])))])%E)
-
-covariance_unlock_subterm is not universe polymorphic
-covariance_unlock_subterm is transparent
-Expands to: Constant
-            mathcomp.analysis.probability_theory.random_variable.covariance_unlock_subterm
-Declared in
-library mathcomp.analysis.probability_theory.random_variable, line 723, characters 0-180
-</p><hr/><a href='https://github.com/math-comp/analysis/tree/9320323497de2d2c16a7ef3f983166eac0759308/theories/probability_theory/random_variable.v#L723' target='_blank'>Source code</a></span></div></span></span></span></span></span></span></span></span><span class="id"> {</span><span id="T:290" class="id"><div name="T:290" class=" tooltip">T<span class='tooltip-area'><hr/><a href='https://github.com/math-comp/analysis/tree/9320323497de2d2c16a7ef3f983166eac0759308/theories/probability_theory/random_variable.v#L723' target='_blank'>Source code</a></span></div></span><span class="id"> :</span><span class="id"> </span><span class="id"><a href="mathcomp.analysis.measure_theory.measurable_structure.html#Measurable.Exports.measurableType">measurableType</a></span><span class="id"> </span><span class="id"><a href="mathcomp.analysis.probability_theory.random_variable.html#d:289">d</a></span><span class="id">}</span><span class="id"> {</span><span id="R:291" class="id"><div name="R:291" class=" tooltip">R<span class='tooltip-area'><hr/><a href='https://github.com/math-comp/analysis/tree/9320323497de2d2c16a7ef3f983166eac0759308/theories/probability_theory/random_variable.v#L723' target='_blank'>Source code</a></span></div></span><span class="id"> :</span><span class="id"> </span><span class="id"><a href="mathcomp.reals.reals.html#Real.Exports.realType">realType</a></span><span class="id">}</span><br/>
-&nbsp;&nbsp;&nbsp;&nbsp;(<span id="P:292" class="id"><div name="P:292" class=" tooltip">P<span class='tooltip-area'><hr/><a href='https://github.com/math-comp/analysis/tree/9320323497de2d2c16a7ef3f983166eac0759308/theories/probability_theory/random_variable.v#L724' target='_blank'>Source code</a></span></div></span><span class="id"> :</span><span class="id"> </span><span class="id"><a href="mathcomp.analysis.measure_theory.probability_measure.html#Probability.Exports.probability">probability</a></span><span class="id"> </span><span class="id"><a href="mathcomp.analysis.probability_theory.random_variable.html#T:290">T</a></span><span class="id"> </span><span class="id"><a href="mathcomp.analysis.probability_theory.random_variable.html#R:291">R</a></span>) (<span id="X:293" class="id"><div name="X:293" class=" tooltip">X<span class='tooltip-area'><hr/><a href='https://github.com/math-comp/analysis/tree/9320323497de2d2c16a7ef3f983166eac0759308/theories/probability_theory/random_variable.v#L724' target='_blank'>Source code</a></span></div></span><span class="id"> </span><span id="Y:294" class="id"><div name="Y:294" class=" tooltip">Y<span class='tooltip-area'><hr/><a href='https://github.com/math-comp/analysis/tree/9320323497de2d2c16a7ef3f983166eac0759308/theories/probability_theory/random_variable.v#L724' target='_blank'>Source code</a></span></div></span><span class="id"> :</span><span class="id"> </span><span class="id"><a href="mathcomp.analysis.probability_theory.random_variable.html#T:290">T</a></span><span class="id"><a href="https://rocq-prover.org/corelib/Corelib.Init.Logic.html#::type_scope:x_'-&gt;'_x"> -&gt;</a></span><span class="id"><a href="https://rocq-prover.org/corelib/Corelib.Init.Logic.html#::type_scope:x_'-&gt;'_x"> </a></span><span class="id"><a href="mathcomp.analysis.probability_theory.random_variable.html#R:291">R</a></span>)<span class="id"> :=</span><br/>
-&nbsp;&nbsp;<span class="id"><a href="mathcomp.analysis.probability_theory.random_variable.html#69ec4e730a589c79df0349357bb8311f">'E_</a></span><span class="id"><a href="mathcomp.analysis.probability_theory.random_variable.html#P:292">P</a></span><span class="id"><a href="mathcomp.analysis.probability_theory.random_variable.html#69ec4e730a589c79df0349357bb8311f">[</a></span>(<span class="id"><a href="mathcomp.analysis.probability_theory.random_variable.html#X:293">X</a></span><span class="id"><a href="https://math-comp.github.io/htmldoc_2_5_0/mathcomp.algebra.algebraic_hierarchy.rings_modules_and_algebras.html#0bb5d11fe8761db1e6494d75cb45a3cb"> \-</a></span><span class="id"><a href="https://math-comp.github.io/htmldoc_2_5_0/mathcomp.algebra.algebraic_hierarchy.rings_modules_and_algebras.html#0bb5d11fe8761db1e6494d75cb45a3cb"> </a></span><span class="id"><a href="mathcomp.classical.functions.html#cst">cst</a></span> (<span class="id"><a href="mathcomp.reals.constructive_ereal.html#fine">fine</a></span><span class="id"> </span><span class="id"><a href="mathcomp.analysis.probability_theory.random_variable.html#69ec4e730a589c79df0349357bb8311f">'E_</a></span><span class="id"><a href="mathcomp.analysis.probability_theory.random_variable.html#P:292">P</a></span><span class="id"><a href="mathcomp.analysis.probability_theory.random_variable.html#69ec4e730a589c79df0349357bb8311f">[</a></span><span class="id"><a href="mathcomp.analysis.probability_theory.random_variable.html#X:293">X</a></span><span class="id"><a href="mathcomp.analysis.probability_theory.random_variable.html#69ec4e730a589c79df0349357bb8311f">]</a></span>))<span class="id"><a href="https://math-comp.github.io/htmldoc_2_5_0/mathcomp.algebra.algebraic_hierarchy.rings_modules_and_algebras.html#2d0cfb150261028f4ebd2ba355623dcc"> *</a></span> (<span class="id"><a href="mathcomp.analysis.probability_theory.random_variable.html#Y:294">Y</a></span><span class="id"><a href="https://math-comp.github.io/htmldoc_2_5_0/mathcomp.algebra.algebraic_hierarchy.rings_modules_and_algebras.html#0bb5d11fe8761db1e6494d75cb45a3cb"> \-</a></span><span class="id"><a href="https://math-comp.github.io/htmldoc_2_5_0/mathcomp.algebra.algebraic_hierarchy.rings_modules_and_algebras.html#0bb5d11fe8761db1e6494d75cb45a3cb"> </a></span><span class="id"><a href="mathcomp.classical.functions.html#cst">cst</a></span> (<span class="id"><a href="mathcomp.reals.constructive_ereal.html#fine">fine</a></span><span class="id"> </span><span class="id"><a href="mathcomp.analysis.probability_theory.random_variable.html#69ec4e730a589c79df0349357bb8311f">'E_</a></span><span class="id"><a href="mathcomp.analysis.probability_theory.random_variable.html#P:292">P</a></span><span class="id"><a href="mathcomp.analysis.probability_theory.random_variable.html#69ec4e730a589c79df0349357bb8311f">[</a></span><span class="id"><a href="mathcomp.analysis.probability_theory.random_variable.html#Y:294">Y</a></span><span class="id"><a href="mathcomp.analysis.probability_theory.random_variable.html#69ec4e730a589c79df0349357bb8311f">]</a></span>))<span class="id"><a href="mathcomp.analysis.probability_theory.random_variable.html#69ec4e730a589c79df0349357bb8311f">]</a></span><span class="id">%E</span>.<br/>
-<span class="vernacular">Canonical</span><span class="id"> </span><span id="covariance_unlockable" class="id"><div name="covariance_unlockable" class=" tooltip">covariance_unlockable<span class='tooltip-area'><p>covariance_unlock_subterm :
-unlockable
-  (fun (d : measurable_structure.measure_display)
-     (T : measurable_structure.Measurable.type d) 
-     (R : realType) (P : probability_measure.Probability.type T R)
-     (X Y : measurable_structure.Measurable.sort T -> R) =>
-   ('E_P[((X \- cst (fine 'E_P[X])) * (Y \- cst (fine 'E_P[Y])))])%E)
-
-covariance_unlock_subterm is not universe polymorphic
-covariance_unlock_subterm is transparent
-Expands to: Constant
-            mathcomp.analysis.probability_theory.random_variable.covariance_unlock_subterm
-Declared in
-library mathcomp.analysis.probability_theory.random_variable, line 723, characters 0-180
 </p><hr/><a href='https://github.com/math-comp/analysis/tree/9320323497de2d2c16a7ef3f983166eac0759308/theories/probability_theory/random_variable.v#L726' target='_blank'>Source code</a></span></div></span><span class="id"> :=</span><span class="id"> </span><span class="id"><a href="https://rocq-prover.org/corelib/Corelib.ssr.ssreflect.html#Unlockable">Unlockable</a></span><span class="id"> </span><span class="id"><a href="mathcomp.analysis.probability_theory.random_variable.html#unlock">covariance</a></span>.<span class="id"><a href="mathcomp.analysis.probability_theory.random_variable.html#unlock">unlock</a></span>.<br/>
 <span class="vernacular">Arguments</span><span class="id"> </span><span class="id"><a href="mathcomp.analysis.probability_theory.random_variable.html#body">covariance</a></span><span class="id"> {d</span><span class="id"> T</span><span class="id"> R}</span><span class="id"> P</span><span class="id"> _%_R</span><span class="id"> _%_R</span>.<br/>
 <br/>
@@ -1455,10 +1399,8 @@ Qed.</div></details>
 <br/>
 <span class="vernacular">Definition</span><span class="id"> </span><span id="variance" class="id"><div name="variance" class=" tooltip">variance<span class='tooltip-area'><p>covariance_unlock_subterm :
 unlockable
-  (fun (d : measurable_structure.measure_display)
-     (T : measurable_structure.Measurable.type d) 
-     (R : realType) (P : probability_measure.Probability.type T R)
-     (X Y : measurable_structure.Measurable.sort T -> R) =>
+  (fun (d : measure_display) (T : measurableType d) 
+     (R : realType) (P : probability T R) (X Y : T -> R) =>
    ('E_P[((X \- cst (fine 'E_P[X])) * (Y \- cst (fine 'E_P[Y])))])%E)
 
 covariance_unlock_subterm is not universe polymorphic
@@ -1630,10 +1572,8 @@ Qed.</div></details>
 <br/>
 <span class="vernacular">Definition</span><span class="id"> </span><span id="mmt_gen_fun" class="id"><div name="mmt_gen_fun" class=" tooltip">mmt_gen_fun<span class='tooltip-area'><p>covariance_unlock_subterm :
 unlockable
-  (fun (d : measurable_structure.measure_display)
-     (T : measurable_structure.Measurable.type d) 
-     (R : realType) (P : probability_measure.Probability.type T R)
-     (X Y : measurable_structure.Measurable.sort T -> R) =>
+  (fun (d : measure_display) (T : measurableType d) 
+     (R : realType) (P : probability T R) (X Y : T -> R) =>
    ('E_P[((X \- cst (fine 'E_P[X])) * (Y \- cst (fine 'E_P[Y])))])%E)
 
 covariance_unlock_subterm is not universe polymorphic
@@ -1795,10 +1735,8 @@ Qed.</div></details>
 <br/>
 <span class="vernacular">Definition</span><span class="id"> </span><span id="discrete_random_variable" class="id"><div name="discrete_random_variable" class=" tooltip">discrete_random_variable<span class='tooltip-area'><p>covariance_unlock_subterm :
 unlockable
-  (fun (d : measurable_structure.measure_display)
-     (T : measurable_structure.Measurable.type d) 
-     (R : realType) (P : probability_measure.Probability.type T R)
-     (X Y : measurable_structure.Measurable.sort T -> R) =>
+  (fun (d : measure_display) (T : measurableType d) 
+     (R : realType) (P : probability T R) (X Y : T -> R) =>
    ('E_P[((X \- cst (fine 'E_P[X])) * (Y \- cst (fine 'E_P[Y])))])%E)
 
 covariance_unlock_subterm is not universe polymorphic
@@ -1828,12 +1766,39 @@ library mathcomp.analysis.probability_theory.random_variable, line 723, characte
 <span class="gallina-kwd">exists</span><span class="id"> B;</span><span class="id"> exact:</span><span class="id"> f</span>.<br/>
 Qed.</div></details>
 <br/>
-<span class="vernacular">Definition</span><span class="id"> </span><span id="dRV_dom" class="id"><div name="dRV_dom" class=" tooltip">dRV_dom<span class='tooltip-area'><p>covariance_unlockable :
+<span class="vernacular">Definition</span><span class="id"> </span><span id="dRV_dom" class="id"><div name="dRV_dom" class=" tooltip">dRV_dom<span class='tooltip-area'><p>covariance_unlock_subterm :
 unlockable
-  (fun (d : measurable_structure.measure_display)
-     (T : measurable_structure.Measurable.type d) 
-     (R : realType) (P : probability_measure.Probability.type T R)
-     (X Y : measurable_structure.Measurable.sort T -> R) =>
+  (fun (d : measure_display) (T : measurableType d) 
+     (R : realType) (P : probability T R) (X Y : T -> R) =>
+   ('E_P[((X \- cst (fine 'E_P[X])) * (Y \- cst (fine 'E_P[Y])))])%E)
+
+covariance_unlock_subterm is not universe polymorphic
+covariance_unlock_subterm is transparent
+Expands to: Constant
+            mathcomp.analysis.probability_theory.random_variable.covariance_unlock_subterm
+Declared in
+library mathcomp.analysis.probability_theory.random_variable, line 723, characters 0-180
+</p><hr/><a href='https://github.com/math-comp/analysis/tree/9320323497de2d2c16a7ef3f983166eac0759308/theories/probability_theory/random_variable.v#L1172' target='_blank'>Source code</a></span></div></span> (<span id="X:448" class="id"><div name="X:448" class=" tooltip">X<span class='tooltip-area'><hr/><a href='https://github.com/math-comp/analysis/tree/9320323497de2d2c16a7ef3f983166eac0759308/theories/probability_theory/random_variable.v#L1172' target='_blank'>Source code</a></span></div></span><span class="id"> :</span><span class="id"> </span><span class="id"><a href="mathcomp.analysis.probability_theory.random_variable.html#b5a1ea6c8f3277fde90807f8c5935ab3">{dRV</a></span><span class="id"><a href="mathcomp.analysis.probability_theory.random_variable.html#b5a1ea6c8f3277fde90807f8c5935ab3"> </a></span><span class="id"><a href="mathcomp.analysis.probability_theory.random_variable.html#dRV_definitions.P">P</a></span><span class="id"><a href="mathcomp.analysis.probability_theory.random_variable.html#b5a1ea6c8f3277fde90807f8c5935ab3"> &gt;-&gt;</a></span><span class="id"><a href="mathcomp.analysis.probability_theory.random_variable.html#b5a1ea6c8f3277fde90807f8c5935ab3"> </a></span><span class="id"><a href="mathcomp.analysis.probability_theory.random_variable.html#dRV_definitions.T'">T'</a></span><span class="id"><a href="mathcomp.analysis.probability_theory.random_variable.html#b5a1ea6c8f3277fde90807f8c5935ab3">}</a></span>)<span class="id"> :</span><span class="id"> </span><span class="id"><a href="mathcomp.classical.classical_sets.html#set">set</a></span><span class="id"> </span><span class="id"><a href="https://rocq-prover.org/corelib/Corelib.Init.Datatypes.html#nat">nat</a></span><span class="id"> :=</span><span class="id"> </span><span class="id"><a href="https://rocq-prover.org/corelib/Corelib.Init.Specif.html#projT1">projT1</a></span> (<span class="id"><a href="mathcomp.analysis.probability_theory.random_variable.html#dRV_dom_enum">dRV_dom_enum</a></span><span class="id"> </span><span class="id"><a href="mathcomp.analysis.probability_theory.random_variable.html#X:448">X</a></span>).<br/>
+<br/>
+<span class="vernacular">Definition</span><span class="id"> </span><span id="dRV_enum" class="id"><div name="dRV_enum" class=" tooltip">dRV_enum<span class='tooltip-area'><p>covariance_unlock_subterm :
+unlockable
+  (fun (d : measure_display) (T : measurableType d) 
+     (R : realType) (P : probability T R) (X Y : T -> R) =>
+   ('E_P[((X \- cst (fine 'E_P[X])) * (Y \- cst (fine 'E_P[Y])))])%E)
+
+covariance_unlock_subterm is not universe polymorphic
+covariance_unlock_subterm is transparent
+Expands to: Constant
+            mathcomp.analysis.probability_theory.random_variable.covariance_unlock_subterm
+Declared in
+library mathcomp.analysis.probability_theory.random_variable, line 723, characters 0-180
+</p><hr/><a href='https://github.com/math-comp/analysis/tree/9320323497de2d2c16a7ef3f983166eac0759308/theories/probability_theory/random_variable.v#L1174' target='_blank'>Source code</a></span></div></span> (<span id="X:449" class="id"><div name="X:449" class=" tooltip">X<span class='tooltip-area'><hr/><a href='https://github.com/math-comp/analysis/tree/9320323497de2d2c16a7ef3f983166eac0759308/theories/probability_theory/random_variable.v#L1174' target='_blank'>Source code</a></span></div></span><span class="id"> :</span><span class="id"> </span><span class="id"><a href="mathcomp.analysis.probability_theory.random_variable.html#b5a1ea6c8f3277fde90807f8c5935ab3">{dRV</a></span><span class="id"><a href="mathcomp.analysis.probability_theory.random_variable.html#b5a1ea6c8f3277fde90807f8c5935ab3"> </a></span><span class="id"><a href="mathcomp.analysis.probability_theory.random_variable.html#dRV_definitions.P">P</a></span><span class="id"><a href="mathcomp.analysis.probability_theory.random_variable.html#b5a1ea6c8f3277fde90807f8c5935ab3"> &gt;-&gt;</a></span><span class="id"><a href="mathcomp.analysis.probability_theory.random_variable.html#b5a1ea6c8f3277fde90807f8c5935ab3"> </a></span><span class="id"><a href="mathcomp.analysis.probability_theory.random_variable.html#dRV_definitions.T'">T'</a></span><span class="id"><a href="mathcomp.analysis.probability_theory.random_variable.html#b5a1ea6c8f3277fde90807f8c5935ab3">}</a></span>)<span class="id"> :</span><span class="id"> </span><span class="id"><a href="mathcomp.classical.functions.html#1cc9a099865f2e7454cc48caa63109e9">{splitbij</a></span> (<span class="id"><a href="mathcomp.analysis.probability_theory.random_variable.html#dRV_dom">dRV_dom</a></span><span class="id"> </span><span class="id"><a href="mathcomp.analysis.probability_theory.random_variable.html#X:449">X</a></span>)<span class="id"><a href="mathcomp.classical.functions.html#1cc9a099865f2e7454cc48caa63109e9"> &gt;-&gt;</a></span><span class="id"><a href="mathcomp.classical.functions.html#1cc9a099865f2e7454cc48caa63109e9"> </a></span><span class="id"><a href="mathcomp.classical.classical_sets.html#range">range</a></span><span class="id"> </span><span class="id"><a href="mathcomp.analysis.probability_theory.random_variable.html#X:449">X</a></span><span class="id"><a href="mathcomp.classical.functions.html#1cc9a099865f2e7454cc48caa63109e9">}</a></span><span class="id"> :=</span><br/>
+&nbsp;&nbsp;<span class="id"><a href="https://rocq-prover.org/corelib/Corelib.Init.Specif.html#projT2">projT2</a></span> (<span class="id"><a href="mathcomp.analysis.probability_theory.random_variable.html#dRV_dom_enum">dRV_dom_enum</a></span><span class="id"> </span><span class="id"><a href="mathcomp.analysis.probability_theory.random_variable.html#X:449">X</a></span>).<br/>
+<br/>
+<span class="vernacular">Definition</span><span class="id"> </span><span id="enum_prob" class="id"><div name="enum_prob" class=" tooltip">enum_prob<span class='tooltip-area'><p>covariance_unlockable :
+unlockable
+  (fun (d : measure_display) (T : measurableType d) 
+     (R : realType) (P : probability T R) (X Y : T -> R) =>
    ('E_P[((X \- cst (fine 'E_P[X])) * (Y \- cst (fine 'E_P[Y])))])%E)
 
 covariance_unlockable is not universe polymorphic
@@ -1842,40 +1807,6 @@ Expands to: Constant
             mathcomp.analysis.probability_theory.random_variable.covariance_unlockable
 Declared in
 library mathcomp.analysis.probability_theory.random_variable, line 726, characters 10-31
-</p><hr/><a href='https://github.com/math-comp/analysis/tree/9320323497de2d2c16a7ef3f983166eac0759308/theories/probability_theory/random_variable.v#L1172' target='_blank'>Source code</a></span></div></span> (<span id="X:448" class="id"><div name="X:448" class=" tooltip">X<span class='tooltip-area'><hr/><a href='https://github.com/math-comp/analysis/tree/9320323497de2d2c16a7ef3f983166eac0759308/theories/probability_theory/random_variable.v#L1172' target='_blank'>Source code</a></span></div></span><span class="id"> :</span><span class="id"> </span><span class="id"><a href="mathcomp.analysis.probability_theory.random_variable.html#b5a1ea6c8f3277fde90807f8c5935ab3">{dRV</a></span><span class="id"><a href="mathcomp.analysis.probability_theory.random_variable.html#b5a1ea6c8f3277fde90807f8c5935ab3"> </a></span><span class="id"><a href="mathcomp.analysis.probability_theory.random_variable.html#dRV_definitions.P">P</a></span><span class="id"><a href="mathcomp.analysis.probability_theory.random_variable.html#b5a1ea6c8f3277fde90807f8c5935ab3"> &gt;-&gt;</a></span><span class="id"><a href="mathcomp.analysis.probability_theory.random_variable.html#b5a1ea6c8f3277fde90807f8c5935ab3"> </a></span><span class="id"><a href="mathcomp.analysis.probability_theory.random_variable.html#dRV_definitions.T'">T'</a></span><span class="id"><a href="mathcomp.analysis.probability_theory.random_variable.html#b5a1ea6c8f3277fde90807f8c5935ab3">}</a></span>)<span class="id"> :</span><span class="id"> </span><span class="id"><a href="mathcomp.classical.classical_sets.html#set">set</a></span><span class="id"> </span><span class="id"><a href="https://rocq-prover.org/corelib/Corelib.Init.Datatypes.html#nat">nat</a></span><span class="id"> :=</span><span class="id"> </span><span class="id"><a href="https://rocq-prover.org/corelib/Corelib.Init.Specif.html#projT1">projT1</a></span> (<span class="id"><a href="mathcomp.analysis.probability_theory.random_variable.html#dRV_dom_enum">dRV_dom_enum</a></span><span class="id"> </span><span class="id"><a href="mathcomp.analysis.probability_theory.random_variable.html#X:448">X</a></span>).<br/>
-<br/>
-<span class="vernacular">Definition</span><span class="id"> </span><span id="dRV_enum" class="id"><div name="dRV_enum" class=" tooltip">dRV_enum<span class='tooltip-area'><p>variance :
-forall [d : measurable_structure.measure_display]
-  [T : measurable_structure.Measurable.type d] [R : realType],
-probability_measure.Probability.type T R ->
-(measurable_structure.Measurable.sort T -> R) ->
-GRing.BaseAddMagma.sort \bar R
-
-variance is not universe polymorphic
-Arguments variance [d]%_measure_display_scope [T R] P X%_function_scope
-variance is transparent
-Expands to: Constant
-            mathcomp.analysis.probability_theory.random_variable.variance
-Declared in
-library mathcomp.analysis.probability_theory.random_variable, line 875, characters 11-19
-</p><hr/><a href='https://github.com/math-comp/analysis/tree/9320323497de2d2c16a7ef3f983166eac0759308/theories/probability_theory/random_variable.v#L1174' target='_blank'>Source code</a></span></div></span> (<span id="X:449" class="id"><div name="X:449" class=" tooltip">X<span class='tooltip-area'><hr/><a href='https://github.com/math-comp/analysis/tree/9320323497de2d2c16a7ef3f983166eac0759308/theories/probability_theory/random_variable.v#L1174' target='_blank'>Source code</a></span></div></span><span class="id"> :</span><span class="id"> </span><span class="id"><a href="mathcomp.analysis.probability_theory.random_variable.html#b5a1ea6c8f3277fde90807f8c5935ab3">{dRV</a></span><span class="id"><a href="mathcomp.analysis.probability_theory.random_variable.html#b5a1ea6c8f3277fde90807f8c5935ab3"> </a></span><span class="id"><a href="mathcomp.analysis.probability_theory.random_variable.html#dRV_definitions.P">P</a></span><span class="id"><a href="mathcomp.analysis.probability_theory.random_variable.html#b5a1ea6c8f3277fde90807f8c5935ab3"> &gt;-&gt;</a></span><span class="id"><a href="mathcomp.analysis.probability_theory.random_variable.html#b5a1ea6c8f3277fde90807f8c5935ab3"> </a></span><span class="id"><a href="mathcomp.analysis.probability_theory.random_variable.html#dRV_definitions.T'">T'</a></span><span class="id"><a href="mathcomp.analysis.probability_theory.random_variable.html#b5a1ea6c8f3277fde90807f8c5935ab3">}</a></span>)<span class="id"> :</span><span class="id"> </span><span class="id"><a href="mathcomp.classical.functions.html#1cc9a099865f2e7454cc48caa63109e9">{splitbij</a></span> (<span class="id"><a href="mathcomp.analysis.probability_theory.random_variable.html#dRV_dom">dRV_dom</a></span><span class="id"> </span><span class="id"><a href="mathcomp.analysis.probability_theory.random_variable.html#X:449">X</a></span>)<span class="id"><a href="mathcomp.classical.functions.html#1cc9a099865f2e7454cc48caa63109e9"> &gt;-&gt;</a></span><span class="id"><a href="mathcomp.classical.functions.html#1cc9a099865f2e7454cc48caa63109e9"> </a></span><span class="id"><a href="mathcomp.classical.classical_sets.html#range">range</a></span><span class="id"> </span><span class="id"><a href="mathcomp.analysis.probability_theory.random_variable.html#X:449">X</a></span><span class="id"><a href="mathcomp.classical.functions.html#1cc9a099865f2e7454cc48caa63109e9">}</a></span><span class="id"> :=</span><br/>
-&nbsp;&nbsp;<span class="id"><a href="https://rocq-prover.org/corelib/Corelib.Init.Specif.html#projT2">projT2</a></span> (<span class="id"><a href="mathcomp.analysis.probability_theory.random_variable.html#dRV_dom_enum">dRV_dom_enum</a></span><span class="id"> </span><span class="id"><a href="mathcomp.analysis.probability_theory.random_variable.html#X:449">X</a></span>).<br/>
-<br/>
-<span class="vernacular">Definition</span><span class="id"> </span><span id="enum_prob" class="id"><div name="enum_prob" class=" tooltip">enum_prob<span class='tooltip-area'><p>mmt_gen_fun :
-forall [d : measurable_structure.measure_display]
-  [T : measurable_structure.Measurable.type d] [R : realType],
-probability_measure.Probability.type T R ->
-(measurable_structure.Measurable.sort T -> R) ->
-R -> GRing.BaseAddMagma.sort \bar R
-
-mmt_gen_fun is not universe polymorphic
-Arguments mmt_gen_fun [d]%_measure_display_scope [T R] 
-  P X%_function_scope t%_ring_scope
-mmt_gen_fun is transparent
-Expands to: Constant
-            mathcomp.analysis.probability_theory.random_variable.mmt_gen_fun
-Declared in
-library mathcomp.analysis.probability_theory.random_variable, line 1010, characters 11-22
 </p><hr/><a href='https://github.com/math-comp/analysis/tree/9320323497de2d2c16a7ef3f983166eac0759308/theories/probability_theory/random_variable.v#L1177' target='_blank'>Source code</a></span></div></span> (<span id="X:450" class="id"><div name="X:450" class=" tooltip">X<span class='tooltip-area'><hr/><a href='https://github.com/math-comp/analysis/tree/9320323497de2d2c16a7ef3f983166eac0759308/theories/probability_theory/random_variable.v#L1177' target='_blank'>Source code</a></span></div></span><span class="id"> :</span><span class="id"> </span><span class="id"><a href="mathcomp.analysis.probability_theory.random_variable.html#b5a1ea6c8f3277fde90807f8c5935ab3">{dRV</a></span><span class="id"><a href="mathcomp.analysis.probability_theory.random_variable.html#b5a1ea6c8f3277fde90807f8c5935ab3"> </a></span><span class="id"><a href="mathcomp.analysis.probability_theory.random_variable.html#dRV_definitions.P">P</a></span><span class="id"><a href="mathcomp.analysis.probability_theory.random_variable.html#b5a1ea6c8f3277fde90807f8c5935ab3"> &gt;-&gt;</a></span><span class="id"><a href="mathcomp.analysis.probability_theory.random_variable.html#b5a1ea6c8f3277fde90807f8c5935ab3"> </a></span><span class="id"><a href="mathcomp.analysis.probability_theory.random_variable.html#dRV_definitions.T'">T'</a></span><span class="id"><a href="mathcomp.analysis.probability_theory.random_variable.html#b5a1ea6c8f3277fde90807f8c5935ab3">}</a></span>)<span class="id"> :=</span><br/>
 &nbsp;&nbsp;(<span class="gallina-kwd">fun</span><span class="id"> </span><span id="k:451" class="id"><div name="k:451" class=" tooltip">k<span class='tooltip-area'><hr/><a href='https://github.com/math-comp/analysis/tree/9320323497de2d2c16a7ef3f983166eac0759308/theories/probability_theory/random_variable.v#L1178' target='_blank'>Source code</a></span></div></span><span class="id"> =&gt;</span><span class="id"> </span><span class="id"><a href="mathcomp.analysis.probability_theory.random_variable.html#dRV_definitions.P">P</a></span> (<span class="id"><a href="mathcomp.analysis.probability_theory.random_variable.html#X:450">X</a></span><span class="id"><a href="mathcomp.classical.classical_sets.html#9017aea2311f0e1b346e16db298ca58c"> @^-1`</a></span><span class="id"><a href="mathcomp.classical.classical_sets.html#9017aea2311f0e1b346e16db298ca58c"> </a></span><span class="id"><a href="mathcomp.classical.classical_sets.html#29c78c22490f2dae838b1b504eb858a2">[set</a></span><span class="id"><a href="mathcomp.classical.classical_sets.html#29c78c22490f2dae838b1b504eb858a2"> </a></span><span class="id"><a href="mathcomp.analysis.probability_theory.random_variable.html#dRV_enum">dRV_enum</a></span><span class="id"> </span><span class="id"><a href="mathcomp.analysis.probability_theory.random_variable.html#X:450">X</a></span><span class="id"> </span><span class="id"><a href="mathcomp.analysis.probability_theory.random_variable.html#k:451">k</a></span><span class="id"><a href="mathcomp.classical.classical_sets.html#29c78c22490f2dae838b1b504eb858a2">]</a></span>))<span class="id"><a href="mathcomp.classical.functions.html#2eecca447d655b6f816ae395946692f2"> \_</a></span> (<span class="id"><a href="mathcomp.analysis.probability_theory.random_variable.html#dRV_dom">dRV_dom</a></span><span class="id"> </span><span class="id"><a href="mathcomp.analysis.probability_theory.random_variable.html#X:450">X</a></span>).<br/>
 <br/>
