@@ -5,7 +5,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title>Module mathcomp.analysis_stdlib.Rstruct_topology</title>
-<meta name="description" content="Documentation of Coq module Mathcomp Analysis 9320323 2026.07.23-19:54" />
+<meta name="description" content="Documentation of Coq module Mathcomp Analysis 9320323 2026.07.24-19:55" />
 <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex/dist/katex.min.css">
 <script src="https://cdn.jsdelivr.net/npm/markdown-it/dist/markdown-it.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/katex/dist/katex.min.js"></script>
@@ -361,7 +361,42 @@ Qed.</div></details>
 <br/>
 <span class="vernacular">End</span><span class="id"> </span><span class="id"><a href="mathcomp.analysis_stdlib.Rstruct_topology.html#RexpE">RexpE</a></span>.<br/>
 <br/>
-<span class="vernacular">Definition</span><span class="id"> </span><span id="RexpE" class="id"><div name="RexpE" class=" tooltip">RexpE<span class='tooltip-area'><hr/><a href='https://github.com/math-comp/analysis/tree/9320323497de2d2c16a7ef3f983166eac0759308/analysis_stdlib/Rstruct_topology.v#L112' target='_blank'>Source code</a></span></div></span><span class="id"> :=</span><span class="id"> </span><span class="id"><a href="mathcomp.analysis_stdlib.Rstruct_topology.html#RexpE">RexpE</a></span>.<span class="id"><a href="mathcomp.analysis_stdlib.Rstruct_topology.html#RexpE">RexpE</a></span>.<br/>
+<span class="vernacular">Definition</span><span class="id"> </span><span id="RexpE" class="id"><div name="RexpE" class=" tooltip">RexpE<span class='tooltip-area'><p>variations :
+forall {R : numDomainType},
+R ->
+R ->
+(R -> R) ->
+set
+  {|
+    Num.POrderZmodule.sort := R;
+    Num.POrderZmodule.class :=
+      {|
+        Num.POrderZmodule.choice_hasChoice_mixin := Num.NumDomain.class R;
+        Num.POrderZmodule.eqtype_hasDecEq_mixin := Num.NumDomain.class R;
+        Num.POrderZmodule.Order_isDuallyPreorder_mixin :=
+          Num.NumDomain.class R;
+        Num.POrderZmodule.Order_Preorder_isDuallyPOrder_mixin :=
+          Num.NumDomain.class R;
+        Num.POrderZmodule.Algebra_hasOpp_mixin := Num.NumDomain.class R;
+        Num.POrderZmodule.Algebra_hasZero_mixin := Num.NumDomain.class R;
+        Num.POrderZmodule.Algebra_hasAdd_mixin := Num.NumDomain.class R;
+        Num.POrderZmodule.Algebra_BaseZmoduleNmodule_isZmodule_mixin :=
+          Num.NumDomain.class R;
+        Num.POrderZmodule.Algebra_BaseAddUMagma_isAddUMagma_mixin :=
+          Num.NumDomain.class R;
+        Num.POrderZmodule.Algebra_BaseAddMagma_isAddMagma_mixin :=
+          Num.NumDomain.class R;
+        Num.POrderZmodule.Algebra_AddMagma_isAddSemigroup_mixin :=
+          Num.NumDomain.class R
+      |}
+  |}
+
+variations is not universe polymorphic
+Arguments variations {R} (a b)%_ring_scope f%_function_scope _
+variations is transparent
+Expands to: Constant mathcomp.analysis.numfun.variations
+Declared in library mathcomp.analysis.numfun, line 496, characters 11-21
+</p><hr/><a href='https://github.com/math-comp/analysis/tree/9320323497de2d2c16a7ef3f983166eac0759308/analysis_stdlib/Rstruct_topology.v#L112' target='_blank'>Source code</a></span></div></span><span class="id"> :=</span><span class="id"> </span><span class="id"><a href="mathcomp.analysis_stdlib.Rstruct_topology.html#RexpE">RexpE</a></span>.<span class="id"><a href="mathcomp.analysis_stdlib.Rstruct_topology.html#RexpE">RexpE</a></span>.<br/>
 <br/>
 <span class="vernacular">Lemma</span><span class="id"> </span><span id="RlnE" class="id"><div name="RlnE" class=" tooltip">RlnE<span class='tooltip-area'><hr/><a href='https://github.com/math-comp/analysis/tree/9320323497de2d2c16a7ef3f983166eac0759308/analysis_stdlib/Rstruct_topology.v#L114' target='_blank'>Source code</a></span></div></span> (<span id="x:22" class="id"><div name="x:22" class=" tooltip">x<span class='tooltip-area'><hr/><a href='https://github.com/math-comp/analysis/tree/9320323497de2d2c16a7ef3f983166eac0759308/analysis_stdlib/Rstruct_topology.v#L114' target='_blank'>Source code</a></span></div></span><span class="id"> :</span><span class="id"> </span><span class="id"><a href="https://rocq-prover.org/doc/V9.1.0/stdlib/Stdlib.Reals.Rdefinitions.html#RbaseSymbolsImpl.R">R</a></span>)<span class="id"> :</span><span class="id"> </span><span class="id"><a href="https://rocq-prover.org/doc/V9.1.0/stdlib/Stdlib.Reals.Rpower.html#ln">Rpower</a></span>.<span class="id"><a href="https://rocq-prover.org/doc/V9.1.0/stdlib/Stdlib.Reals.Rpower.html#ln">ln</a></span><span class="id"> </span><span class="id"><a href="mathcomp.analysis_stdlib.Rstruct_topology.html#x:22">x</a></span><span class="id"><a href="https://rocq-prover.org/corelib/Corelib.Init.Logic.html#6cd0f7b28b6092304087c7049437bb1a"> =</a></span><span class="id"><a href="https://rocq-prover.org/corelib/Corelib.Init.Logic.html#6cd0f7b28b6092304087c7049437bb1a"> </a></span><span class="id"><a href="mathcomp.analysis.exp.html#ln">exp</a></span>.<span class="id"><a href="mathcomp.analysis.exp.html#ln">ln</a></span><span class="id"> </span><span class="id"><a href="mathcomp.analysis_stdlib.Rstruct_topology.html#x:22">x</a></span>.<br/>
 <details>
@@ -374,7 +409,14 @@ Qed.</div></details>
 <span class="gallina-kwd">by</span><span class="id"> case:</span><span class="id"> </span><span class="id"><a href="https://rocq-prover.org/doc/V9.1.0/stdlib/Stdlib.Reals.Rpower.html#ln_exists">ln_exists</a></span><span class="id"> =&gt;</span><span class="id"> y</span><span class="id"> -&gt;;</span><span class="id"> rewrite</span><span class="id"> </span><span class="id"><a href="mathcomp.analysis_stdlib.Rstruct_topology.html#RexpE">RexpE</a></span><span class="id"> </span><span class="id"><a href="mathcomp.analysis.exp.html#expRK">exp</a></span>.<span class="id"><a href="mathcomp.analysis.exp.html#expRK">expRK</a></span>.<br/>
 Qed.</div></details>
 <br/>
-<span class="vernacular">Definition</span><span class="id"> </span><span id="RealsE" class="id"><div name="RealsE" class=" tooltip">RealsE<span class='tooltip-area'><hr/><a href='https://github.com/math-comp/analysis/tree/9320323497de2d2c16a7ef3f983166eac0759308/analysis_stdlib/Rstruct_topology.v#L124' target='_blank'>Source code</a></span></div></span><span class="id"> :=</span> (<span class="id"><a href="mathcomp.reals_stdlib.Rstruct.html#RealsE">RealsE</a></span><span class="id"><a href="https://rocq-prover.org/corelib/Corelib.Init.Datatypes.html#e6756e10c36f149b18b4a8741ed83079">,</a></span><span class="id"><a href="https://rocq-prover.org/corelib/Corelib.Init.Datatypes.html#e6756e10c36f149b18b4a8741ed83079"> </a></span><span class="id"><a href="mathcomp.analysis_stdlib.Rstruct_topology.html#RexpE">RexpE</a></span><span class="id"><a href="https://rocq-prover.org/corelib/Corelib.Init.Datatypes.html#e6756e10c36f149b18b4a8741ed83079">,</a></span><span class="id"><a href="https://rocq-prover.org/corelib/Corelib.Init.Datatypes.html#e6756e10c36f149b18b4a8741ed83079"> </a></span><span class="id"><a href="mathcomp.analysis_stdlib.Rstruct_topology.html#RlnE">RlnE</a></span>).<br/>
+<span class="vernacular">Definition</span><span class="id"> </span><span id="RealsE" class="id"><div name="RealsE" class=" tooltip">RealsE<span class='tooltip-area'><p>bounded_variation : forall {R : numDomainType}, R -> R -> (R -> R) -> Prop
+
+bounded_variation is not universe polymorphic
+Arguments bounded_variation {R} (a b)%_ring_scope f%_function_scope
+bounded_variation is transparent
+Expands to: Constant mathcomp.analysis.numfun.bounded_variation
+Declared in library mathcomp.analysis.numfun, line 522, characters 11-28
+</p><hr/><a href='https://github.com/math-comp/analysis/tree/9320323497de2d2c16a7ef3f983166eac0759308/analysis_stdlib/Rstruct_topology.v#L124' target='_blank'>Source code</a></span></div></span><span class="id"> :=</span> (<span class="id"><a href="mathcomp.reals_stdlib.Rstruct.html#RealsE">RealsE</a></span><span class="id"><a href="https://rocq-prover.org/corelib/Corelib.Init.Datatypes.html#e6756e10c36f149b18b4a8741ed83079">,</a></span><span class="id"><a href="https://rocq-prover.org/corelib/Corelib.Init.Datatypes.html#e6756e10c36f149b18b4a8741ed83079"> </a></span><span class="id"><a href="mathcomp.analysis_stdlib.Rstruct_topology.html#RexpE">RexpE</a></span><span class="id"><a href="https://rocq-prover.org/corelib/Corelib.Init.Datatypes.html#e6756e10c36f149b18b4a8741ed83079">,</a></span><span class="id"><a href="https://rocq-prover.org/corelib/Corelib.Init.Datatypes.html#e6756e10c36f149b18b4a8741ed83079"> </a></span><span class="id"><a href="mathcomp.analysis_stdlib.Rstruct_topology.html#RlnE">RlnE</a></span>).<br/>
 
       <div class="footer"><hr/>Generated by <a href="https://github.com/affeldt-aist/rocqnavi/">rocqnavi</a></div>
     </div>
