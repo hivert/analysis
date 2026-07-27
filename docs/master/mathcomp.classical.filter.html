@@ -5,7 +5,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title>Module mathcomp.classical.filter</title>
-<meta name="description" content="Documentation of Coq module Mathcomp Analysis 9320323 2026.07.26-19:48" />
+<meta name="description" content="Documentation of Coq module Mathcomp Analysis 9320323 2026.07.27-20:05" />
 <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex/dist/katex.min.css">
 <script src="https://cdn.jsdelivr.net/npm/markdown-it/dist/markdown-it.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/katex/dist/katex.min.js"></script>
@@ -1433,7 +1433,7 @@ Qed.</div></details>
 Qed.</div></details>
 <br/>
 <span class="vernacular">Canonical</span><span class="id"> </span><span id="eventually_filterType" class="id"><div name="eventually_filterType" class=" tooltip">eventually_filterType<span class='tooltip-area'><p>fct_lmodMixin :
-forall (U : Type) [R : pzRingType] (V : lmodType R),
+forall (U : Type) [R : ringType] (V : lmodType R),
 GRing.Zmodule_isLmodule.axioms_ R (U -> V) (HB_unnamed_factory_5 (fun=> V))
   (HB_unnamed_factory_2 (fun=> V)) (HB_unnamed_mixin_1506 U V)
   (HB_unnamed_mixin_1499 U V) (HB_unnamed_mixin_1498 U V)
@@ -1495,15 +1495,15 @@ Qed.</div></details>
  (- f)%R = (fun x : T => (- f x)%R)) *
 (forall (T : Type) (K : GRing.Nmodule.Exports.nmodType) (f g : T -> K),
  (f + g)%R = (fun x : T => (f x + g x)%R)) *
-(forall (T : Type) (K : pzRingType) (f g : T -> K),
+(forall (T : Type) (K : ringType) (f g : T -> K),
  (f * g)%R = (fun x : T => (f x * g x)%R)) *
-(forall (T : Type) (K : pzRingType) (L : lmodType K) (k : K) (f : T -> L),
+(forall (T : Type) (K : ringType) (L : lmodType K) (k : K) (f : T -> L),
  (k *: f)%R = (fun x : T => (k *: f x)%R)) *
-(forall (T : Type) (K : pzRingType) (f : T -> K) (n : nat),
+(forall (T : Type) (K : ringType) (f : T -> K) (n : nat),
  (f ^+ n)%R = (fun x : T => (f x ^+ n)%R)) *
 (forall (T : Type) (K : GRing.Nmodule.Exports.nmodType) (x : T),
  (0%R : T -> K) x = 0%R) *
-(forall (T : Type) (K : pzRingType) (x : T), (1%R : T -> K) x = 1%R)
+(forall (T : Type) (K : ringType) (x : T), (1%R : T -> K) x = 1%R)
 
 fctE is not universe polymorphic
 fctE is transparent
