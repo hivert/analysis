@@ -5,7 +5,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title>Module mathcomp.analysis.measure_theory.signed_measure</title>
-<meta name="description" content="Documentation of Coq module Mathcomp Analysis 9320323 2026.08.02-19:46" />
+<meta name="description" content="Documentation of Coq module Mathcomp Analysis 9320323 2026.08.03-20:14" />
 <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex/dist/katex.min.css">
 <script src="https://cdn.jsdelivr.net/npm/markdown-it/dist/markdown-it.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/katex/dist/katex.min.js"></script>
@@ -482,20 +482,7 @@ Qed.</div></details>
 <span class="id">#[export]</span><span class="vernacular"> Hint</span><span class="id"> Resolve</span><span class="id"> charge0</span><span class="id"> :</span><span class="id"> core</span>.<br/>
 <span class="id">#[export]</span><span class="vernacular"> Hint</span><span class="id"> Resolve</span><span class="id"> charge_semi_additive2</span><span class="id"> :</span><span class="id"> core</span>.<br/>
 <br/>
-<span class="vernacular">Definition</span><span class="id"> </span><span id="measure_of_charge" class="id"><div name="measure_of_charge" class=" tooltip">measure_of_charge<span class='tooltip-area'><p>mfun_Sub_subproof :
-forall {d d' : measure_display} {aT : sigmaRingType d}
-  {rT : sigmaRingType d'} [f : aT -> rT],
-f \in mfun -> isMeasurableFun.axioms_ d d' aT rT f
-
-mfun_Sub_subproof is not universe polymorphic
-Arguments mfun_Sub_subproof {d d'}%_measure_display_scope 
-  {aT rT} [f]%_function_scope fP
-mfun_Sub_subproof is transparent
-Expands to: Constant
-            mathcomp.analysis.measure_theory.measurable_function.mfun_Sub_subproof
-Declared in
-library mathcomp.analysis.measure_theory.measurable_function, line 184, characters 11-28
-mfun_Sub :
+<span class="vernacular">Definition</span><span class="id"> </span><span id="measure_of_charge" class="id"><div name="measure_of_charge" class=" tooltip">measure_of_charge<span class='tooltip-area'><p>mfun_Sub :
 forall {d d' : measure_display} {aT : sigmaRingType d}
   {rT : sigmaRingType d'} [f : aT -> rT],
 f \in mfun -> {mfun aT >-> rT}
