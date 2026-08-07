@@ -5,7 +5,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title>Module mathcomp.analysis.measure_theory.signed_measure</title>
-<meta name="description" content="Documentation of Coq module Mathcomp Analysis 9320323 2026.08.05-20:09" />
+<meta name="description" content="Documentation of Coq module Mathcomp Analysis 9320323 2026.08.07-00:35" />
 <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex/dist/katex.min.css">
 <script src="https://cdn.jsdelivr.net/npm/markdown-it/dist/markdown-it.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/katex/dist/katex.min.js"></script>
@@ -482,7 +482,33 @@ Qed.</div></details>
 <span class="id">#[export]</span><span class="vernacular"> Hint</span><span class="id"> Resolve</span><span class="id"> charge0</span><span class="id"> :</span><span class="id"> core</span>.<br/>
 <span class="id">#[export]</span><span class="vernacular"> Hint</span><span class="id"> Resolve</span><span class="id"> charge_semi_additive2</span><span class="id"> :</span><span class="id"> core</span>.<br/>
 <br/>
-<span class="vernacular">Definition</span><span class="id"> </span><span id="measure_of_charge" class="id"><div name="measure_of_charge" class=" tooltip">measure_of_charge<span class='tooltip-area'><hr/><a href='https://github.com/math-comp/analysis/tree/9320323497de2d2c16a7ef3f983166eac0759308/theories/measure_theory/signed_measure.v#L221' target='_blank'>Source code</a></span></div></span><span class="id"> </span><span id="d:64" class="id"><div name="d:64" class=" tooltip">d<span class='tooltip-area'><hr/><a href='https://github.com/math-comp/analysis/tree/9320323497de2d2c16a7ef3f983166eac0759308/theories/measure_theory/signed_measure.v#L221' target='_blank'>Source code</a></span></div></span> (<span id="T:65" class="id"><div name="T:65" class=" tooltip">T<span class='tooltip-area'><hr/><a href='https://github.com/math-comp/analysis/tree/9320323497de2d2c16a7ef3f983166eac0759308/theories/measure_theory/signed_measure.v#L221' target='_blank'>Source code</a></span></div></span><span class="id"> :</span><span class="id"> </span><span class="id"><a href="mathcomp.analysis.measure_theory.measurable_structure.html#SemiRingOfSets.Exports.semiRingOfSetsType">semiRingOfSetsType</a></span><span class="id"> </span><span class="id"><a href="mathcomp.analysis.measure_theory.signed_measure.html#d:64">d</a></span>) (<span id="R:66" class="id"><div name="R:66" class=" tooltip">R<span class='tooltip-area'><hr/><a href='https://github.com/math-comp/analysis/tree/9320323497de2d2c16a7ef3f983166eac0759308/theories/measure_theory/signed_measure.v#L221' target='_blank'>Source code</a></span></div></span><span class="id"> :</span><span class="id"> </span><span class="id"><a href="https://math-comp.github.io/htmldoc_2_5_0/mathcomp.algebra.numeric_hierarchy.numfield.html#Num.NumField.Exports.numFieldType">numFieldType</a></span>)<br/>
+<span class="vernacular">Definition</span><span class="id"> </span><span id="measure_of_charge" class="id"><div name="measure_of_charge" class=" tooltip">measure_of_charge<span class='tooltip-area'><p>mfun_Sub_subproof :
+forall {d d' : measure_display} {aT : sigmaRingType d}
+  {rT : sigmaRingType d'} [f : aT -> rT],
+f \in mfun -> isMeasurableFun.axioms_ d d' aT rT f
+
+mfun_Sub_subproof is not universe polymorphic
+Arguments mfun_Sub_subproof {d d'}%_measure_display_scope 
+  {aT rT} [f]%_function_scope fP
+mfun_Sub_subproof is transparent
+Expands to: Constant
+            mathcomp.analysis.measure_theory.measurable_function.mfun_Sub_subproof
+Declared in
+library mathcomp.analysis.measure_theory.measurable_function, line 184, characters 11-28
+mfun_Sub :
+forall {d d' : measure_display} {aT : sigmaRingType d}
+  {rT : sigmaRingType d'} [f : aT -> rT],
+f \in mfun -> {mfun aT >-> rT}
+
+mfun_Sub is not universe polymorphic
+Arguments mfun_Sub {d d'}%_measure_display_scope {aT rT} 
+  [f]%_function_scope fP
+mfun_Sub is transparent
+Expands to: Constant
+            mathcomp.analysis.measure_theory.measurable_function.mfun_Sub
+Declared in
+library mathcomp.analysis.measure_theory.measurable_function, line 186, characters 11-19
+</p><hr/><a href='https://github.com/math-comp/analysis/tree/9320323497de2d2c16a7ef3f983166eac0759308/theories/measure_theory/signed_measure.v#L221' target='_blank'>Source code</a></span></div></span><span class="id"> </span><span id="d:64" class="id"><div name="d:64" class=" tooltip">d<span class='tooltip-area'><hr/><a href='https://github.com/math-comp/analysis/tree/9320323497de2d2c16a7ef3f983166eac0759308/theories/measure_theory/signed_measure.v#L221' target='_blank'>Source code</a></span></div></span> (<span id="T:65" class="id"><div name="T:65" class=" tooltip">T<span class='tooltip-area'><hr/><a href='https://github.com/math-comp/analysis/tree/9320323497de2d2c16a7ef3f983166eac0759308/theories/measure_theory/signed_measure.v#L221' target='_blank'>Source code</a></span></div></span><span class="id"> :</span><span class="id"> </span><span class="id"><a href="mathcomp.analysis.measure_theory.measurable_structure.html#SemiRingOfSets.Exports.semiRingOfSetsType">semiRingOfSetsType</a></span><span class="id"> </span><span class="id"><a href="mathcomp.analysis.measure_theory.signed_measure.html#d:64">d</a></span>) (<span id="R:66" class="id"><div name="R:66" class=" tooltip">R<span class='tooltip-area'><hr/><a href='https://github.com/math-comp/analysis/tree/9320323497de2d2c16a7ef3f983166eac0759308/theories/measure_theory/signed_measure.v#L221' target='_blank'>Source code</a></span></div></span><span class="id"> :</span><span class="id"> </span><span class="id"><a href="https://math-comp.github.io/htmldoc_2_5_0/mathcomp.algebra.numeric_hierarchy.numfield.html#Num.NumField.Exports.numFieldType">numFieldType</a></span>)<br/>
 &nbsp;&nbsp;(<span id="nu:67" class="id"><div name="nu:67" class=" tooltip">nu<span class='tooltip-area'><hr/><a href='https://github.com/math-comp/analysis/tree/9320323497de2d2c16a7ef3f983166eac0759308/theories/measure_theory/signed_measure.v#L222' target='_blank'>Source code</a></span></div></span><span class="id"> :</span><span class="id"> </span><span class="id"><a href="mathcomp.classical.classical_sets.html#set">set</a></span><span class="id"> </span><span class="id"><a href="mathcomp.analysis.measure_theory.signed_measure.html#T:65">T</a></span><span class="id"><a href="https://rocq-prover.org/corelib/Corelib.Init.Logic.html#::type_scope:x_'-&gt;'_x"> -&gt;</a></span><span class="id"><a href="https://rocq-prover.org/corelib/Corelib.Init.Logic.html#::type_scope:x_'-&gt;'_x"> </a></span><span class="id"><a href="mathcomp.reals.constructive_ereal.html#4c9ddfb63ff52527d9adecfde4a667c3">\bar</a></span><span class="id"><a href="mathcomp.reals.constructive_ereal.html#4c9ddfb63ff52527d9adecfde4a667c3"> </a></span><span class="id"><a href="mathcomp.analysis.measure_theory.signed_measure.html#R:66">R</a></span>)<span class="id"> &amp;</span> (<span class="gallina-kwd">forall</span><span class="id"> </span><span id="E:68" class="id"><div name="E:68" class=" tooltip">E<span class='tooltip-area'><hr/><a href='https://github.com/math-comp/analysis/tree/9320323497de2d2c16a7ef3f983166eac0759308/theories/measure_theory/signed_measure.v#L222' target='_blank'>Source code</a></span></div></span><span class="id">,</span><span class="id"> 0</span><span class="id"><a href="mathcomp.reals.constructive_ereal.html#63b01a542aec2e4c61e028256cf5a548"> &lt;=</a></span><span class="id"><a href="mathcomp.reals.constructive_ereal.html#63b01a542aec2e4c61e028256cf5a548"> </a></span><span class="id"><a href="mathcomp.analysis.measure_theory.signed_measure.html#nu:67">nu</a></span><span class="id"> </span><span class="id"><a href="mathcomp.analysis.measure_theory.signed_measure.html#E:68">E</a></span>)<span class="id"> :=</span><span class="id"> </span><span class="id"><a href="mathcomp.analysis.measure_theory.signed_measure.html#nu:67">nu</a></span>.<br/>
 <br/>
 <span class="vernacular">Section</span><span class="id"> measure_of_charge</span>.<br/>
