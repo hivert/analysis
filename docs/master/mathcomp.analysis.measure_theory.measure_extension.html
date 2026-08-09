@@ -5,7 +5,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title>Module mathcomp.analysis.measure_theory.measure_extension</title>
-<meta name="description" content="Documentation of Coq module Mathcomp Analysis 9320323 2026.08.08-19:12" />
+<meta name="description" content="Documentation of Coq module Mathcomp Analysis 9320323 2026.08.09-19:16" />
 <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex/dist/katex.min.css">
 <script src="https://cdn.jsdelivr.net/npm/markdown-it/dist/markdown-it.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/katex/dist/katex.min.js"></script>
@@ -514,15 +514,6 @@ Expands to: Constant
             mathcomp.analysis.measure_theory.measurable_structure.fin_bigcup_closed
 Declared in
 library mathcomp.analysis.measure_theory.measurable_structure, line 172, characters 11-28
-semi_setD_closed : forall {T : Type}, set_system T -> Prop
-
-semi_setD_closed is not universe polymorphic
-Arguments semi_setD_closed {T}%_type_scope G
-semi_setD_closed is transparent
-Expands to: Constant
-            mathcomp.analysis.measure_theory.measurable_structure.semi_setD_closed
-Declared in
-library mathcomp.analysis.measure_theory.measurable_structure, line 176, characters 11-27
 </p><hr/><a href='https://github.com/math-comp/analysis/tree/9320323497de2d2c16a7ef3f983166eac0759308/theories/measure_theory/measure_extension.v#L217' target='_blank'>Source code</a></span></div></span> (<span id="R:98" class="id"><div name="R:98" class=" tooltip">R<span class='tooltip-area'><hr/><a href='https://github.com/math-comp/analysis/tree/9320323497de2d2c16a7ef3f983166eac0759308/theories/measure_theory/measure_extension.v#L217' target='_blank'>Source code</a></span></div></span><span class="id"> :</span><span class="id"> </span><span class="id"><a href="mathcomp.reals.reals.html#Real.Exports.realType">realType</a></span>) (<span id="T:99" class="id"><div name="T:99" class=" tooltip">T<span class='tooltip-area'><hr/><a href='https://github.com/math-comp/analysis/tree/9320323497de2d2c16a7ef3f983166eac0759308/theories/measure_theory/measure_extension.v#L217' target='_blank'>Source code</a></span></div></span><span class="id"> :</span><span class="gallina-kwd"> Type</span>)<br/>
 &nbsp;&nbsp;(<span id="mu:100" class="id"><div name="mu:100" class=" tooltip">mu<span class='tooltip-area'><hr/><a href='https://github.com/math-comp/analysis/tree/9320323497de2d2c16a7ef3f983166eac0759308/theories/measure_theory/measure_extension.v#L218' target='_blank'>Source code</a></span></div></span><span class="id"> :</span><span class="id"> </span><span class="id"><a href="mathcomp.classical.classical_sets.html#set">set</a></span><span class="id"> </span><span class="id"><a href="mathcomp.analysis.measure_theory.measure_extension.html#T:99">T</a></span><span class="id"><a href="https://rocq-prover.org/corelib/Corelib.Init.Logic.html#::type_scope:x_'-&gt;'_x"> -&gt;</a></span><span class="id"><a href="https://rocq-prover.org/corelib/Corelib.Init.Logic.html#::type_scope:x_'-&gt;'_x"> </a></span><span class="id"><a href="mathcomp.reals.constructive_ereal.html#4c9ddfb63ff52527d9adecfde4a667c3">\bar</a></span><span class="id"><a href="mathcomp.reals.constructive_ereal.html#4c9ddfb63ff52527d9adecfde4a667c3"> </a></span><span class="id"><a href="mathcomp.analysis.measure_theory.measure_extension.html#R:98">R</a></span>) (<span id="A:101" class="id"><div name="A:101" class=" tooltip">A<span class='tooltip-area'><hr/><a href='https://github.com/math-comp/analysis/tree/9320323497de2d2c16a7ef3f983166eac0759308/theories/measure_theory/measure_extension.v#L218' target='_blank'>Source code</a></span></div></span><span class="id"> :</span><span class="id"> </span><span class="id"><a href="mathcomp.classical.classical_sets.html#set">set</a></span><span class="id"> </span><span class="id"><a href="mathcomp.analysis.measure_theory.measure_extension.html#T:99">T</a></span>)<span class="id"> :=</span><span class="gallina-kwd"> forall</span><span class="id"> </span><span id="X:102" class="id"><div name="X:102" class=" tooltip">X<span class='tooltip-area'><hr/><a href='https://github.com/math-comp/analysis/tree/9320323497de2d2c16a7ef3f983166eac0759308/theories/measure_theory/measure_extension.v#L218' target='_blank'>Source code</a></span></div></span><span class="id">,</span><br/>
 &nbsp;&nbsp;<span class="id"><a href="mathcomp.analysis.measure_theory.measure_extension.html#mu:100">mu</a></span><span class="id"> </span><span class="id"><a href="mathcomp.analysis.measure_theory.measure_extension.html#X:102">X</a></span><span class="id"><a href="https://rocq-prover.org/corelib/Corelib.Init.Logic.html#6cd0f7b28b6092304087c7049437bb1a"> =</a></span><span class="id"><a href="https://rocq-prover.org/corelib/Corelib.Init.Logic.html#6cd0f7b28b6092304087c7049437bb1a"> </a></span><span class="id"><a href="mathcomp.analysis.measure_theory.measure_extension.html#mu:100">mu</a></span> (<span class="id"><a href="mathcomp.analysis.measure_theory.measure_extension.html#X:102">X</a></span><span class="id"><a href="mathcomp.classical.classical_sets.html#c7636f45aa1745dbf533da3d408cece1"> `&amp;`</a></span><span class="id"><a href="mathcomp.classical.classical_sets.html#c7636f45aa1745dbf533da3d408cece1"> </a></span><span class="id"><a href="mathcomp.analysis.measure_theory.measure_extension.html#A:101">A</a></span>)<span class="id"><a href="https://math-comp.github.io/htmldoc_2_5_0/mathcomp.algebra.algebraic_hierarchy.rings_modules_and_algebras.html#c7f78cf1f6a5e4f664654f7d671ca752"> +</a></span><span class="id"><a href="https://math-comp.github.io/htmldoc_2_5_0/mathcomp.algebra.algebraic_hierarchy.rings_modules_and_algebras.html#c7f78cf1f6a5e4f664654f7d671ca752"> </a></span><span class="id"><a href="mathcomp.analysis.measure_theory.measure_extension.html#mu:100">mu</a></span> (<span class="id"><a href="mathcomp.analysis.measure_theory.measure_extension.html#X:102">X</a></span><span class="id"><a href="mathcomp.classical.classical_sets.html#c7636f45aa1745dbf533da3d408cece1"> `&amp;`</a></span><span class="id"><a href="mathcomp.classical.classical_sets.html#c7636f45aa1745dbf533da3d408cece1"> </a></span><span class="id"><a href="mathcomp.classical.classical_sets.html#a89cad8a77dea0eb3c15a935f79663f1">~`</a></span><span class="id"><a href="mathcomp.classical.classical_sets.html#a89cad8a77dea0eb3c15a935f79663f1"> </a></span><span class="id"><a href="mathcomp.analysis.measure_theory.measure_extension.html#A:101">A</a></span>).<br/>
@@ -738,7 +729,16 @@ Qed.</div></details>
 <br/>
 <span class="vernacular">End</span><span class="id"> caratheodory_theorem_sigma_algebra</span>.<br/>
 <br/>
-<span class="vernacular">Definition</span><span class="id"> </span><span id="caratheodory_type" class="id"><div name="caratheodory_type" class=" tooltip">caratheodory_type<span class='tooltip-area'><p>ndseq_closed : forall {T : Type}, set_system T -> Prop
+<span class="vernacular">Definition</span><span class="id"> </span><span id="caratheodory_type" class="id"><div name="caratheodory_type" class=" tooltip">caratheodory_type<span class='tooltip-area'><p>semi_setD_closed : forall {T : Type}, set_system T -> Prop
+
+semi_setD_closed is not universe polymorphic
+Arguments semi_setD_closed {T}%_type_scope G
+semi_setD_closed is transparent
+Expands to: Constant
+            mathcomp.analysis.measure_theory.measurable_structure.semi_setD_closed
+Declared in
+library mathcomp.analysis.measure_theory.measurable_structure, line 176, characters 11-27
+ndseq_closed : forall {T : Type}, set_system T -> Prop
 
 ndseq_closed is not universe polymorphic
 Arguments ndseq_closed {T}%_type_scope G
