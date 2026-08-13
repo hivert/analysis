@@ -5,7 +5,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title>Module mathcomp.analysis.measure_theory.measure_extension</title>
-<meta name="description" content="Documentation of Coq module Mathcomp Analysis 9320323 2026.08.11-19:51" />
+<meta name="description" content="Documentation of Coq module Mathcomp Analysis 9320323 2026.08.13-19:38" />
 <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex/dist/katex.min.css">
 <script src="https://cdn.jsdelivr.net/npm/markdown-it/dist/markdown-it.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/katex/dist/katex.min.js"></script>
@@ -1191,16 +1191,7 @@ Qed.</div></details>
 <br/>
 <span class="vernacular">Let</span><span class="id"> </span><span id="measure_extension.I" class="id"><div name="measure_extension.I" class=" tooltip">I<span class='tooltip-area'><hr/><a href='https://github.com/math-comp/analysis/tree/9320323497de2d2c16a7ef3f983166eac0759308/theories/measure_theory/measure_extension.v#L723' target='_blank'>Source code</a></span></div></span><span class="id"> :</span><span class="id"> </span><span class="id"><a href="mathcomp.analysis.measure_theory.measurable_structure.html#Measurable.Exports.measurableType">measurableType</a></span><span class="id"> _</span><span class="id"> :=</span><span class="id"> </span><span class="id"><a href="mathcomp.analysis.measure_theory.measurable_structure.html#g_sigma_algebraType">g_sigma_algebraType</a></span> (<span class="id">@</span><span class="id"><a href="mathcomp.analysis.measure_theory.measurable_structure.html#measurable">measurable</a></span><span class="id"> _</span><span class="id"> </span><span class="id"><a href="mathcomp.analysis.measure_theory.measure_extension.html#measure_extension.T">T</a></span>).<br/>
 <br/>
-<span class="vernacular">Definition</span><span class="id"> </span><span id="measure_extension" class="id"><div name="measure_extension" class=" tooltip">measure_extension<span class='tooltip-area'><p>preimage_display : forall {T T' : Type}, (T -> T') -> measure_display
-
-preimage_display is not universe polymorphic
-Arguments preimage_display {T T'}%_type_scope _%_function_scope
-preimage_display is opaque
-Expands to: Constant
-            mathcomp.analysis.measure_theory.measurable_structure.preimage_display
-Declared in
-library mathcomp.analysis.measure_theory.measurable_structure, line 1350, characters 11-27
-g_sigma_algebra_preimageType :
+<span class="vernacular">Definition</span><span class="id"> </span><span id="measure_extension" class="id"><div name="measure_extension" class=" tooltip">measure_extension<span class='tooltip-area'><p>g_sigma_algebra_preimageType :
 forall [d' : measure_display] [T : choiceType] [T' : measurableType d'],
 (T -> T') -> Type
 
@@ -1224,6 +1215,18 @@ Expands to: Constant
             mathcomp.analysis.measure_theory.measurable_structure.g_sigma_algebra_preimage
 Declared in
 library mathcomp.analysis.measure_theory.measurable_structure, line 1356, characters 11-35
+covered_by :
+forall {T : Type},
+(forall I : Type, set_system I) ->
+(forall I : Type, set I -> set (I -> set T)) -> set (set T)
+
+covered_by is not universe polymorphic
+Arguments covered_by {T}%_type_scope (C P)%_function_scope _
+covered_by is transparent
+Expands to: Constant
+            mathcomp.analysis.measure_theory.measurable_structure.covered_by
+Declared in
+library mathcomp.analysis.measure_theory.measurable_structure, line 1474, characters 11-21
 </p><hr/><a href='https://github.com/math-comp/analysis/tree/9320323497de2d2c16a7ef3f983166eac0759308/theories/measure_theory/measure_extension.v#L725' target='_blank'>Source code</a></span></div></span><span class="id"> :</span><span class="id"> </span><span class="id"><a href="mathcomp.classical.classical_sets.html#set">set</a></span><span class="id"> </span><span class="id"><a href="mathcomp.analysis.measure_theory.measure_extension.html#measure_extension.I">I</a></span><span class="id"><a href="https://rocq-prover.org/corelib/Corelib.Init.Logic.html#::type_scope:x_'-&gt;'_x"> -&gt;</a></span><span class="id"><a href="https://rocq-prover.org/corelib/Corelib.Init.Logic.html#::type_scope:x_'-&gt;'_x"> </a></span><span class="id"><a href="mathcomp.reals.constructive_ereal.html#4c9ddfb63ff52527d9adecfde4a667c3">\bar</a></span><span class="id"><a href="mathcomp.reals.constructive_ereal.html#4c9ddfb63ff52527d9adecfde4a667c3"> </a></span><span class="id"><a href="mathcomp.analysis.measure_theory.measure_extension.html#measure_extension.R">R</a></span><span class="id"> :=</span><span class="id"> </span><span class="id"><a href="mathcomp.analysis.measure_theory.measure_extension.html#measure_extension.mu">mu</a></span><span class="id"><a href="mathcomp.analysis.measure_theory.measure_extension.html#f77302d3c1fe4bad7666001ff9a8f69f">^*</a></span>.<br/>
 <br/>
 <span class="vernacular">Local</span><span class="vernacular"> Lemma</span><span class="id"> </span><span id="measure_extension0" class="id"><div name="measure_extension0" class=" tooltip">measure_extension0<span class='tooltip-area'><hr/><a href='https://github.com/math-comp/analysis/tree/9320323497de2d2c16a7ef3f983166eac0759308/theories/measure_theory/measure_extension.v#L727' target='_blank'>Source code</a></span></div></span><span class="id"> :</span><span class="id"> </span><span class="id"><a href="mathcomp.analysis.measure_theory.measure_extension.html#measure_extension">measure_extension</a></span><span class="id"> </span><span class="id"><a href="mathcomp.classical.classical_sets.html#set0">set0</a></span><span class="id"><a href="https://rocq-prover.org/corelib/Corelib.Init.Logic.html#6cd0f7b28b6092304087c7049437bb1a"> =</a></span><span class="id"><a href="https://rocq-prover.org/corelib/Corelib.Init.Logic.html#6cd0f7b28b6092304087c7049437bb1a"> </a></span><span class="id">0</span>.<br/>
@@ -1301,18 +1304,20 @@ Qed.</div></details>
 <br/>
 <span class="vernacular">Let</span><span class="id"> </span><span id="completed_measure_extension.I" class="id"><div name="completed_measure_extension.I" class=" tooltip">I<span class='tooltip-area'><hr/><a href='https://github.com/math-comp/analysis/tree/9320323497de2d2c16a7ef3f983166eac0759308/theories/measure_theory/measure_extension.v#L786' target='_blank'>Source code</a></span></div></span><span class="id"> :</span><span class="id"> </span><span class="id"><a href="mathcomp.analysis.measure_theory.measurable_structure.html#Measurable.Exports.measurableType">measurableType</a></span><span class="id"> _</span><span class="id"> :=</span><span class="id"> </span><span class="id"><a href="mathcomp.analysis.measure_theory.measure_extension.html#caratheodory_type">caratheodory_type</a></span> (<span class="id"><a href="mathcomp.analysis.measure_theory.measure_extension.html#completed_measure_extension.mu">mu</a></span><span class="id"><a href="mathcomp.analysis.measure_theory.measure_extension.html#f77302d3c1fe4bad7666001ff9a8f69f">^*</a></span>)<span class="id">%mu</span>.<br/>
 <br/>
-<span class="vernacular">Definition</span><span class="id"> </span><span id="completed_measure_extension" class="id"><div name="completed_measure_extension" class=" tooltip">completed_measure_extension<span class='tooltip-area'><p>covered_by :
-forall {T : Type},
-(forall I : Type, set_system I) ->
-(forall I : Type, set I -> set (I -> set T)) -> set (set T)
+<span class="vernacular">Definition</span><span class="id"> </span><span id="completed_measure_extension" class="id"><div name="completed_measure_extension" class=" tooltip">completed_measure_extension<span class='tooltip-area'><p>g_sigma_preimageU :
+forall [d1 d2 : measure_display] [T1 : semiRingOfSetsType d1]
+  [T2 : semiRingOfSetsType d2] [T : Type],
+(T -> T1) -> (T -> T2) -> set (set T)
 
-covered_by is not universe polymorphic
-Arguments covered_by {T}%_type_scope (C P)%_function_scope _
-covered_by is transparent
+g_sigma_preimageU is not universe polymorphic
+Arguments g_sigma_preimageU [d1 d2]%_measure_display_scope 
+  [T1 T2] [T]%_type_scope (f1 f2)%_function_scope 
+  _
+g_sigma_preimageU is transparent
 Expands to: Constant
-            mathcomp.analysis.measure_theory.measurable_structure.covered_by
+            mathcomp.analysis.measure_theory.measurable_structure.g_sigma_preimageU
 Declared in
-library mathcomp.analysis.measure_theory.measurable_structure, line 1474, characters 11-21
+library mathcomp.analysis.measure_theory.measurable_structure, line 1560, characters 11-28
 </p><hr/><a href='https://github.com/math-comp/analysis/tree/9320323497de2d2c16a7ef3f983166eac0759308/theories/measure_theory/measure_extension.v#L788' target='_blank'>Source code</a></span></div></span><span class="id"> :</span><span class="id"> </span><span class="id"><a href="mathcomp.classical.classical_sets.html#set">set</a></span><span class="id"> </span><span class="id"><a href="mathcomp.analysis.measure_theory.measure_extension.html#completed_measure_extension.I">I</a></span><span class="id"><a href="https://rocq-prover.org/corelib/Corelib.Init.Logic.html#::type_scope:x_'-&gt;'_x"> -&gt;</a></span><span class="id"><a href="https://rocq-prover.org/corelib/Corelib.Init.Logic.html#::type_scope:x_'-&gt;'_x"> </a></span><span class="id"><a href="mathcomp.reals.constructive_ereal.html#4c9ddfb63ff52527d9adecfde4a667c3">\bar</a></span><span class="id"><a href="mathcomp.reals.constructive_ereal.html#4c9ddfb63ff52527d9adecfde4a667c3"> </a></span><span class="id"><a href="mathcomp.analysis.measure_theory.measure_extension.html#completed_measure_extension.R">R</a></span><span class="id"> :=</span> (<span class="id"><a href="mathcomp.analysis.measure_theory.measure_extension.html#completed_measure_extension.mu">mu</a></span><span class="id"><a href="mathcomp.analysis.measure_theory.measure_extension.html#f77302d3c1fe4bad7666001ff9a8f69f">^*</a></span>)<span class="id">%mu</span>.<br/>
 <br/>
 <span class="vernacular">Let</span><span class="id"> </span><span id="completed_measure_extension.measure0" class="id"><div name="completed_measure_extension.measure0" class=" tooltip">measure0<span class='tooltip-area'><hr/><a href='https://github.com/math-comp/analysis/tree/9320323497de2d2c16a7ef3f983166eac0759308/theories/measure_theory/measure_extension.v#L790' target='_blank'>Source code</a></span></div></span><span class="id"> :</span><span class="id"> </span><span class="id"><a href="mathcomp.analysis.measure_theory.measure_extension.html#completed_measure_extension">completed_measure_extension</a></span><span class="id"> </span><span class="id"><a href="mathcomp.classical.classical_sets.html#set0">set0</a></span><span class="id"><a href="https://rocq-prover.org/corelib/Corelib.Init.Logic.html#6cd0f7b28b6092304087c7049437bb1a"> =</a></span><span class="id"><a href="https://rocq-prover.org/corelib/Corelib.Init.Logic.html#6cd0f7b28b6092304087c7049437bb1a"> </a></span><span class="id">0</span>.<br/>
