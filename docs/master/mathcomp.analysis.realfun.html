@@ -5,7 +5,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title>Module mathcomp.analysis.realfun</title>
-<meta name="description" content="Documentation of Coq module Mathcomp Analysis 9320323 2026.08.14-19:22" />
+<meta name="description" content="Documentation of Coq module Mathcomp Analysis 9320323 2026.08.15-19:04" />
 <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex/dist/katex.min.css">
 <script src="https://cdn.jsdelivr.net/npm/markdown-it/dist/markdown-it.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/katex/dist/katex.min.js"></script>
@@ -1077,7 +1077,22 @@ Qed.</div></details>
 <span class="vernacular">Local</span><span class="vernacular"> Open</span><span class="vernacular"> Scope</span><span class="id"> ereal_scope</span>.<br/>
 <span class="vernacular">Implicit</span><span class="id"> Types</span> (<span class="id">f</span><span class="id"> g</span><span class="id"> :</span><span class="id"> </span><span class="id"><a href="mathcomp.analysis.realfun.html#lime_sup_inf.R">R</a></span><span class="id"><a href="https://rocq-prover.org/corelib/Corelib.Init.Logic.html#::type_scope:x_'-&gt;'_x"> -&gt;</a></span><span class="id"><a href="https://rocq-prover.org/corelib/Corelib.Init.Logic.html#::type_scope:x_'-&gt;'_x"> </a></span><span class="id"><a href="mathcomp.reals.constructive_ereal.html#4c9ddfb63ff52527d9adecfde4a667c3">\bar</a></span><span class="id"><a href="mathcomp.reals.constructive_ereal.html#4c9ddfb63ff52527d9adecfde4a667c3"> </a></span><span class="id"><a href="mathcomp.analysis.realfun.html#lime_sup_inf.R">R</a></span>) (<span class="id">a</span><span class="id"> r</span><span class="id"> s</span><span class="id"> l</span><span class="id"> :</span><span class="id"> </span><span class="id"><a href="mathcomp.analysis.realfun.html#lime_sup_inf.R">R</a></span>).<br/>
 <br/>
-<span class="vernacular">Definition</span><span class="id"> </span><span id="lime_sup" class="id"><div name="lime_sup" class=" tooltip">lime_sup<span class='tooltip-area'><p>HahnBanachZornInternal.zornS :
+<span class="vernacular">Definition</span><span class="id"> </span><span id="lime_sup" class="id"><div name="lime_sup" class=" tooltip">lime_sup<span class='tooltip-area'><p>HahnBanachZornInternal.zphi :
+forall [R : realType] [V : lmodType R] [F : pred V]
+  [F' : subLmodType (V:=V) F] [phi : {linear F' -> R}] 
+  [p : V -> R],
+(forall v : F', (phi v <= p (\val v))%R) ->
+HahnBanachZornInternal.zorn_type (R:=R) (F':=F') phi p
+
+HahnBanachZornInternal.zphi is not universe polymorphic
+Arguments HahnBanachZornInternal.zphi [R V F F' phi] 
+  [p]%_function_scope phi_le_p%_function_scope
+HahnBanachZornInternal.zphi is transparent
+Expands to: Constant
+            mathcomp.analysis.functional_analysis.hahn_banach_theorem.HahnBanachZornInternal.zphi
+Declared in
+library mathcomp.analysis.functional_analysis.hahn_banach_theorem, line 105, characters 11-15
+HahnBanachZornInternal.zornS :
 forall [R : realType] [V : lmodType R] [F : pred V]
   [F' : subLmodType (V:=V) F] [phi : {linear F' -> R}] 
   [p : V -> R],
