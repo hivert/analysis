@@ -5,7 +5,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title>Module mathcomp.analysis.kernel</title>
-<meta name="description" content="Documentation of Coq module Mathcomp Analysis 9320323 2026.08.16-19:04" />
+<meta name="description" content="Documentation of Coq module Mathcomp Analysis 9320323 2026.08.17-19:14" />
 <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex/dist/katex.min.css">
 <script src="https://cdn.jsdelivr.net/npm/markdown-it/dist/markdown-it.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/katex/dist/katex.min.js"></script>
@@ -1816,18 +1816,7 @@ Qed.</div></details>
 <span class="vernacular">Variable</span><span class="id"> </span><span id="kproduct_def.k1" class="id"><div name="kproduct_def.k1" class=" tooltip">k1<span class='tooltip-area'><hr/><a href='https://github.com/math-comp/analysis/tree/9320323497de2d2c16a7ef3f983166eac0759308/theories/kernel.v#L1442' target='_blank'>Source code</a></span></div></span><span class="id"> :</span><span class="id"> </span><span class="id"><a href="mathcomp.analysis.kernel.html#kproduct_def.T0">T0</a></span><span class="id"><a href="https://rocq-prover.org/corelib/Corelib.Init.Logic.html#::type_scope:x_'-&gt;'_x"> -&gt;</a></span><span class="id"><a href="https://rocq-prover.org/corelib/Corelib.Init.Logic.html#::type_scope:x_'-&gt;'_x"> </a></span><span class="id"><a href="mathcomp.analysis.measure_theory.measure_function.html#cab9a9776ae9e3a4c36de416efb30851">{measure</a></span><span class="id"><a href="mathcomp.analysis.measure_theory.measure_function.html#cab9a9776ae9e3a4c36de416efb30851"> set</a></span><span class="id"><a href="mathcomp.analysis.measure_theory.measure_function.html#cab9a9776ae9e3a4c36de416efb30851"> </a></span><span class="id"><a href="mathcomp.analysis.kernel.html#kproduct_def.T1">T1</a></span><span class="id"><a href="mathcomp.analysis.measure_theory.measure_function.html#cab9a9776ae9e3a4c36de416efb30851"> -&gt;</a></span><span class="id"><a href="mathcomp.analysis.measure_theory.measure_function.html#cab9a9776ae9e3a4c36de416efb30851"> \bar</a></span><span class="id"><a href="mathcomp.analysis.measure_theory.measure_function.html#cab9a9776ae9e3a4c36de416efb30851"> </a></span><span class="id"><a href="mathcomp.analysis.kernel.html#kproduct_def.R">R</a></span><span class="id"><a href="mathcomp.analysis.measure_theory.measure_function.html#cab9a9776ae9e3a4c36de416efb30851">}</a></span>.<br/>
 <span class="vernacular">Variable</span><span class="id"> </span><span id="kproduct_def.k2" class="id"><div name="kproduct_def.k2" class=" tooltip">k2<span class='tooltip-area'><hr/><a href='https://github.com/math-comp/analysis/tree/9320323497de2d2c16a7ef3f983166eac0759308/theories/kernel.v#L1443' target='_blank'>Source code</a></span></div></span><span class="id"> :</span><span class="id"> </span><span class="id"><a href="mathcomp.analysis.kernel.html#kproduct_def.T0">T0</a></span><span class="id"><a href="https://rocq-prover.org/corelib/Corelib.Init.Datatypes.html#11c698c8685bb8ab1cf725545c085ac4"> *</a></span><span class="id"><a href="https://rocq-prover.org/corelib/Corelib.Init.Datatypes.html#11c698c8685bb8ab1cf725545c085ac4"> </a></span><span class="id"><a href="mathcomp.analysis.kernel.html#kproduct_def.T1">T1</a></span><span class="id"><a href="https://rocq-prover.org/corelib/Corelib.Init.Logic.html#::type_scope:x_'-&gt;'_x"> -&gt;</a></span><span class="id"><a href="https://rocq-prover.org/corelib/Corelib.Init.Logic.html#::type_scope:x_'-&gt;'_x"> </a></span><span class="id"><a href="mathcomp.analysis.measure_theory.measure_function.html#cab9a9776ae9e3a4c36de416efb30851">{measure</a></span><span class="id"><a href="mathcomp.analysis.measure_theory.measure_function.html#cab9a9776ae9e3a4c36de416efb30851"> set</a></span><span class="id"><a href="mathcomp.analysis.measure_theory.measure_function.html#cab9a9776ae9e3a4c36de416efb30851"> </a></span><span class="id"><a href="mathcomp.analysis.kernel.html#kproduct_def.T2">T2</a></span><span class="id"><a href="mathcomp.analysis.measure_theory.measure_function.html#cab9a9776ae9e3a4c36de416efb30851"> -&gt;</a></span><span class="id"><a href="mathcomp.analysis.measure_theory.measure_function.html#cab9a9776ae9e3a4c36de416efb30851"> \bar</a></span><span class="id"><a href="mathcomp.analysis.measure_theory.measure_function.html#cab9a9776ae9e3a4c36de416efb30851"> </a></span><span class="id"><a href="mathcomp.analysis.kernel.html#kproduct_def.R">R</a></span><span class="id"><a href="mathcomp.analysis.measure_theory.measure_function.html#cab9a9776ae9e3a4c36de416efb30851">}</a></span>.<br/>
 <br/>
-<span class="vernacular">Local</span><span class="vernacular"> Definition</span><span class="id"> </span><span id="intker_indic" class="id"><div name="intker_indic" class=" tooltip">intker_indic<span class='tooltip-area'><p>self_sub :
-forall {K : numDomainType} {V W : normedModType K}, (V -> W) -> V * V -> W
-
-self_sub is not universe polymorphic
-Arguments self_sub {K V W} f%_function_scope x /
-The reduction tactics unfold self_sub when applied to 5 arguments
-self_sub is transparent
-Expands to: Constant
-            mathcomp.analysis.normedtype_theory.normed_module.self_sub
-Declared in
-library mathcomp.analysis.normedtype_theory.normed_module, line 474, characters 11-19
-Rhull : forall [R : realType], set R -> interval R
+<span class="vernacular">Local</span><span class="vernacular"> Definition</span><span class="id"> </span><span id="intker_indic" class="id"><div name="intker_indic" class=" tooltip">intker_indic<span class='tooltip-area'><p>Rhull : forall [R : realType], set R -> interval R
 
 Rhull is not universe polymorphic
 Arguments Rhull [R] X%_classical_set_scope

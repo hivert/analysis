@@ -5,7 +5,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title>Module mathcomp.reals.constructive_ereal</title>
-<meta name="description" content="Documentation of Coq module Mathcomp Analysis 9320323 2026.08.16-19:04" />
+<meta name="description" content="Documentation of Coq module Mathcomp Analysis 9320323 2026.08.17-19:14" />
 <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex/dist/katex.min.css">
 <script src="https://cdn.jsdelivr.net/npm/markdown-it/dist/markdown-it.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/katex/dist/katex.min.js"></script>
@@ -380,23 +380,16 @@ Detailed documentation:
 <div class="proofscript">
 <span class="gallina-kwd"> by</span><span class="id"> move=&gt;</span><span class="id"> a</span><span class="id"> b;</span><span class="id"> case</span>. Qed.</div></details>
 <br/>
-<span class="vernacular">Definition</span><span class="id"> </span><span id="dual_extended" class="id"><div name="dual_extended" class=" tooltip">dual_extended<span class='tooltip-area'><p>rational : forall {R : realType}, set R
-
-rational is not universe polymorphic
-Arguments rational {R} _
-rational is transparent
-Expands to: Constant mathcomp.reals.reals.rational
-Declared in library mathcomp.reals.reals, line 785, characters 11-19
-</p><hr/><a href='https://github.com/math-comp/analysis/tree/9320323497de2d2c16a7ef3f983166eac0759308/reals/constructive_ereal.v#L151' target='_blank'>Source code</a></span></div></span><span class="id"> :=</span><span class="id"> </span><span class="id"><a href="mathcomp.reals.constructive_ereal.html#extended">extended</a></span>.<br/>
-<br/>
-<span class="vernacular">Definition</span><span class="id"> </span><span id="dEFin" class="id"><div name="dEFin" class=" tooltip">dEFin<span class='tooltip-area'><p>irrational : forall {R : realType}, set R
+<span class="vernacular">Definition</span><span class="id"> </span><span id="dual_extended" class="id"><div name="dual_extended" class=" tooltip">dual_extended<span class='tooltip-area'><p>irrational : forall {R : realType}, set R
 
 irrational is not universe polymorphic
 Arguments irrational {R} _
 irrational is transparent
 Expands to: Constant mathcomp.reals.reals.irrational
 Declared in library mathcomp.reals.reals, line 796, characters 11-21
-</p><hr/><a href='https://github.com/math-comp/analysis/tree/9320323497de2d2c16a7ef3f983166eac0759308/reals/constructive_ereal.v#L153' target='_blank'>Source code</a></span></div></span><span class="id"> :</span><span class="gallina-kwd"> forall</span><span class="id"> {</span><span id="R:5" class="id"><div name="R:5" class=" tooltip">R<span class='tooltip-area'><hr/><a href='https://github.com/math-comp/analysis/tree/9320323497de2d2c16a7ef3f983166eac0759308/reals/constructive_ereal.v#L153' target='_blank'>Source code</a></span></div></span><span class="id">},</span><span class="id"> </span><span class="id"><a href="mathcomp.reals.constructive_ereal.html#R:5">R</a></span><span class="id"><a href="https://rocq-prover.org/corelib/Corelib.Init.Logic.html#::type_scope:x_'-&gt;'_x"> -&gt;</a></span><span class="id"><a href="https://rocq-prover.org/corelib/Corelib.Init.Logic.html#::type_scope:x_'-&gt;'_x"> </a></span><span class="id"><a href="mathcomp.reals.constructive_ereal.html#dual_extended">dual_extended</a></span><span class="id"> </span><span class="id"><a href="mathcomp.reals.constructive_ereal.html#R:5">R</a></span><span class="id"> :=</span><span class="id"> @</span><span class="id"><a href="mathcomp.reals.constructive_ereal.html#EFin">EFin</a></span>.<br/>
+</p><hr/><a href='https://github.com/math-comp/analysis/tree/9320323497de2d2c16a7ef3f983166eac0759308/reals/constructive_ereal.v#L151' target='_blank'>Source code</a></span></div></span><span class="id"> :=</span><span class="id"> </span><span class="id"><a href="mathcomp.reals.constructive_ereal.html#extended">extended</a></span>.<br/>
+<br/>
+<span class="vernacular">Definition</span><span class="id"> </span><span id="dEFin" class="id"><div name="dEFin" class=" tooltip">dEFin<span class='tooltip-area'><hr/><a href='https://github.com/math-comp/analysis/tree/9320323497de2d2c16a7ef3f983166eac0759308/reals/constructive_ereal.v#L153' target='_blank'>Source code</a></span></div></span><span class="id"> :</span><span class="gallina-kwd"> forall</span><span class="id"> {</span><span id="R:5" class="id"><div name="R:5" class=" tooltip">R<span class='tooltip-area'><hr/><a href='https://github.com/math-comp/analysis/tree/9320323497de2d2c16a7ef3f983166eac0759308/reals/constructive_ereal.v#L153' target='_blank'>Source code</a></span></div></span><span class="id">},</span><span class="id"> </span><span class="id"><a href="mathcomp.reals.constructive_ereal.html#R:5">R</a></span><span class="id"><a href="https://rocq-prover.org/corelib/Corelib.Init.Logic.html#::type_scope:x_'-&gt;'_x"> -&gt;</a></span><span class="id"><a href="https://rocq-prover.org/corelib/Corelib.Init.Logic.html#::type_scope:x_'-&gt;'_x"> </a></span><span class="id"><a href="mathcomp.reals.constructive_ereal.html#dual_extended">dual_extended</a></span><span class="id"> </span><span class="id"><a href="mathcomp.reals.constructive_ereal.html#R:5">R</a></span><span class="id"> :=</span><span class="id"> @</span><span class="id"><a href="mathcomp.reals.constructive_ereal.html#EFin">EFin</a></span>.<br/>
 <br/>
 <span class="vernacular">Notation</span> <span id="78e564c7ecacb57c4b0a0cf13b41fea4" class="id"><div name="78e564c7ecacb57c4b0a0cf13b41fea4" class=" tooltip">&quot;+oo&quot;<span class='tooltip-area'><hr/><a href='https://github.com/math-comp/analysis/tree/9320323497de2d2c16a7ef3f983166eac0759308/reals/constructive_ereal.v#L159' target='_blank'>Source code</a></span></div></span><span class="id"> :=</span> (<span class="id">@</span><span class="id"><a href="mathcomp.reals.constructive_ereal.html#EPInf">EPInf</a></span><span class="id"> _</span><span class="id"> :</span><span class="id"> </span><span class="id"><a href="mathcomp.reals.constructive_ereal.html#dual_extended">dual_extended</a></span><span class="id"> _</span>)<span class="id"> :</span><span class="id"> ereal_dual_scope</span>.<br/>
 <span class="vernacular">Notation</span> <span id="d5becfdd26043e7de5a21e6270f35a00" class="id"><div name="d5becfdd26043e7de5a21e6270f35a00" class=" tooltip">&quot;+oo&quot;<span class='tooltip-area'><hr/><a href='https://github.com/math-comp/analysis/tree/9320323497de2d2c16a7ef3f983166eac0759308/reals/constructive_ereal.v#L160' target='_blank'>Source code</a></span></div></span><span class="id"> :=</span> (<span class="id">@</span><span class="id"><a href="mathcomp.reals.constructive_ereal.html#EPInf">EPInf</a></span><span class="id"> _</span>)<span class="id"> :</span><span class="id"> ereal_scope</span>.<br/>
