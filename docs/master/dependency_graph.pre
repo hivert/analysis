@@ -5,6 +5,7 @@ digraph dependencies {
   subgraph cluster_ExperimentalReals { label="ExperimentalReals" }
   subgraph cluster_Reals { label="Reals" }
   subgraph cluster_Analysis { label="Analysis" }
+  subgraph cluster_ElementaryFunctions { label="ElementaryFunctions" }
   subgraph cluster_FunctionalAnalysis { label="FunctionalAnalysis" }
   subgraph cluster_Topology { label="Topology" }
   subgraph cluster_LebesgueIntegral { label="LebesgueIntegral" }
@@ -27,7 +28,7 @@ subgraph cluster_Classical {
   "classical/filter" -> "classical/all_classical";
   "classical/fsbigop" -> "classical/all_classical";
   "classical/functions" -> "classical/all_classical";
-  "classical/mathcomp_extra" -> "classical/all_classical";
+  "classical/mathcomp_compat" -> "classical/all_classical";
   "classical/set_interval" -> "classical/all_classical";
 
 subgraph cluster_Classical {
@@ -39,23 +40,14 @@ subgraph cluster_Classical {
 }
 
 subgraph cluster_Classical {
-    "classical/all_ssreflect_compat"[
-        label="all_ssreflect_compat",
-        URL="mathcomp.classical.all_ssreflect_compat.html",
-        fillcolor=1
-    ]
-}
-
-subgraph cluster_Classical {
     "classical/boolp"[
         label="boolp",
         URL="mathcomp.classical.boolp.html",
         fillcolor=1
     ]
 }
-  "classical/all_ssreflect_compat" -> "classical/boolp";
   "classical/internal_Eqdep_dec" -> "classical/boolp";
-  "classical/mathcomp_extra" -> "classical/boolp";
+  "classical/unstable" -> "classical/boolp";
 
 subgraph cluster_Classical {
     "classical/contra"[
@@ -83,11 +75,17 @@ subgraph cluster_Classical {
         fillcolor=1
     ]
 }
-  "classical/all_ssreflect_compat" -> "classical/classical_sets";
   "classical/boolp" -> "classical/classical_sets";
-  "classical/mathcomp_extra" -> "classical/classical_sets";
   "classical/unstable" -> "classical/classical_sets";
   "classical/wochoice" -> "classical/classical_sets";
+
+subgraph cluster_Classical {
+    "classical/mathcomp_compat"[
+        label="mathcomp_compat",
+        URL="mathcomp.classical.mathcomp_compat.html",
+        fillcolor=1
+    ]
+}
 
 subgraph cluster_Classical {
     "classical/mathcomp_extra"[
@@ -96,7 +94,7 @@ subgraph cluster_Classical {
         fillcolor=1
     ]
 }
-  "classical/all_ssreflect_compat" -> "classical/mathcomp_extra";
+  "classical/mathcomp_compat" -> "classical/mathcomp_extra";
 
 subgraph cluster_Classical {
     "classical/unstable"[
@@ -105,7 +103,6 @@ subgraph cluster_Classical {
         fillcolor=1
     ]
 }
-  "classical/all_ssreflect_compat" -> "classical/unstable";
 
 subgraph cluster_Classical {
     "classical/functions"[
@@ -114,10 +111,8 @@ subgraph cluster_Classical {
         fillcolor=1
     ]
 }
-  "classical/all_ssreflect_compat" -> "classical/functions";
   "classical/boolp" -> "classical/functions";
   "classical/classical_sets" -> "classical/functions";
-  "classical/mathcomp_extra" -> "classical/functions";
   "classical/unstable" -> "classical/functions";
 
 subgraph cluster_Classical {
@@ -127,11 +122,9 @@ subgraph cluster_Classical {
         fillcolor=1
     ]
 }
-  "classical/all_ssreflect_compat" -> "classical/cardinality";
   "classical/boolp" -> "classical/cardinality";
   "classical/classical_sets" -> "classical/cardinality";
   "classical/functions" -> "classical/cardinality";
-  "classical/mathcomp_extra" -> "classical/cardinality";
 
 subgraph cluster_Classical {
     "classical/fsbigop"[
@@ -140,12 +133,10 @@ subgraph cluster_Classical {
         fillcolor=1
     ]
 }
-  "classical/all_ssreflect_compat" -> "classical/fsbigop";
   "classical/boolp" -> "classical/fsbigop";
   "classical/cardinality" -> "classical/fsbigop";
   "classical/classical_sets" -> "classical/fsbigop";
   "classical/functions" -> "classical/fsbigop";
-  "classical/mathcomp_extra" -> "classical/fsbigop";
   "classical/unstable" -> "classical/fsbigop";
 
 subgraph cluster_Classical {
@@ -155,11 +146,9 @@ subgraph cluster_Classical {
         fillcolor=1
     ]
 }
-  "classical/all_ssreflect_compat" -> "classical/set_interval";
   "classical/boolp" -> "classical/set_interval";
   "classical/classical_sets" -> "classical/set_interval";
   "classical/functions" -> "classical/set_interval";
-  "classical/mathcomp_extra" -> "classical/set_interval";
   "classical/unstable" -> "classical/set_interval";
 
 subgraph cluster_Classical {
@@ -169,11 +158,9 @@ subgraph cluster_Classical {
         fillcolor=1
     ]
 }
-  "classical/all_ssreflect_compat" -> "classical/classical_orders";
   "classical/boolp" -> "classical/classical_orders";
   "classical/classical_sets" -> "classical/classical_orders";
   "classical/functions" -> "classical/classical_orders";
-  "classical/mathcomp_extra" -> "classical/classical_orders";
   "classical/set_interval" -> "classical/classical_orders";
 
 subgraph cluster_Classical {
@@ -183,13 +170,11 @@ subgraph cluster_Classical {
         fillcolor=1
     ]
 }
-  "classical/all_ssreflect_compat" -> "classical/filter";
   "classical/boolp" -> "classical/filter";
   "classical/cardinality" -> "classical/filter";
   "classical/classical_sets" -> "classical/filter";
   "classical/fsbigop" -> "classical/filter";
   "classical/functions" -> "classical/filter";
-  "classical/mathcomp_extra" -> "classical/filter";
   "classical/set_interval" -> "classical/filter";
   "classical/wochoice" -> "classical/filter";
 
@@ -200,8 +185,6 @@ subgraph cluster_Reals {
         fillcolor=2
     ]
 }
-  "classical/all_ssreflect_compat" -> "reals/constructive_ereal";
-  "classical/mathcomp_extra" -> "reals/constructive_ereal";
 
 subgraph cluster_Reals {
     "reals/reals"[
@@ -210,10 +193,9 @@ subgraph cluster_Reals {
         fillcolor=2
     ]
 }
-  "classical/all_ssreflect_compat" -> "reals/reals";
   "classical/boolp" -> "reals/reals";
   "classical/classical_sets" -> "reals/reals";
-  "classical/mathcomp_extra" -> "reals/reals";
+  "classical/contra" -> "reals/reals";
   "classical/set_interval" -> "reals/reals";
   "classical/unstable" -> "reals/reals";
 
@@ -224,7 +206,6 @@ subgraph cluster_Reals {
         fillcolor=2
     ]
 }
-  "classical/all_ssreflect_compat" -> "reals/real_interval";
   "classical/boolp" -> "reals/real_interval";
   "classical/classical_sets" -> "reals/real_interval";
   "classical/functions" -> "reals/real_interval";
@@ -241,7 +222,6 @@ subgraph cluster_Reals {
     ]
 }
   "classical/all_classical" -> "reals/prodnormedzmodule";
-  "classical/all_ssreflect_compat" -> "reals/prodnormedzmodule";
 
 subgraph cluster_Reals {
     "reals/all_reals"[
@@ -251,7 +231,6 @@ subgraph cluster_Reals {
     ]
 }
   "reals/constructive_ereal" -> "reals/all_reals";
-  "reals/prodnormedzmodule" -> "reals/all_reals";
   "reals/real_interval" -> "reals/all_reals";
   "reals/reals" -> "reals/all_reals";
 
@@ -262,7 +241,6 @@ subgraph cluster_ExperimentalReals {
         fillcolor=1
     ]
 }
-  "classical/all_ssreflect_compat" -> "experimental_reals/xfinmap";
 
 subgraph cluster_ExperimentalReals {
     "experimental_reals/discrete"[
@@ -271,7 +249,6 @@ subgraph cluster_ExperimentalReals {
         fillcolor=1
     ]
 }
-  "classical/all_ssreflect_compat" -> "experimental_reals/discrete";
   "classical/boolp" -> "experimental_reals/discrete";
   "experimental_reals/xfinmap" -> "experimental_reals/discrete";
   "reals/reals" -> "experimental_reals/discrete";
@@ -283,11 +260,9 @@ subgraph cluster_ExperimentalReals {
         fillcolor=1
     ]
 }
-  "classical/all_ssreflect_compat" -> "experimental_reals/realseq";
   "classical/boolp" -> "experimental_reals/realseq";
   "classical/classical_sets" -> "experimental_reals/realseq";
   "classical/functions" -> "experimental_reals/realseq";
-  "classical/mathcomp_extra" -> "experimental_reals/realseq";
   "experimental_reals/discrete" -> "experimental_reals/realseq";
   "experimental_reals/xfinmap" -> "experimental_reals/realseq";
   "reals/constructive_ereal" -> "experimental_reals/realseq";
@@ -309,7 +284,6 @@ subgraph cluster_ExperimentalReals {
   "experimental_reals/discrete" -> "experimental_reals/realsum";
   "experimental_reals/realseq" -> "experimental_reals/realsum";
   "experimental_reals/xfinmap" -> "experimental_reals/realsum";
-  "reals/constructive_ereal" -> "experimental_reals/realsum";
   "reals/reals" -> "experimental_reals/realsum";
   "theories/ereal" -> "experimental_reals/realsum";
   "theories/esum" -> "experimental_reals/realsum";
@@ -322,10 +296,8 @@ subgraph cluster_ExperimentalReals {
         fillcolor=1
     ]
 }
-  "classical/all_ssreflect_compat" -> "experimental_reals/distr";
   "classical/boolp" -> "experimental_reals/distr";
   "classical/classical_sets" -> "experimental_reals/distr";
-  "classical/mathcomp_extra" -> "experimental_reals/distr";
   "experimental_reals/discrete" -> "experimental_reals/distr";
   "experimental_reals/realseq" -> "experimental_reals/distr";
   "experimental_reals/realsum" -> "experimental_reals/distr";
@@ -340,7 +312,6 @@ subgraph cluster_Reals {
         fillcolor=2
     ]
 }
-  "classical/all_ssreflect_compat" -> "reals_stdlib/Rstruct";
   "classical/boolp" -> "reals_stdlib/Rstruct";
   "classical/classical_sets" -> "reals_stdlib/Rstruct";
   "reals/reals" -> "reals_stdlib/Rstruct";
@@ -352,7 +323,6 @@ subgraph cluster_Reals {
         fillcolor=2
     ]
 }
-  "classical/all_ssreflect_compat" -> "reals_stdlib/nsatz_realtype";
   "classical/boolp" -> "reals_stdlib/nsatz_realtype";
   "reals/constructive_ereal" -> "reals_stdlib/nsatz_realtype";
   "reals/reals" -> "reals_stdlib/nsatz_realtype";
@@ -364,13 +334,11 @@ subgraph cluster_Analysis {
         fillcolor=5
     ]
 }
-  "classical/all_ssreflect_compat" -> "theories/ereal";
   "classical/boolp" -> "theories/ereal";
   "classical/cardinality" -> "theories/ereal";
   "classical/classical_sets" -> "theories/ereal";
   "classical/fsbigop" -> "theories/ereal";
   "classical/functions" -> "theories/ereal";
-  "classical/mathcomp_extra" -> "theories/ereal";
   "classical/set_interval" -> "theories/ereal";
   "classical/unstable" -> "theories/ereal";
   "reals/constructive_ereal" -> "theories/ereal";
@@ -384,12 +352,9 @@ subgraph cluster_Analysis {
         fillcolor=5
     ]
 }
-  "classical/all_ssreflect_compat" -> "theories/landau";
   "classical/boolp" -> "theories/landau";
   "classical/classical_sets" -> "theories/landau";
   "classical/functions" -> "theories/landau";
-  "classical/mathcomp_extra" -> "theories/landau";
-  "reals/prodnormedzmodule" -> "theories/landau";
   "reals/reals" -> "theories/landau";
   "theories/ereal" -> "theories/landau";
   "theories/normedtype_theory/normedtype" -> "theories/landau";
@@ -433,7 +398,6 @@ subgraph cluster_Topology {
     ]
 }
   "classical/all_classical" -> "theories/topology_theory/bool_topology";
-  "classical/all_ssreflect_compat" -> "theories/topology_theory/bool_topology";
   "reals/reals" -> "theories/topology_theory/bool_topology";
   "theories/topology_theory/compact" -> "theories/topology_theory/bool_topology";
   "theories/topology_theory/discrete_topology" -> "theories/topology_theory/bool_topology";
@@ -450,7 +414,6 @@ subgraph cluster_Topology {
     ]
 }
   "classical/all_classical" -> "theories/topology_theory/compact";
-  "classical/all_ssreflect_compat" -> "theories/topology_theory/compact";
   "reals/reals" -> "theories/topology_theory/compact";
   "theories/topology_theory/pseudometric_structure" -> "theories/topology_theory/compact";
   "theories/topology_theory/topology_structure" -> "theories/topology_theory/compact";
@@ -464,7 +427,6 @@ subgraph cluster_Topology {
     ]
 }
   "classical/all_classical" -> "theories/topology_theory/connected";
-  "classical/all_ssreflect_compat" -> "theories/topology_theory/connected";
   "theories/topology_theory/topology_structure" -> "theories/topology_theory/connected";
 
 subgraph cluster_Topology {
@@ -475,7 +437,6 @@ subgraph cluster_Topology {
     ]
 }
   "classical/all_classical" -> "theories/topology_theory/matrix_topology";
-  "classical/all_ssreflect_compat" -> "theories/topology_theory/matrix_topology";
   "theories/topology_theory/pseudometric_structure" -> "theories/topology_theory/matrix_topology";
   "theories/topology_theory/topology_structure" -> "theories/topology_theory/matrix_topology";
   "theories/topology_theory/uniform_structure" -> "theories/topology_theory/matrix_topology";
@@ -488,7 +449,6 @@ subgraph cluster_Topology {
     ]
 }
   "classical/all_classical" -> "theories/topology_theory/nat_topology";
-  "classical/all_ssreflect_compat" -> "theories/topology_theory/nat_topology";
   "classical/unstable" -> "theories/topology_theory/nat_topology";
   "reals/reals" -> "theories/topology_theory/nat_topology";
   "theories/topology_theory/discrete_topology" -> "theories/topology_theory/nat_topology";
@@ -505,7 +465,6 @@ subgraph cluster_Topology {
     ]
 }
   "classical/all_classical" -> "theories/topology_theory/order_topology";
-  "classical/all_ssreflect_compat" -> "theories/topology_theory/order_topology";
   "classical/unstable" -> "theories/topology_theory/order_topology";
   "theories/topology_theory/product_topology" -> "theories/topology_theory/order_topology";
   "theories/topology_theory/pseudometric_structure" -> "theories/topology_theory/order_topology";
@@ -520,7 +479,6 @@ subgraph cluster_Topology {
     ]
 }
   "classical/all_classical" -> "theories/topology_theory/product_topology";
-  "classical/all_ssreflect_compat" -> "theories/topology_theory/product_topology";
   "classical/unstable" -> "theories/topology_theory/product_topology";
   "theories/topology_theory/compact" -> "theories/topology_theory/product_topology";
   "theories/topology_theory/pseudometric_structure" -> "theories/topology_theory/product_topology";
@@ -535,7 +493,6 @@ subgraph cluster_Topology {
     ]
 }
   "classical/all_classical" -> "theories/topology_theory/pseudometric_structure";
-  "classical/all_ssreflect_compat" -> "theories/topology_theory/pseudometric_structure";
   "reals/reals" -> "theories/topology_theory/pseudometric_structure";
   "theories/topology_theory/topology_structure" -> "theories/topology_theory/pseudometric_structure";
   "theories/topology_theory/uniform_structure" -> "theories/topology_theory/pseudometric_structure";
@@ -548,7 +505,6 @@ subgraph cluster_Topology {
     ]
 }
   "classical/all_classical" -> "theories/topology_theory/subspace_topology";
-  "classical/all_ssreflect_compat" -> "theories/topology_theory/subspace_topology";
   "theories/topology_theory/compact" -> "theories/topology_theory/subspace_topology";
   "theories/topology_theory/connected" -> "theories/topology_theory/subspace_topology";
   "theories/topology_theory/initial_topology" -> "theories/topology_theory/subspace_topology";
@@ -565,7 +521,6 @@ subgraph cluster_Topology {
     ]
 }
   "classical/all_classical" -> "theories/topology_theory/subtype_topology";
-  "classical/all_ssreflect_compat" -> "theories/topology_theory/subtype_topology";
   "reals/reals" -> "theories/topology_theory/subtype_topology";
   "theories/topology_theory/compact" -> "theories/topology_theory/subtype_topology";
   "theories/topology_theory/connected" -> "theories/topology_theory/subtype_topology";
@@ -584,7 +539,6 @@ subgraph cluster_Topology {
     ]
 }
   "classical/all_classical" -> "theories/topology_theory/supremum_topology";
-  "classical/all_ssreflect_compat" -> "theories/topology_theory/supremum_topology";
   "theories/topology_theory/topology_structure" -> "theories/topology_theory/supremum_topology";
   "theories/topology_theory/uniform_structure" -> "theories/topology_theory/supremum_topology";
 
@@ -596,7 +550,6 @@ subgraph cluster_Topology {
     ]
 }
   "classical/all_classical" -> "theories/topology_theory/topology_structure";
-  "classical/all_ssreflect_compat" -> "theories/topology_theory/topology_structure";
   "classical/filter" -> "theories/topology_theory/topology_structure";
 
 subgraph cluster_Topology {
@@ -607,7 +560,6 @@ subgraph cluster_Topology {
     ]
 }
   "classical/all_classical" -> "theories/topology_theory/uniform_structure";
-  "classical/all_ssreflect_compat" -> "theories/topology_theory/uniform_structure";
   "theories/topology_theory/topology_structure" -> "theories/topology_theory/uniform_structure";
 
 subgraph cluster_Topology {
@@ -618,7 +570,6 @@ subgraph cluster_Topology {
     ]
 }
   "classical/all_classical" -> "theories/topology_theory/weak_topology";
-  "classical/all_ssreflect_compat" -> "theories/topology_theory/weak_topology";
   "classical/unstable" -> "theories/topology_theory/weak_topology";
   "reals/reals" -> "theories/topology_theory/weak_topology";
   "theories/topology_theory/order_topology" -> "theories/topology_theory/weak_topology";
@@ -634,7 +585,6 @@ subgraph cluster_Topology {
     ]
 }
   "classical/all_classical" -> "theories/topology_theory/initial_topology";
-  "classical/all_ssreflect_compat" -> "theories/topology_theory/initial_topology";
   "classical/unstable" -> "theories/topology_theory/initial_topology";
   "reals/reals" -> "theories/topology_theory/initial_topology";
   "theories/topology_theory/order_topology" -> "theories/topology_theory/initial_topology";
@@ -650,7 +600,6 @@ subgraph cluster_Topology {
     ]
 }
   "classical/all_classical" -> "theories/topology_theory/num_topology";
-  "classical/all_ssreflect_compat" -> "theories/topology_theory/num_topology";
   "reals/reals" -> "theories/topology_theory/num_topology";
   "theories/topology_theory/matrix_topology" -> "theories/topology_theory/num_topology";
   "theories/topology_theory/order_topology" -> "theories/topology_theory/num_topology";
@@ -666,7 +615,6 @@ subgraph cluster_Topology {
     ]
 }
   "classical/all_classical" -> "theories/topology_theory/quotient_topology";
-  "classical/all_ssreflect_compat" -> "theories/topology_theory/quotient_topology";
   "theories/topology_theory/topology_structure" -> "theories/topology_theory/quotient_topology";
 
 subgraph cluster_Topology {
@@ -677,7 +625,6 @@ subgraph cluster_Topology {
     ]
 }
   "classical/all_classical" -> "theories/topology_theory/one_point_compactification";
-  "classical/all_ssreflect_compat" -> "theories/topology_theory/one_point_compactification";
   "theories/topology_theory/compact" -> "theories/topology_theory/one_point_compactification";
   "theories/topology_theory/initial_topology" -> "theories/topology_theory/one_point_compactification";
   "theories/topology_theory/pseudometric_structure" -> "theories/topology_theory/one_point_compactification";
@@ -692,7 +639,6 @@ subgraph cluster_Topology {
     ]
 }
   "classical/all_classical" -> "theories/topology_theory/sigT_topology";
-  "classical/all_ssreflect_compat" -> "theories/topology_theory/sigT_topology";
   "classical/unstable" -> "theories/topology_theory/sigT_topology";
   "theories/topology_theory/compact" -> "theories/topology_theory/sigT_topology";
   "theories/topology_theory/subspace_topology" -> "theories/topology_theory/sigT_topology";
@@ -706,7 +652,6 @@ subgraph cluster_Topology {
     ]
 }
   "classical/all_classical" -> "theories/topology_theory/discrete_topology";
-  "classical/all_ssreflect_compat" -> "theories/topology_theory/discrete_topology";
   "reals/all_reals" -> "theories/topology_theory/discrete_topology";
   "theories/topology_theory/compact" -> "theories/topology_theory/discrete_topology";
   "theories/topology_theory/order_topology" -> "theories/topology_theory/discrete_topology";
@@ -721,14 +666,12 @@ subgraph cluster_Topology {
         fillcolor=4
     ]
 }
-  "classical/all_ssreflect_compat" -> "theories/topology_theory/separation_axioms";
   "classical/boolp" -> "theories/topology_theory/separation_axioms";
   "classical/cardinality" -> "theories/topology_theory/separation_axioms";
   "classical/classical_sets" -> "theories/topology_theory/separation_axioms";
   "classical/filter" -> "theories/topology_theory/separation_axioms";
   "classical/fsbigop" -> "theories/topology_theory/separation_axioms";
   "classical/functions" -> "theories/topology_theory/separation_axioms";
-  "classical/mathcomp_extra" -> "theories/topology_theory/separation_axioms";
   "classical/set_interval" -> "theories/topology_theory/separation_axioms";
   "classical/wochoice" -> "theories/topology_theory/separation_axioms";
   "reals/reals" -> "theories/topology_theory/separation_axioms";
@@ -752,11 +695,9 @@ subgraph cluster_Topology {
         fillcolor=4
     ]
 }
-  "classical/all_ssreflect_compat" -> "theories/topology_theory/metric_structure";
   "classical/boolp" -> "theories/topology_theory/metric_structure";
   "classical/classical_sets" -> "theories/topology_theory/metric_structure";
   "classical/contra" -> "theories/topology_theory/metric_structure";
-  "classical/mathcomp_extra" -> "theories/topology_theory/metric_structure";
   "classical/unstable" -> "theories/topology_theory/metric_structure";
   "reals/reals" -> "theories/topology_theory/metric_structure";
   "theories/topology_theory/num_topology" -> "theories/topology_theory/metric_structure";
@@ -773,13 +714,11 @@ subgraph cluster_Topology {
         fillcolor=4
     ]
 }
-  "classical/all_ssreflect_compat" -> "theories/topology_theory/function_spaces";
   "classical/boolp" -> "theories/topology_theory/function_spaces";
   "classical/cardinality" -> "theories/topology_theory/function_spaces";
   "classical/classical_sets" -> "theories/topology_theory/function_spaces";
   "classical/fsbigop" -> "theories/topology_theory/function_spaces";
   "classical/functions" -> "theories/topology_theory/function_spaces";
-  "classical/mathcomp_extra" -> "theories/topology_theory/function_spaces";
   "classical/unstable" -> "theories/topology_theory/function_spaces";
   "reals/reals" -> "theories/topology_theory/function_spaces";
   "theories/topology_theory/compact" -> "theories/topology_theory/function_spaces";
@@ -810,13 +749,11 @@ subgraph cluster_Topology {
         fillcolor=4
     ]
 }
-  "classical/all_ssreflect_compat" -> "theories/homotopy_theory/wedge_sigT";
   "classical/boolp" -> "theories/homotopy_theory/wedge_sigT";
   "classical/cardinality" -> "theories/homotopy_theory/wedge_sigT";
   "classical/classical_sets" -> "theories/homotopy_theory/wedge_sigT";
   "classical/fsbigop" -> "theories/homotopy_theory/wedge_sigT";
   "classical/functions" -> "theories/homotopy_theory/wedge_sigT";
-  "classical/mathcomp_extra" -> "theories/homotopy_theory/wedge_sigT";
   "classical/unstable" -> "theories/homotopy_theory/wedge_sigT";
   "reals/reals" -> "theories/homotopy_theory/wedge_sigT";
   "theories/topology_theory/topology" -> "theories/homotopy_theory/wedge_sigT";
@@ -828,13 +765,11 @@ subgraph cluster_Topology {
         fillcolor=4
     ]
 }
-  "classical/all_ssreflect_compat" -> "theories/homotopy_theory/continuous_path";
   "classical/boolp" -> "theories/homotopy_theory/continuous_path";
   "classical/cardinality" -> "theories/homotopy_theory/continuous_path";
   "classical/classical_sets" -> "theories/homotopy_theory/continuous_path";
   "classical/fsbigop" -> "theories/homotopy_theory/continuous_path";
   "classical/functions" -> "theories/homotopy_theory/continuous_path";
-  "classical/mathcomp_extra" -> "theories/homotopy_theory/continuous_path";
   "reals/reals" -> "theories/homotopy_theory/continuous_path";
   "theories/homotopy_theory/wedge_sigT" -> "theories/homotopy_theory/continuous_path";
   "theories/topology_theory/topology" -> "theories/homotopy_theory/continuous_path";
@@ -846,7 +781,6 @@ subgraph cluster_Analysis {
         fillcolor=5
     ]
 }
-  "classical/all_ssreflect_compat" -> "theories/ess_sup_inf";
   "classical/boolp" -> "theories/ess_sup_inf";
   "classical/cardinality" -> "theories/ess_sup_inf";
   "classical/classical_sets" -> "theories/ess_sup_inf";
@@ -867,12 +801,11 @@ subgraph cluster_Analysis {
         fillcolor=5
     ]
 }
-  "classical/all_ssreflect_compat" -> "theories/cantor";
   "classical/boolp" -> "theories/cantor";
   "classical/cardinality" -> "theories/cantor";
   "classical/classical_sets" -> "theories/cantor";
   "classical/functions" -> "theories/cantor";
-  "classical/mathcomp_extra" -> "theories/cantor";
+  "classical/unstable" -> "theories/cantor";
   "reals/reals" -> "theories/cantor";
   "theories/topology_theory/topology" -> "theories/cantor";
 
@@ -883,15 +816,12 @@ subgraph cluster_Normedtype {
         fillcolor=9
     ]
 }
-  "classical/all_ssreflect_compat" -> "theories/normedtype_theory/num_normedtype";
   "classical/boolp" -> "theories/normedtype_theory/num_normedtype";
   "classical/cardinality" -> "theories/normedtype_theory/num_normedtype";
   "classical/classical_sets" -> "theories/normedtype_theory/num_normedtype";
   "classical/functions" -> "theories/normedtype_theory/num_normedtype";
-  "classical/mathcomp_extra" -> "theories/normedtype_theory/num_normedtype";
   "classical/set_interval" -> "theories/normedtype_theory/num_normedtype";
   "classical/unstable" -> "theories/normedtype_theory/num_normedtype";
-  "reals/prodnormedzmodule" -> "theories/normedtype_theory/num_normedtype";
   "reals/real_interval" -> "theories/normedtype_theory/num_normedtype";
   "reals/reals" -> "theories/normedtype_theory/num_normedtype";
   "theories/topology_theory/topology" -> "theories/normedtype_theory/num_normedtype";
@@ -903,12 +833,10 @@ subgraph cluster_Normedtype {
         fillcolor=9
     ]
 }
-  "classical/all_ssreflect_compat" -> "theories/normedtype_theory/matrix_normedtype";
   "classical/boolp" -> "theories/normedtype_theory/matrix_normedtype";
   "classical/classical_sets" -> "theories/normedtype_theory/matrix_normedtype";
   "classical/contra" -> "theories/normedtype_theory/matrix_normedtype";
   "classical/unstable" -> "theories/normedtype_theory/matrix_normedtype";
-  "reals/prodnormedzmodule" -> "theories/normedtype_theory/matrix_normedtype";
   "reals/reals" -> "theories/normedtype_theory/matrix_normedtype";
   "theories/normedtype_theory/normed_module" -> "theories/normedtype_theory/matrix_normedtype";
   "theories/normedtype_theory/pseudometric_normed_Zmodule" -> "theories/normedtype_theory/matrix_normedtype";
@@ -922,7 +850,6 @@ subgraph cluster_Normedtype {
         fillcolor=9
     ]
 }
-  "classical/all_ssreflect_compat" -> "theories/normedtype_theory/ereal_normedtype";
   "classical/boolp" -> "theories/normedtype_theory/ereal_normedtype";
   "classical/classical_sets" -> "theories/normedtype_theory/ereal_normedtype";
   "reals/real_interval" -> "theories/normedtype_theory/ereal_normedtype";
@@ -938,13 +865,12 @@ subgraph cluster_Normedtype {
         fillcolor=9
     ]
 }
-  "classical/all_ssreflect_compat" -> "theories/normedtype_theory/pseudometric_normed_Zmodule";
   "classical/boolp" -> "theories/normedtype_theory/pseudometric_normed_Zmodule";
   "classical/cardinality" -> "theories/normedtype_theory/pseudometric_normed_Zmodule";
   "classical/classical_sets" -> "theories/normedtype_theory/pseudometric_normed_Zmodule";
   "classical/functions" -> "theories/normedtype_theory/pseudometric_normed_Zmodule";
   "classical/set_interval" -> "theories/normedtype_theory/pseudometric_normed_Zmodule";
-  "reals/prodnormedzmodule" -> "theories/normedtype_theory/pseudometric_normed_Zmodule";
+  "classical/unstable" -> "theories/normedtype_theory/pseudometric_normed_Zmodule";
   "reals/reals" -> "theories/normedtype_theory/pseudometric_normed_Zmodule";
   "theories/ereal" -> "theories/normedtype_theory/pseudometric_normed_Zmodule";
   "theories/normedtype_theory/num_normedtype" -> "theories/normedtype_theory/pseudometric_normed_Zmodule";
@@ -957,7 +883,6 @@ subgraph cluster_Normedtype {
         fillcolor=9
     ]
 }
-  "classical/all_ssreflect_compat" -> "theories/normedtype_theory/tvs";
   "classical/boolp" -> "theories/normedtype_theory/tvs";
   "classical/cardinality" -> "theories/normedtype_theory/tvs";
   "classical/classical_sets" -> "theories/normedtype_theory/tvs";
@@ -977,16 +902,13 @@ subgraph cluster_Normedtype {
         fillcolor=9
     ]
 }
-  "classical/all_ssreflect_compat" -> "theories/normedtype_theory/normed_module";
   "classical/boolp" -> "theories/normedtype_theory/normed_module";
   "classical/cardinality" -> "theories/normedtype_theory/normed_module";
   "classical/classical_sets" -> "theories/normedtype_theory/normed_module";
   "classical/filter" -> "theories/normedtype_theory/normed_module";
   "classical/functions" -> "theories/normedtype_theory/normed_module";
-  "classical/mathcomp_extra" -> "theories/normedtype_theory/normed_module";
   "classical/set_interval" -> "theories/normedtype_theory/normed_module";
   "classical/unstable" -> "theories/normedtype_theory/normed_module";
-  "reals/prodnormedzmodule" -> "theories/normedtype_theory/normed_module";
   "reals/real_interval" -> "theories/normedtype_theory/normed_module";
   "reals/reals" -> "theories/normedtype_theory/normed_module";
   "theories/convex" -> "theories/normedtype_theory/normed_module";
@@ -1004,7 +926,6 @@ subgraph cluster_Normedtype {
         fillcolor=9
     ]
 }
-  "classical/all_ssreflect_compat" -> "theories/normedtype_theory/complete_normed_module";
   "classical/boolp" -> "theories/normedtype_theory/complete_normed_module";
   "classical/classical_sets" -> "theories/normedtype_theory/complete_normed_module";
   "reals/reals" -> "theories/normedtype_theory/complete_normed_module";
@@ -1020,7 +941,6 @@ subgraph cluster_Normedtype {
         fillcolor=9
     ]
 }
-  "classical/all_ssreflect_compat" -> "theories/normedtype_theory/urysohn";
   "classical/boolp" -> "theories/normedtype_theory/urysohn";
   "classical/cardinality" -> "theories/normedtype_theory/urysohn";
   "classical/classical_sets" -> "theories/normedtype_theory/urysohn";
@@ -1042,7 +962,6 @@ subgraph cluster_Normedtype {
         fillcolor=9
     ]
 }
-  "classical/all_ssreflect_compat" -> "theories/normedtype_theory/vitali_lemma";
   "classical/boolp" -> "theories/normedtype_theory/vitali_lemma";
   "classical/cardinality" -> "theories/normedtype_theory/vitali_lemma";
   "classical/classical_sets" -> "theories/normedtype_theory/vitali_lemma";
@@ -1086,7 +1005,6 @@ subgraph cluster_FunctionalAnalysis {
   "classical/classical_sets" -> "theories/functional_analysis/hahn_banach_theorem";
   "classical/contra" -> "theories/functional_analysis/hahn_banach_theorem";
   "classical/filter" -> "theories/functional_analysis/hahn_banach_theorem";
-  "classical/mathcomp_extra" -> "theories/functional_analysis/hahn_banach_theorem";
   "classical/unstable" -> "theories/functional_analysis/hahn_banach_theorem";
   "reals/reals" -> "theories/functional_analysis/hahn_banach_theorem";
   "theories/convex" -> "theories/functional_analysis/hahn_banach_theorem";
@@ -1100,13 +1018,11 @@ subgraph cluster_Analysis {
         fillcolor=5
     ]
 }
-  "classical/all_ssreflect_compat" -> "theories/sequences";
   "classical/boolp" -> "theories/sequences";
   "classical/cardinality" -> "theories/sequences";
   "classical/classical_sets" -> "theories/sequences";
   "classical/contra" -> "theories/sequences";
   "classical/functions" -> "theories/sequences";
-  "classical/mathcomp_extra" -> "theories/sequences";
   "classical/set_interval" -> "theories/sequences";
   "classical/unstable" -> "theories/sequences";
   "reals/reals" -> "theories/sequences";
@@ -1123,15 +1039,12 @@ subgraph cluster_Analysis {
         fillcolor=5
     ]
 }
-  "classical/all_ssreflect_compat" -> "theories/realfun";
   "classical/boolp" -> "theories/realfun";
   "classical/cardinality" -> "theories/realfun";
   "classical/classical_sets" -> "theories/realfun";
   "classical/contra" -> "theories/realfun";
   "classical/functions" -> "theories/realfun";
-  "classical/mathcomp_extra" -> "theories/realfun";
   "classical/unstable" -> "theories/realfun";
-  "reals/prodnormedzmodule" -> "theories/realfun";
   "reals/real_interval" -> "theories/realfun";
   "reals/reals" -> "theories/realfun";
   "theories/convex" -> "theories/realfun";
@@ -1150,11 +1063,9 @@ subgraph cluster_Analysis {
         fillcolor=5
     ]
 }
-  "classical/all_ssreflect_compat" -> "theories/exp";
   "classical/boolp" -> "theories/exp";
   "classical/classical_sets" -> "theories/exp";
   "classical/functions" -> "theories/exp";
-  "classical/mathcomp_extra" -> "theories/exp";
   "classical/unstable" -> "theories/exp";
   "reals/reals" -> "theories/exp";
   "theories/convex" -> "theories/exp";
@@ -1167,32 +1078,62 @@ subgraph cluster_Analysis {
   "theories/sequences" -> "theories/exp";
   "theories/topology_theory/topology" -> "theories/exp";
 
-subgraph cluster_Analysis {
-    "theories/trigo"[
-        label="trigo",
-        URL="mathcomp.analysis.trigo.html",
-        fillcolor=5
+subgraph cluster_ElementaryFunctions {
+    "theories/elementary_functions/trigonometry_functions"[
+        label="trigonometry_functions",
+        URL="mathcomp.analysis.elementary_functions.trigonometry_functions.html",
+        fillcolor=6
     ]
 }
-  "classical/all_ssreflect_compat" -> "theories/trigo";
-  "classical/boolp" -> "theories/trigo";
-  "classical/classical_sets" -> "theories/trigo";
-  "classical/functions" -> "theories/trigo";
-  "classical/mathcomp_extra" -> "theories/trigo";
-  "classical/unstable" -> "theories/trigo";
-  "reals/reals" -> "theories/trigo";
-  "theories/derive" -> "theories/trigo";
-  "theories/ereal" -> "theories/trigo";
-  "theories/exp" -> "theories/trigo";
-  "theories/ftc" -> "theories/trigo";
-  "theories/landau" -> "theories/trigo";
-  "theories/lebesgue_integral_theory/lebesgue_integral" -> "theories/trigo";
-  "theories/lebesgue_measure" -> "theories/trigo";
-  "theories/measure_theory/measure" -> "theories/trigo";
-  "theories/normedtype_theory/normedtype" -> "theories/trigo";
-  "theories/realfun" -> "theories/trigo";
-  "theories/sequences" -> "theories/trigo";
-  "theories/topology_theory/topology" -> "theories/trigo";
+  "classical/boolp" -> "theories/elementary_functions/trigonometry_functions";
+  "classical/classical_sets" -> "theories/elementary_functions/trigonometry_functions";
+  "classical/functions" -> "theories/elementary_functions/trigonometry_functions";
+  "classical/unstable" -> "theories/elementary_functions/trigonometry_functions";
+  "reals/reals" -> "theories/elementary_functions/trigonometry_functions";
+  "theories/derive" -> "theories/elementary_functions/trigonometry_functions";
+  "theories/ereal" -> "theories/elementary_functions/trigonometry_functions";
+  "theories/exp" -> "theories/elementary_functions/trigonometry_functions";
+  "theories/landau" -> "theories/elementary_functions/trigonometry_functions";
+  "theories/normedtype_theory/normedtype" -> "theories/elementary_functions/trigonometry_functions";
+  "theories/realfun" -> "theories/elementary_functions/trigonometry_functions";
+  "theories/sequences" -> "theories/elementary_functions/trigonometry_functions";
+  "theories/topology_theory/topology" -> "theories/elementary_functions/trigonometry_functions";
+
+subgraph cluster_ElementaryFunctions {
+    "theories/elementary_functions/trigonometry_integral"[
+        label="trigonometry_integral",
+        URL="mathcomp.analysis.elementary_functions.trigonometry_integral.html",
+        fillcolor=6
+    ]
+}
+  "classical/boolp" -> "theories/elementary_functions/trigonometry_integral";
+  "classical/classical_sets" -> "theories/elementary_functions/trigonometry_integral";
+  "classical/functions" -> "theories/elementary_functions/trigonometry_integral";
+  "classical/unstable" -> "theories/elementary_functions/trigonometry_integral";
+  "reals/reals" -> "theories/elementary_functions/trigonometry_integral";
+  "theories/derive" -> "theories/elementary_functions/trigonometry_integral";
+  "theories/elementary_functions/trigonometry_functions" -> "theories/elementary_functions/trigonometry_integral";
+  "theories/ereal" -> "theories/elementary_functions/trigonometry_integral";
+  "theories/exp" -> "theories/elementary_functions/trigonometry_integral";
+  "theories/ftc" -> "theories/elementary_functions/trigonometry_integral";
+  "theories/landau" -> "theories/elementary_functions/trigonometry_integral";
+  "theories/lebesgue_integral_theory/lebesgue_integral" -> "theories/elementary_functions/trigonometry_integral";
+  "theories/lebesgue_measure" -> "theories/elementary_functions/trigonometry_integral";
+  "theories/measure_theory/measure" -> "theories/elementary_functions/trigonometry_integral";
+  "theories/normedtype_theory/normedtype" -> "theories/elementary_functions/trigonometry_integral";
+  "theories/realfun" -> "theories/elementary_functions/trigonometry_integral";
+  "theories/sequences" -> "theories/elementary_functions/trigonometry_integral";
+  "theories/topology_theory/topology" -> "theories/elementary_functions/trigonometry_integral";
+
+subgraph cluster_ElementaryFunctions {
+    "theories/elementary_functions/trigo"[
+        label="trigo",
+        URL="mathcomp.analysis.elementary_functions.trigo.html",
+        fillcolor=6
+    ]
+}
+  "theories/elementary_functions/trigonometry_functions" -> "theories/elementary_functions/trigo";
+  "theories/elementary_functions/trigonometry_integral" -> "theories/elementary_functions/trigo";
 
 subgraph cluster_Analysis {
     "theories/esum"[
@@ -1201,13 +1142,11 @@ subgraph cluster_Analysis {
         fillcolor=5
     ]
 }
-  "classical/all_ssreflect_compat" -> "theories/esum";
   "classical/boolp" -> "theories/esum";
   "classical/cardinality" -> "theories/esum";
   "classical/classical_sets" -> "theories/esum";
   "classical/fsbigop" -> "theories/esum";
   "classical/functions" -> "theories/esum";
-  "classical/mathcomp_extra" -> "theories/esum";
   "classical/unstable" -> "theories/esum";
   "reals/reals" -> "theories/esum";
   "theories/ereal" -> "theories/esum";
@@ -1223,14 +1162,11 @@ subgraph cluster_Analysis {
         fillcolor=5
     ]
 }
-  "classical/all_ssreflect_compat" -> "theories/derive";
   "classical/boolp" -> "theories/derive";
   "classical/classical_sets" -> "theories/derive";
   "classical/contra" -> "theories/derive";
   "classical/functions" -> "theories/derive";
-  "classical/mathcomp_extra" -> "theories/derive";
   "classical/unstable" -> "theories/derive";
-  "reals/prodnormedzmodule" -> "theories/derive";
   "reals/reals" -> "theories/derive";
   "theories/landau" -> "theories/derive";
   "theories/normedtype_theory/normedtype" -> "theories/derive";
@@ -1244,13 +1180,11 @@ subgraph cluster_Analysis {
         fillcolor=5
     ]
 }
-  "classical/all_ssreflect_compat" -> "theories/numfun";
   "classical/boolp" -> "theories/numfun";
   "classical/cardinality" -> "theories/numfun";
   "classical/classical_sets" -> "theories/numfun";
   "classical/fsbigop" -> "theories/numfun";
   "classical/functions" -> "theories/numfun";
-  "classical/mathcomp_extra" -> "theories/numfun";
   "classical/set_interval" -> "theories/numfun";
   "classical/unstable" -> "theories/numfun";
   "reals/reals" -> "theories/numfun";
@@ -1266,7 +1200,6 @@ subgraph cluster_Measure {
         fillcolor=11
     ]
 }
-  "classical/all_ssreflect_compat" -> "theories/measure_theory/measurable_structure";
   "classical/boolp" -> "theories/measure_theory/measurable_structure";
   "classical/cardinality" -> "theories/measure_theory/measurable_structure";
   "classical/classical_sets" -> "theories/measure_theory/measurable_structure";
@@ -1281,7 +1214,6 @@ subgraph cluster_Measure {
         fillcolor=11
     ]
 }
-  "classical/all_ssreflect_compat" -> "theories/measure_theory/measure_function";
   "classical/boolp" -> "theories/measure_theory/measure_function";
   "classical/cardinality" -> "theories/measure_theory/measure_function";
   "classical/classical_sets" -> "theories/measure_theory/measure_function";
@@ -1304,7 +1236,6 @@ subgraph cluster_Measure {
         fillcolor=11
     ]
 }
-  "classical/all_ssreflect_compat" -> "theories/measure_theory/counting_measure";
   "classical/boolp" -> "theories/measure_theory/counting_measure";
   "classical/cardinality" -> "theories/measure_theory/counting_measure";
   "classical/classical_sets" -> "theories/measure_theory/counting_measure";
@@ -1324,13 +1255,11 @@ subgraph cluster_Measure {
         fillcolor=11
     ]
 }
-  "classical/all_ssreflect_compat" -> "theories/measure_theory/dirac_measure";
   "classical/boolp" -> "theories/measure_theory/dirac_measure";
   "classical/cardinality" -> "theories/measure_theory/dirac_measure";
   "classical/classical_sets" -> "theories/measure_theory/dirac_measure";
   "classical/fsbigop" -> "theories/measure_theory/dirac_measure";
   "classical/functions" -> "theories/measure_theory/dirac_measure";
-  "classical/mathcomp_extra" -> "theories/measure_theory/dirac_measure";
   "reals/reals" -> "theories/measure_theory/dirac_measure";
   "theories/ereal" -> "theories/measure_theory/dirac_measure";
   "theories/esum" -> "theories/measure_theory/dirac_measure";
@@ -1348,7 +1277,6 @@ subgraph cluster_Measure {
         fillcolor=11
     ]
 }
-  "classical/all_ssreflect_compat" -> "theories/measure_theory/probability_measure";
   "classical/boolp" -> "theories/measure_theory/probability_measure";
   "classical/cardinality" -> "theories/measure_theory/probability_measure";
   "classical/classical_sets" -> "theories/measure_theory/probability_measure";
@@ -1368,7 +1296,6 @@ subgraph cluster_Measure {
         fillcolor=11
     ]
 }
-  "classical/all_ssreflect_compat" -> "theories/measure_theory/measure_negligible";
   "classical/boolp" -> "theories/measure_theory/measure_negligible";
   "classical/cardinality" -> "theories/measure_theory/measure_negligible";
   "classical/classical_sets" -> "theories/measure_theory/measure_negligible";
@@ -1390,7 +1317,6 @@ subgraph cluster_Measure {
         fillcolor=11
     ]
 }
-  "classical/all_ssreflect_compat" -> "theories/measure_theory/measure_extension";
   "classical/boolp" -> "theories/measure_theory/measure_extension";
   "classical/cardinality" -> "theories/measure_theory/measure_extension";
   "classical/classical_sets" -> "theories/measure_theory/measure_extension";
@@ -1413,7 +1339,6 @@ subgraph cluster_Measure {
         fillcolor=11
     ]
 }
-  "classical/all_ssreflect_compat" -> "theories/measure_theory/measurable_function";
   "classical/boolp" -> "theories/measure_theory/measurable_function";
   "classical/classical_sets" -> "theories/measure_theory/measurable_function";
   "classical/functions" -> "theories/measure_theory/measurable_function";
@@ -1427,13 +1352,11 @@ subgraph cluster_Measure {
         fillcolor=11
     ]
 }
-  "classical/all_ssreflect_compat" -> "theories/measure_theory/signed_measure";
   "classical/boolp" -> "theories/measure_theory/signed_measure";
   "classical/cardinality" -> "theories/measure_theory/signed_measure";
   "classical/classical_sets" -> "theories/measure_theory/signed_measure";
   "classical/fsbigop" -> "theories/measure_theory/signed_measure";
   "classical/functions" -> "theories/measure_theory/signed_measure";
-  "classical/mathcomp_extra" -> "theories/measure_theory/signed_measure";
   "classical/set_interval" -> "theories/measure_theory/signed_measure";
   "classical/unstable" -> "theories/measure_theory/signed_measure";
   "reals/reals" -> "theories/measure_theory/signed_measure";
@@ -1473,7 +1396,6 @@ subgraph cluster_Analysis {
         fillcolor=5
     ]
 }
-  "classical/all_ssreflect_compat" -> "theories/measurable_realfun";
   "classical/boolp" -> "theories/measurable_realfun";
   "classical/cardinality" -> "theories/measurable_realfun";
   "classical/classical_sets" -> "theories/measurable_realfun";
@@ -1501,7 +1423,6 @@ subgraph cluster_Analysis {
         fillcolor=5
     ]
 }
-  "classical/all_ssreflect_compat" -> "theories/lebesgue_stieltjes_measure";
   "classical/boolp" -> "theories/lebesgue_stieltjes_measure";
   "classical/cardinality" -> "theories/lebesgue_stieltjes_measure";
   "classical/classical_sets" -> "theories/lebesgue_stieltjes_measure";
@@ -1526,13 +1447,11 @@ subgraph cluster_Analysis {
         fillcolor=5
     ]
 }
-  "classical/all_ssreflect_compat" -> "theories/lebesgue_measure";
   "classical/boolp" -> "theories/lebesgue_measure";
   "classical/cardinality" -> "theories/lebesgue_measure";
   "classical/classical_sets" -> "theories/lebesgue_measure";
   "classical/fsbigop" -> "theories/lebesgue_measure";
   "classical/functions" -> "theories/lebesgue_measure";
-  "classical/mathcomp_extra" -> "theories/lebesgue_measure";
   "classical/unstable" -> "theories/lebesgue_measure";
   "reals/real_interval" -> "theories/lebesgue_measure";
   "reals/reals" -> "theories/lebesgue_measure";
@@ -1556,7 +1475,6 @@ subgraph cluster_Analysis {
         fillcolor=5
     ]
 }
-  "classical/all_ssreflect_compat" -> "theories/borel_hierarchy";
   "classical/boolp" -> "theories/borel_hierarchy";
   "classical/cardinality" -> "theories/borel_hierarchy";
   "classical/classical_sets" -> "theories/borel_hierarchy";
@@ -1576,13 +1494,11 @@ subgraph cluster_LebesgueIntegral {
         fillcolor=10
     ]
 }
-  "classical/all_ssreflect_compat" -> "theories/lebesgue_integral_theory/simple_functions";
   "classical/boolp" -> "theories/lebesgue_integral_theory/simple_functions";
   "classical/cardinality" -> "theories/lebesgue_integral_theory/simple_functions";
   "classical/classical_sets" -> "theories/lebesgue_integral_theory/simple_functions";
   "classical/fsbigop" -> "theories/lebesgue_integral_theory/simple_functions";
   "classical/functions" -> "theories/lebesgue_integral_theory/simple_functions";
-  "classical/mathcomp_extra" -> "theories/lebesgue_integral_theory/simple_functions";
   "reals/real_interval" -> "theories/lebesgue_integral_theory/simple_functions";
   "reals/reals" -> "theories/lebesgue_integral_theory/simple_functions";
   "theories/ereal" -> "theories/lebesgue_integral_theory/simple_functions";
@@ -1604,14 +1520,11 @@ subgraph cluster_LebesgueIntegral {
         fillcolor=10
     ]
 }
-  "classical/all_ssreflect_compat" -> "theories/lebesgue_integral_theory/lebesgue_integral_definition";
   "classical/boolp" -> "theories/lebesgue_integral_theory/lebesgue_integral_definition";
   "classical/cardinality" -> "theories/lebesgue_integral_theory/lebesgue_integral_definition";
   "classical/classical_sets" -> "theories/lebesgue_integral_theory/lebesgue_integral_definition";
   "classical/fsbigop" -> "theories/lebesgue_integral_theory/lebesgue_integral_definition";
   "classical/functions" -> "theories/lebesgue_integral_theory/lebesgue_integral_definition";
-  "classical/mathcomp_extra" -> "theories/lebesgue_integral_theory/lebesgue_integral_definition";
-  "classical/unstable" -> "theories/lebesgue_integral_theory/lebesgue_integral_definition";
   "reals/real_interval" -> "theories/lebesgue_integral_theory/lebesgue_integral_definition";
   "reals/reals" -> "theories/lebesgue_integral_theory/lebesgue_integral_definition";
   "theories/ereal" -> "theories/lebesgue_integral_theory/lebesgue_integral_definition";
@@ -1634,13 +1547,11 @@ subgraph cluster_LebesgueIntegral {
         fillcolor=10
     ]
 }
-  "classical/all_ssreflect_compat" -> "theories/lebesgue_integral_theory/measurable_fun_approximation";
   "classical/boolp" -> "theories/lebesgue_integral_theory/measurable_fun_approximation";
   "classical/cardinality" -> "theories/lebesgue_integral_theory/measurable_fun_approximation";
   "classical/classical_sets" -> "theories/lebesgue_integral_theory/measurable_fun_approximation";
   "classical/fsbigop" -> "theories/lebesgue_integral_theory/measurable_fun_approximation";
   "classical/functions" -> "theories/lebesgue_integral_theory/measurable_fun_approximation";
-  "classical/mathcomp_extra" -> "theories/lebesgue_integral_theory/measurable_fun_approximation";
   "classical/unstable" -> "theories/lebesgue_integral_theory/measurable_fun_approximation";
   "reals/real_interval" -> "theories/lebesgue_integral_theory/measurable_fun_approximation";
   "reals/reals" -> "theories/lebesgue_integral_theory/measurable_fun_approximation";
@@ -1665,13 +1576,11 @@ subgraph cluster_LebesgueIntegral {
         fillcolor=10
     ]
 }
-  "classical/all_ssreflect_compat" -> "theories/lebesgue_integral_theory/lebesgue_integral_monotone_convergence";
   "classical/boolp" -> "theories/lebesgue_integral_theory/lebesgue_integral_monotone_convergence";
   "classical/cardinality" -> "theories/lebesgue_integral_theory/lebesgue_integral_monotone_convergence";
   "classical/classical_sets" -> "theories/lebesgue_integral_theory/lebesgue_integral_monotone_convergence";
   "classical/fsbigop" -> "theories/lebesgue_integral_theory/lebesgue_integral_monotone_convergence";
   "classical/functions" -> "theories/lebesgue_integral_theory/lebesgue_integral_monotone_convergence";
-  "classical/mathcomp_extra" -> "theories/lebesgue_integral_theory/lebesgue_integral_monotone_convergence";
   "classical/unstable" -> "theories/lebesgue_integral_theory/lebesgue_integral_monotone_convergence";
   "reals/real_interval" -> "theories/lebesgue_integral_theory/lebesgue_integral_monotone_convergence";
   "reals/reals" -> "theories/lebesgue_integral_theory/lebesgue_integral_monotone_convergence";
@@ -1697,13 +1606,11 @@ subgraph cluster_LebesgueIntegral {
         fillcolor=10
     ]
 }
-  "classical/all_ssreflect_compat" -> "theories/lebesgue_integral_theory/lebesgue_integral_nonneg";
   "classical/boolp" -> "theories/lebesgue_integral_theory/lebesgue_integral_nonneg";
   "classical/cardinality" -> "theories/lebesgue_integral_theory/lebesgue_integral_nonneg";
   "classical/classical_sets" -> "theories/lebesgue_integral_theory/lebesgue_integral_nonneg";
   "classical/fsbigop" -> "theories/lebesgue_integral_theory/lebesgue_integral_nonneg";
   "classical/functions" -> "theories/lebesgue_integral_theory/lebesgue_integral_nonneg";
-  "classical/mathcomp_extra" -> "theories/lebesgue_integral_theory/lebesgue_integral_nonneg";
   "classical/unstable" -> "theories/lebesgue_integral_theory/lebesgue_integral_nonneg";
   "reals/real_interval" -> "theories/lebesgue_integral_theory/lebesgue_integral_nonneg";
   "reals/reals" -> "theories/lebesgue_integral_theory/lebesgue_integral_nonneg";
@@ -1730,13 +1637,11 @@ subgraph cluster_LebesgueIntegral {
         fillcolor=10
     ]
 }
-  "classical/all_ssreflect_compat" -> "theories/lebesgue_integral_theory/lebesgue_integrable";
   "classical/boolp" -> "theories/lebesgue_integral_theory/lebesgue_integrable";
   "classical/cardinality" -> "theories/lebesgue_integral_theory/lebesgue_integrable";
   "classical/classical_sets" -> "theories/lebesgue_integral_theory/lebesgue_integrable";
   "classical/fsbigop" -> "theories/lebesgue_integral_theory/lebesgue_integrable";
   "classical/functions" -> "theories/lebesgue_integral_theory/lebesgue_integrable";
-  "classical/mathcomp_extra" -> "theories/lebesgue_integral_theory/lebesgue_integrable";
   "classical/unstable" -> "theories/lebesgue_integral_theory/lebesgue_integrable";
   "reals/real_interval" -> "theories/lebesgue_integral_theory/lebesgue_integrable";
   "reals/reals" -> "theories/lebesgue_integral_theory/lebesgue_integrable";
@@ -1764,13 +1669,11 @@ subgraph cluster_LebesgueIntegral {
         fillcolor=10
     ]
 }
-  "classical/all_ssreflect_compat" -> "theories/lebesgue_integral_theory/lebesgue_integral_dominated_convergence";
   "classical/boolp" -> "theories/lebesgue_integral_theory/lebesgue_integral_dominated_convergence";
   "classical/cardinality" -> "theories/lebesgue_integral_theory/lebesgue_integral_dominated_convergence";
   "classical/classical_sets" -> "theories/lebesgue_integral_theory/lebesgue_integral_dominated_convergence";
   "classical/fsbigop" -> "theories/lebesgue_integral_theory/lebesgue_integral_dominated_convergence";
   "classical/functions" -> "theories/lebesgue_integral_theory/lebesgue_integral_dominated_convergence";
-  "classical/mathcomp_extra" -> "theories/lebesgue_integral_theory/lebesgue_integral_dominated_convergence";
   "reals/real_interval" -> "theories/lebesgue_integral_theory/lebesgue_integral_dominated_convergence";
   "reals/reals" -> "theories/lebesgue_integral_theory/lebesgue_integral_dominated_convergence";
   "theories/ereal" -> "theories/lebesgue_integral_theory/lebesgue_integral_dominated_convergence";
@@ -1798,13 +1701,11 @@ subgraph cluster_LebesgueIntegral {
         fillcolor=10
     ]
 }
-  "classical/all_ssreflect_compat" -> "theories/lebesgue_integral_theory/lebesgue_integral_under";
   "classical/boolp" -> "theories/lebesgue_integral_theory/lebesgue_integral_under";
   "classical/cardinality" -> "theories/lebesgue_integral_theory/lebesgue_integral_under";
   "classical/classical_sets" -> "theories/lebesgue_integral_theory/lebesgue_integral_under";
   "classical/fsbigop" -> "theories/lebesgue_integral_theory/lebesgue_integral_under";
   "classical/functions" -> "theories/lebesgue_integral_theory/lebesgue_integral_under";
-  "classical/mathcomp_extra" -> "theories/lebesgue_integral_theory/lebesgue_integral_under";
   "reals/real_interval" -> "theories/lebesgue_integral_theory/lebesgue_integral_under";
   "reals/reals" -> "theories/lebesgue_integral_theory/lebesgue_integral_under";
   "theories/derive" -> "theories/lebesgue_integral_theory/lebesgue_integral_under";
@@ -1833,13 +1734,11 @@ subgraph cluster_LebesgueIntegral {
         fillcolor=10
     ]
 }
-  "classical/all_ssreflect_compat" -> "theories/lebesgue_integral_theory/lebesgue_Rintegral";
   "classical/boolp" -> "theories/lebesgue_integral_theory/lebesgue_Rintegral";
   "classical/cardinality" -> "theories/lebesgue_integral_theory/lebesgue_Rintegral";
   "classical/classical_sets" -> "theories/lebesgue_integral_theory/lebesgue_Rintegral";
   "classical/fsbigop" -> "theories/lebesgue_integral_theory/lebesgue_Rintegral";
   "classical/functions" -> "theories/lebesgue_integral_theory/lebesgue_Rintegral";
-  "classical/mathcomp_extra" -> "theories/lebesgue_integral_theory/lebesgue_Rintegral";
   "reals/real_interval" -> "theories/lebesgue_integral_theory/lebesgue_Rintegral";
   "reals/reals" -> "theories/lebesgue_integral_theory/lebesgue_Rintegral";
   "theories/ereal" -> "theories/lebesgue_integral_theory/lebesgue_Rintegral";
@@ -1868,13 +1767,11 @@ subgraph cluster_LebesgueIntegral {
         fillcolor=10
     ]
 }
-  "classical/all_ssreflect_compat" -> "theories/lebesgue_integral_theory/lebesgue_integral_fubini";
   "classical/boolp" -> "theories/lebesgue_integral_theory/lebesgue_integral_fubini";
   "classical/cardinality" -> "theories/lebesgue_integral_theory/lebesgue_integral_fubini";
   "classical/classical_sets" -> "theories/lebesgue_integral_theory/lebesgue_integral_fubini";
   "classical/fsbigop" -> "theories/lebesgue_integral_theory/lebesgue_integral_fubini";
   "classical/functions" -> "theories/lebesgue_integral_theory/lebesgue_integral_fubini";
-  "classical/mathcomp_extra" -> "theories/lebesgue_integral_theory/lebesgue_integral_fubini";
   "reals/real_interval" -> "theories/lebesgue_integral_theory/lebesgue_integral_fubini";
   "reals/reals" -> "theories/lebesgue_integral_theory/lebesgue_integral_fubini";
   "theories/ereal" -> "theories/lebesgue_integral_theory/lebesgue_integral_fubini";
@@ -1902,13 +1799,11 @@ subgraph cluster_LebesgueIntegral {
         fillcolor=10
     ]
 }
-  "classical/all_ssreflect_compat" -> "theories/lebesgue_integral_theory/lebesgue_integral_differentiation";
   "classical/boolp" -> "theories/lebesgue_integral_theory/lebesgue_integral_differentiation";
   "classical/cardinality" -> "theories/lebesgue_integral_theory/lebesgue_integral_differentiation";
   "classical/classical_sets" -> "theories/lebesgue_integral_theory/lebesgue_integral_differentiation";
   "classical/fsbigop" -> "theories/lebesgue_integral_theory/lebesgue_integral_differentiation";
   "classical/functions" -> "theories/lebesgue_integral_theory/lebesgue_integral_differentiation";
-  "classical/mathcomp_extra" -> "theories/lebesgue_integral_theory/lebesgue_integral_differentiation";
   "reals/real_interval" -> "theories/lebesgue_integral_theory/lebesgue_integral_differentiation";
   "reals/reals" -> "theories/lebesgue_integral_theory/lebesgue_integral_differentiation";
   "theories/ereal" -> "theories/lebesgue_integral_theory/lebesgue_integral_differentiation";
@@ -1958,15 +1853,12 @@ subgraph cluster_LebesgueIntegral {
         fillcolor=10
     ]
 }
-  "classical/all_ssreflect_compat" -> "theories/lebesgue_integral_theory/radon_nikodym";
   "classical/boolp" -> "theories/lebesgue_integral_theory/radon_nikodym";
   "classical/cardinality" -> "theories/lebesgue_integral_theory/radon_nikodym";
   "classical/classical_sets" -> "theories/lebesgue_integral_theory/radon_nikodym";
   "classical/fsbigop" -> "theories/lebesgue_integral_theory/radon_nikodym";
   "classical/functions" -> "theories/lebesgue_integral_theory/radon_nikodym";
-  "classical/mathcomp_extra" -> "theories/lebesgue_integral_theory/radon_nikodym";
   "classical/set_interval" -> "theories/lebesgue_integral_theory/radon_nikodym";
-  "classical/unstable" -> "theories/lebesgue_integral_theory/radon_nikodym";
   "reals/reals" -> "theories/lebesgue_integral_theory/radon_nikodym";
   "theories/derive" -> "theories/lebesgue_integral_theory/radon_nikodym";
   "theories/ereal" -> "theories/lebesgue_integral_theory/radon_nikodym";
@@ -1994,7 +1886,6 @@ subgraph cluster_LebesgueIntegral {
         fillcolor=10
     ]
 }
-  "classical/all_ssreflect_compat" -> "theories/lebesgue_integral_theory/giry";
   "classical/boolp" -> "theories/lebesgue_integral_theory/giry";
   "classical/classical_sets" -> "theories/lebesgue_integral_theory/giry";
   "classical/fsbigop" -> "theories/lebesgue_integral_theory/giry";
@@ -2017,13 +1908,11 @@ subgraph cluster_Analysis {
         fillcolor=5
     ]
 }
-  "classical/all_ssreflect_compat" -> "theories/ftc";
   "classical/boolp" -> "theories/ftc";
   "classical/cardinality" -> "theories/ftc";
   "classical/classical_sets" -> "theories/ftc";
   "classical/fsbigop" -> "theories/ftc";
   "classical/functions" -> "theories/ftc";
-  "classical/mathcomp_extra" -> "theories/ftc";
   "classical/unstable" -> "theories/ftc";
   "reals/real_interval" -> "theories/ftc";
   "reals/reals" -> "theories/ftc";
@@ -2048,13 +1937,11 @@ subgraph cluster_Analysis {
         fillcolor=5
     ]
 }
-  "classical/all_ssreflect_compat" -> "theories/hoelder";
   "classical/boolp" -> "theories/hoelder";
   "classical/cardinality" -> "theories/hoelder";
   "classical/classical_sets" -> "theories/hoelder";
   "classical/fsbigop" -> "theories/hoelder";
   "classical/functions" -> "theories/hoelder";
-  "classical/mathcomp_extra" -> "theories/hoelder";
   "classical/unstable" -> "theories/hoelder";
   "reals/real_interval" -> "theories/hoelder";
   "reals/reals" -> "theories/hoelder";
@@ -2079,7 +1966,6 @@ subgraph cluster_Probability {
         fillcolor=12
     ]
 }
-  "classical/all_ssreflect_compat" -> "theories/probability_theory/random_variable";
   "classical/boolp" -> "theories/probability_theory/random_variable";
   "classical/cardinality" -> "theories/probability_theory/random_variable";
   "classical/classical_sets" -> "theories/probability_theory/random_variable";
@@ -2107,13 +1993,11 @@ subgraph cluster_Probability {
         fillcolor=12
     ]
 }
-  "classical/all_ssreflect_compat" -> "theories/probability_theory/bernoulli_distribution";
   "classical/boolp" -> "theories/probability_theory/bernoulli_distribution";
   "classical/cardinality" -> "theories/probability_theory/bernoulli_distribution";
   "classical/classical_sets" -> "theories/probability_theory/bernoulli_distribution";
   "classical/fsbigop" -> "theories/probability_theory/bernoulli_distribution";
   "classical/functions" -> "theories/probability_theory/bernoulli_distribution";
-  "classical/mathcomp_extra" -> "theories/probability_theory/bernoulli_distribution";
   "classical/unstable" -> "theories/probability_theory/bernoulli_distribution";
   "reals/reals" -> "theories/probability_theory/bernoulli_distribution";
   "theories/ereal" -> "theories/probability_theory/bernoulli_distribution";
@@ -2135,13 +2019,11 @@ subgraph cluster_Probability {
         fillcolor=12
     ]
 }
-  "classical/all_ssreflect_compat" -> "theories/probability_theory/binomial_distribution";
   "classical/boolp" -> "theories/probability_theory/binomial_distribution";
   "classical/cardinality" -> "theories/probability_theory/binomial_distribution";
   "classical/classical_sets" -> "theories/probability_theory/binomial_distribution";
   "classical/fsbigop" -> "theories/probability_theory/binomial_distribution";
   "classical/functions" -> "theories/probability_theory/binomial_distribution";
-  "classical/mathcomp_extra" -> "theories/probability_theory/binomial_distribution";
   "classical/unstable" -> "theories/probability_theory/binomial_distribution";
   "reals/reals" -> "theories/probability_theory/binomial_distribution";
   "theories/ereal" -> "theories/probability_theory/binomial_distribution";
@@ -2162,7 +2044,6 @@ subgraph cluster_Probability {
         fillcolor=12
     ]
 }
-  "classical/all_ssreflect_compat" -> "theories/probability_theory/uniform_distribution";
   "classical/boolp" -> "theories/probability_theory/uniform_distribution";
   "classical/cardinality" -> "theories/probability_theory/uniform_distribution";
   "classical/classical_sets" -> "theories/probability_theory/uniform_distribution";
@@ -2186,7 +2067,6 @@ subgraph cluster_Probability {
         fillcolor=12
     ]
 }
-  "classical/all_ssreflect_compat" -> "theories/probability_theory/normal_distribution";
   "classical/boolp" -> "theories/probability_theory/normal_distribution";
   "classical/cardinality" -> "theories/probability_theory/normal_distribution";
   "classical/classical_sets" -> "theories/probability_theory/normal_distribution";
@@ -2194,6 +2074,7 @@ subgraph cluster_Probability {
   "classical/functions" -> "theories/probability_theory/normal_distribution";
   "reals/reals" -> "theories/probability_theory/normal_distribution";
   "theories/derive" -> "theories/probability_theory/normal_distribution";
+  "theories/elementary_functions/trigo" -> "theories/probability_theory/normal_distribution";
   "theories/ereal" -> "theories/probability_theory/normal_distribution";
   "theories/exp" -> "theories/probability_theory/normal_distribution";
   "theories/ftc" -> "theories/probability_theory/normal_distribution";
@@ -2207,7 +2088,6 @@ subgraph cluster_Probability {
   "theories/realfun" -> "theories/probability_theory/normal_distribution";
   "theories/sequences" -> "theories/probability_theory/normal_distribution";
   "theories/topology_theory/topology" -> "theories/probability_theory/normal_distribution";
-  "theories/trigo" -> "theories/probability_theory/normal_distribution";
 
 subgraph cluster_Probability {
     "theories/probability_theory/exponential_distribution"[
@@ -2216,7 +2096,6 @@ subgraph cluster_Probability {
         fillcolor=12
     ]
 }
-  "classical/all_ssreflect_compat" -> "theories/probability_theory/exponential_distribution";
   "classical/boolp" -> "theories/probability_theory/exponential_distribution";
   "classical/cardinality" -> "theories/probability_theory/exponential_distribution";
   "classical/classical_sets" -> "theories/probability_theory/exponential_distribution";
@@ -2244,7 +2123,6 @@ subgraph cluster_Probability {
         fillcolor=12
     ]
 }
-  "classical/all_ssreflect_compat" -> "theories/probability_theory/poisson_distribution";
   "classical/boolp" -> "theories/probability_theory/poisson_distribution";
   "classical/classical_sets" -> "theories/probability_theory/poisson_distribution";
   "reals/reals" -> "theories/probability_theory/poisson_distribution";
@@ -2266,13 +2144,11 @@ subgraph cluster_Probability {
         fillcolor=12
     ]
 }
-  "classical/all_ssreflect_compat" -> "theories/probability_theory/beta_distribution";
   "classical/boolp" -> "theories/probability_theory/beta_distribution";
   "classical/cardinality" -> "theories/probability_theory/beta_distribution";
   "classical/classical_sets" -> "theories/probability_theory/beta_distribution";
   "classical/fsbigop" -> "theories/probability_theory/beta_distribution";
   "classical/functions" -> "theories/probability_theory/beta_distribution";
-  "classical/mathcomp_extra" -> "theories/probability_theory/beta_distribution";
   "classical/unstable" -> "theories/probability_theory/beta_distribution";
   "reals/reals" -> "theories/probability_theory/beta_distribution";
   "theories/derive" -> "theories/probability_theory/beta_distribution";
@@ -2314,13 +2190,11 @@ subgraph cluster_Analysis {
         fillcolor=5
     ]
 }
-  "classical/all_ssreflect_compat" -> "theories/independence";
   "classical/boolp" -> "theories/independence";
   "classical/cardinality" -> "theories/independence";
   "classical/classical_sets" -> "theories/independence";
   "classical/fsbigop" -> "theories/independence";
   "classical/functions" -> "theories/independence";
-  "classical/mathcomp_extra" -> "theories/independence";
   "reals/reals" -> "theories/independence";
   "theories/ereal" -> "theories/independence";
   "theories/esum" -> "theories/independence";
@@ -2344,10 +2218,8 @@ subgraph cluster_Analysis {
         fillcolor=5
     ]
 }
-  "classical/all_ssreflect_compat" -> "theories/convex";
   "classical/boolp" -> "theories/convex";
   "classical/classical_sets" -> "theories/convex";
-  "classical/mathcomp_extra" -> "theories/convex";
   "classical/set_interval" -> "theories/convex";
   "classical/unstable" -> "theories/convex";
   "reals/reals" -> "theories/convex";
@@ -2360,13 +2232,11 @@ subgraph cluster_Analysis {
         fillcolor=5
     ]
 }
-  "classical/all_ssreflect_compat" -> "theories/charge";
   "classical/boolp" -> "theories/charge";
   "classical/cardinality" -> "theories/charge";
   "classical/classical_sets" -> "theories/charge";
   "classical/fsbigop" -> "theories/charge";
   "classical/functions" -> "theories/charge";
-  "classical/mathcomp_extra" -> "theories/charge";
   "classical/set_interval" -> "theories/charge";
   "classical/unstable" -> "theories/charge";
   "reals/reals" -> "theories/charge";
@@ -2390,13 +2260,11 @@ subgraph cluster_Analysis {
         fillcolor=5
     ]
 }
-  "classical/all_ssreflect_compat" -> "theories/kernel";
   "classical/boolp" -> "theories/kernel";
   "classical/cardinality" -> "theories/kernel";
   "classical/classical_sets" -> "theories/kernel";
   "classical/fsbigop" -> "theories/kernel";
   "classical/functions" -> "theories/kernel";
-  "classical/mathcomp_extra" -> "theories/kernel";
   "reals/reals" -> "theories/kernel";
   "theories/ereal" -> "theories/kernel";
   "theories/esum" -> "theories/kernel";
@@ -2416,16 +2284,15 @@ subgraph cluster_Analysis {
         fillcolor=5
     ]
 }
-  "classical/all_ssreflect_compat" -> "theories/pi_irrational";
   "classical/boolp" -> "theories/pi_irrational";
   "classical/cardinality" -> "theories/pi_irrational";
   "classical/classical_sets" -> "theories/pi_irrational";
   "classical/fsbigop" -> "theories/pi_irrational";
   "classical/functions" -> "theories/pi_irrational";
-  "classical/mathcomp_extra" -> "theories/pi_irrational";
   "reals/real_interval" -> "theories/pi_irrational";
   "reals/reals" -> "theories/pi_irrational";
   "theories/derive" -> "theories/pi_irrational";
+  "theories/elementary_functions/trigo" -> "theories/pi_irrational";
   "theories/ereal" -> "theories/pi_irrational";
   "theories/esum" -> "theories/pi_irrational";
   "theories/ftc" -> "theories/pi_irrational";
@@ -2438,7 +2305,6 @@ subgraph cluster_Analysis {
   "theories/realfun" -> "theories/pi_irrational";
   "theories/sequences" -> "theories/pi_irrational";
   "theories/topology_theory/topology" -> "theories/pi_irrational";
-  "theories/trigo" -> "theories/pi_irrational";
 
 subgraph cluster_Analysis {
     "theories/gauss_integral"[
@@ -2447,16 +2313,15 @@ subgraph cluster_Analysis {
         fillcolor=5
     ]
 }
-  "classical/all_ssreflect_compat" -> "theories/gauss_integral";
   "classical/boolp" -> "theories/gauss_integral";
   "classical/cardinality" -> "theories/gauss_integral";
   "classical/classical_sets" -> "theories/gauss_integral";
   "classical/fsbigop" -> "theories/gauss_integral";
   "classical/functions" -> "theories/gauss_integral";
-  "classical/mathcomp_extra" -> "theories/gauss_integral";
   "reals/real_interval" -> "theories/gauss_integral";
   "reals/reals" -> "theories/gauss_integral";
   "theories/derive" -> "theories/gauss_integral";
+  "theories/elementary_functions/trigo" -> "theories/gauss_integral";
   "theories/ereal" -> "theories/gauss_integral";
   "theories/esum" -> "theories/gauss_integral";
   "theories/exp" -> "theories/gauss_integral";
@@ -2471,7 +2336,6 @@ subgraph cluster_Analysis {
   "theories/realfun" -> "theories/gauss_integral";
   "theories/sequences" -> "theories/gauss_integral";
   "theories/topology_theory/topology" -> "theories/gauss_integral";
-  "theories/trigo" -> "theories/gauss_integral";
 
 subgraph cluster_Analysis {
     "theories/all_analysis"[
@@ -2480,10 +2344,10 @@ subgraph cluster_Analysis {
         fillcolor=5
     ]
 }
-  "reals/prodnormedzmodule" -> "theories/all_analysis";
   "theories/cantor" -> "theories/all_analysis";
   "theories/convex" -> "theories/all_analysis";
   "theories/derive" -> "theories/all_analysis";
+  "theories/elementary_functions/trigo" -> "theories/all_analysis";
   "theories/ereal" -> "theories/all_analysis";
   "theories/esum" -> "theories/all_analysis";
   "theories/exp" -> "theories/all_analysis";
@@ -2503,7 +2367,6 @@ subgraph cluster_Analysis {
   "theories/realfun" -> "theories/all_analysis";
   "theories/sequences" -> "theories/all_analysis";
   "theories/topology_theory/topology" -> "theories/all_analysis";
-  "theories/trigo" -> "theories/all_analysis";
 
 subgraph cluster_Analysis {
     "theories/showcase/summability"[
@@ -2512,7 +2375,6 @@ subgraph cluster_Analysis {
         fillcolor=5
     ]
 }
-  "classical/all_ssreflect_compat" -> "theories/showcase/summability";
   "classical/boolp" -> "theories/showcase/summability";
   "classical/classical_sets" -> "theories/showcase/summability";
   "reals/reals" -> "theories/showcase/summability";
@@ -2527,7 +2389,6 @@ subgraph cluster_Analysis {
         fillcolor=5
     ]
 }
-  "classical/all_ssreflect_compat" -> "theories/showcase/pnt";
   "classical/boolp" -> "theories/showcase/pnt";
   "classical/classical_sets" -> "theories/showcase/pnt";
   "classical/unstable" -> "theories/showcase/pnt";
@@ -2543,11 +2404,11 @@ subgraph cluster_AnalysisStdlib {
         fillcolor=5
     ]
 }
-  "classical/all_ssreflect_compat" -> "analysis_stdlib/Rstruct_topology";
   "classical/boolp" -> "analysis_stdlib/Rstruct_topology";
   "classical/classical_sets" -> "analysis_stdlib/Rstruct_topology";
   "reals/reals" -> "analysis_stdlib/Rstruct_topology";
   "reals_stdlib/Rstruct" -> "analysis_stdlib/Rstruct_topology";
+  "theories/elementary_functions/trigonometry_functions" -> "analysis_stdlib/Rstruct_topology";
   "theories/exp" -> "analysis_stdlib/Rstruct_topology";
   "theories/normedtype_theory/normedtype" -> "analysis_stdlib/Rstruct_topology";
   "theories/sequences" -> "analysis_stdlib/Rstruct_topology";

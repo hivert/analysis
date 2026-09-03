@@ -41,24 +41,24 @@ digraph dependencies {
 		"classical/functions"	[URL="mathcomp.classical.functions.html",
 			fillcolor=1,
 			label=functions];
-		"classical/mathcomp_extra"	[URL="mathcomp.classical.mathcomp_extra.html",
+		"classical/mathcomp_compat"	[URL="mathcomp.classical.mathcomp_compat.html",
 			fillcolor=1,
-			label=mathcomp_extra];
+			label=mathcomp_compat];
 		"classical/set_interval"	[URL="mathcomp.classical.set_interval.html",
 			fillcolor=1,
 			label=set_interval];
 		"classical/internal_Eqdep_dec"	[URL="mathcomp.classical.internal_Eqdep_dec.html",
 			fillcolor=1,
 			label=internal_Eqdep_dec];
-		"classical/all_ssreflect_compat"	[URL="mathcomp.classical.all_ssreflect_compat.html",
-			fillcolor=1,
-			label=all_ssreflect_compat];
-		"classical/wochoice"	[URL="mathcomp.classical.wochoice.html",
-			fillcolor=1,
-			label=wochoice];
 		"classical/unstable"	[URL="mathcomp.classical.unstable.html",
 			fillcolor=1,
 			label=unstable];
+		"classical/wochoice"	[URL="mathcomp.classical.wochoice.html",
+			fillcolor=1,
+			label=wochoice];
+		"classical/mathcomp_extra"	[URL="mathcomp.classical.mathcomp_extra.html",
+			fillcolor=1,
+			label=mathcomp_extra];
 	}
 	subgraph cluster_ExperimentalReals {
 		graph [label=ExperimentalReals];
@@ -143,9 +143,6 @@ digraph dependencies {
 		"theories/exp"	[URL="mathcomp.analysis.exp.html",
 			fillcolor=5,
 			label=exp];
-		"theories/trigo"	[URL="mathcomp.analysis.trigo.html",
-			fillcolor=5,
-			label=trigo];
 		"theories/ftc"	[URL="mathcomp.analysis.ftc.html",
 			fillcolor=5,
 			label=ftc];
@@ -182,6 +179,18 @@ digraph dependencies {
 		"theories/showcase/pnt"	[URL="mathcomp.analysis.showcase.pnt.html",
 			fillcolor=5,
 			label=pnt];
+	}
+	subgraph cluster_ElementaryFunctions {
+		graph [label=ElementaryFunctions];
+		"theories/elementary_functions/trigonometry_functions"	[URL="mathcomp.analysis.elementary_functions.trigonometry_functions.html",
+			fillcolor=6,
+			label=trigonometry_functions];
+		"theories/elementary_functions/trigonometry_integral"	[URL="mathcomp.analysis.elementary_functions.trigonometry_integral.html",
+			fillcolor=6,
+			label=trigonometry_integral];
+		"theories/elementary_functions/trigo"	[URL="mathcomp.analysis.elementary_functions.trigo.html",
+			fillcolor=6,
+			label=trigo];
 	}
 	subgraph cluster_FunctionalAnalysis {
 		graph [label=FunctionalAnalysis];
@@ -426,17 +435,14 @@ digraph dependencies {
 	"classical/fsbigop" -> "classical/filter";
 	"classical/functions" -> "classical/cardinality";
 	"classical/functions" -> "classical/set_interval";
-	"classical/mathcomp_extra" -> "classical/boolp";
-	"classical/mathcomp_extra" -> "reals/constructive_ereal";
+	"classical/mathcomp_compat" -> "classical/all_classical";
+	"classical/mathcomp_compat" -> "classical/mathcomp_extra";
 	"classical/set_interval" -> "classical/classical_orders";
 	"classical/set_interval" -> "classical/filter";
 	"classical/set_interval" -> "reals/reals";
 	"classical/internal_Eqdep_dec" -> "classical/boolp";
-	"classical/all_ssreflect_compat" -> "classical/mathcomp_extra";
-	"classical/all_ssreflect_compat" -> "classical/unstable";
-	"classical/all_ssreflect_compat" -> "experimental_reals/xfinmap";
+	"classical/unstable" -> "classical/boolp";
 	"classical/wochoice" -> "classical/classical_sets";
-	"classical/unstable" -> "classical/classical_sets";
 	"reals/constructive_ereal" -> "reals/real_interval";
 	"reals/constructive_ereal" -> "experimental_reals/realseq";
 	"reals/constructive_ereal" -> "reals_stdlib/nsatz_realtype";
@@ -447,7 +453,6 @@ digraph dependencies {
 	"reals/reals" -> "theories/topology_theory/pseudometric_structure";
 	"reals/reals" -> "theories/measure_theory/measurable_structure";
 	"reals/real_interval" -> "reals/all_reals";
-	"reals/prodnormedzmodule" -> "reals/all_reals";
 	"reals/all_reals" -> "theories/topology_theory/discrete_topology";
 	"experimental_reals/xfinmap" -> "experimental_reals/discrete";
 	"experimental_reals/discrete" -> "experimental_reals/realseq";
@@ -534,10 +539,11 @@ digraph dependencies {
 	"theories/derive" -> "theories/realfun";
 	"theories/derive" -> "theories/measure_theory/signed_measure";
 	"theories/exp" -> "theories/measurable_realfun";
-	"theories/exp" -> "analysis_stdlib/Rstruct_topology";
-	"theories/trigo" -> "theories/gauss_integral";
-	"theories/trigo" -> "theories/pi_irrational";
-	"theories/ftc" -> "theories/trigo";
+	"theories/exp" -> "theories/elementary_functions/trigonometry_functions";
+	"theories/elementary_functions/trigonometry_functions" -> "theories/elementary_functions/trigonometry_integral";
+	"theories/elementary_functions/trigonometry_functions" -> "analysis_stdlib/Rstruct_topology";
+	"theories/elementary_functions/trigonometry_integral" -> "theories/elementary_functions/trigo";
+	"theories/ftc" -> "theories/elementary_functions/trigonometry_integral";
 	"theories/ftc" -> "theories/probability_theory/exponential_distribution";
 	"theories/ftc" -> "theories/probability_theory/beta_distribution";
 	"theories/lebesgue_integral_theory/lebesgue_integral" -> "theories/ftc";
@@ -547,6 +553,8 @@ digraph dependencies {
 	"theories/lebesgue_integral_theory/lebesgue_integral" -> "theories/probability_theory/uniform_distribution";
 	"theories/lebesgue_integral_theory/lebesgue_integral" -> "theories/probability_theory/poisson_distribution";
 	"theories/lebesgue_integral_theory/lebesgue_integral" -> "theories/charge";
+	"theories/elementary_functions/trigo" -> "theories/gauss_integral";
+	"theories/elementary_functions/trigo" -> "theories/pi_irrational";
 	"theories/measure_theory/measurable_structure" -> "theories/measure_theory/measurable_function";
 	"theories/measure_theory/measure_function" -> "theories/measure_theory/counting_measure";
 	"theories/measure_theory/measure_function" -> "theories/measure_theory/dirac_measure";
