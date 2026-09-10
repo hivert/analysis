@@ -5,7 +5,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title>Module mathcomp.analysis.topology_theory.uniform_structure</title>
-<meta name="description" content="Documentation of Coq module Mathcomp Analysis 00a80bd 2026.09.09-21:09" />
+<meta name="description" content="Documentation of Coq module Mathcomp Analysis 00a80bd 2026.09.10-21:07" />
 <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex/dist/katex.min.css">
 <script src="https://cdn.jsdelivr.net/npm/markdown-it/dist/markdown-it.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/markdown-it-deflist/dist/markdown-it-deflist.min.js"></script>
@@ -509,6 +509,15 @@ Expands to: Constant
             mathcomp.analysis.topology_theory.separation_axioms.totally_disconnected
 Declared in
 library mathcomp.analysis.topology_theory.separation_axioms, line 579, characters 11-31
+zero_dimensional : topologicalType -> Prop
+
+zero_dimensional is not universe polymorphic
+Arguments zero_dimensional T
+zero_dimensional is transparent
+Expands to: Constant
+            mathcomp.analysis.topology_theory.separation_axioms.zero_dimensional
+Declared in
+library mathcomp.analysis.topology_theory.separation_axioms, line 582, characters 11-27
 </p><hr/><a href='https://github.com/math-comp/analysis/tree/00a80bdd280330eb64f7eaf6a4ead748c323b46a/theories/topology_theory/uniform_structure.v#L202' target='_blank'>Source code</a></span></div></span> (<span id="A:84" class="id"><div name="A:84" class=" tooltip">A<span class='tooltip-area'><hr/><a href='https://github.com/math-comp/analysis/tree/00a80bdd280330eb64f7eaf6a4ead748c323b46a/theories/topology_theory/uniform_structure.v#L202' target='_blank'>Source code</a></span></div></span><span class="id"> :</span><span class="id"> </span><span class="id"><a href="mathcomp.classical.classical_sets.html#set">set</a></span> (<span class="id"><a href="mathcomp.analysis.topology_theory.uniform_structure.html#uniformType1.M">M</a></span><span class="id"><a href="https://rocq-prover.org/corelib/Corelib.Init.Datatypes.html#11c698c8685bb8ab1cf725545c085ac4"> *</a></span><span class="id"><a href="https://rocq-prover.org/corelib/Corelib.Init.Datatypes.html#11c698c8685bb8ab1cf725545c085ac4"> </a></span><span class="id"><a href="mathcomp.analysis.topology_theory.uniform_structure.html#uniformType1.M">M</a></span>))<span class="id"> :=</span><br/>
 &nbsp;&nbsp;<span class="id"><a href="mathcomp.classical.classical_sets.html#get">get</a></span> (<span class="id"><a href="mathcomp.analysis.topology_theory.uniform_structure.html#entourage">entourage</a></span><span class="id"><a href="mathcomp.classical.classical_sets.html#c7636f45aa1745dbf533da3d408cece1"> `&amp;`</a></span><span class="id"><a href="mathcomp.classical.classical_sets.html#c7636f45aa1745dbf533da3d408cece1"> </a></span><span class="id"><a href="mathcomp.classical.classical_sets.html#075f2dd209aa707f1415a58a026b96d9">[set</a></span><span class="id"><a href="mathcomp.classical.classical_sets.html#075f2dd209aa707f1415a58a026b96d9"> </a></span><span id="B:85" class="id"><div name="B:85" class=" tooltip">B<span class='tooltip-area'><hr/><a href='https://github.com/math-comp/analysis/tree/00a80bdd280330eb64f7eaf6a4ead748c323b46a/theories/topology_theory/uniform_structure.v#L203' target='_blank'>Source code</a></span></div></span><span class="id"><a href="mathcomp.classical.classical_sets.html#075f2dd209aa707f1415a58a026b96d9"> |</a></span><span class="id"><a href="mathcomp.classical.classical_sets.html#075f2dd209aa707f1415a58a026b96d9"> </a></span><span class="id"><a href="mathcomp.analysis.topology_theory.uniform_structure.html#B:85">B</a></span><span class="id"><a href="mathcomp.classical.classical_sets.html#81eb8036320f8a2cb60adf38daaca4f6"> \;</a></span><span class="id"><a href="mathcomp.classical.classical_sets.html#81eb8036320f8a2cb60adf38daaca4f6"> </a></span><span class="id"><a href="mathcomp.analysis.topology_theory.uniform_structure.html#B:85">B</a></span><span class="id"><a href="mathcomp.classical.classical_sets.html#e19db46c1d4073266228fb7781521a56"> `&lt;=`</a></span><span class="id"><a href="mathcomp.classical.classical_sets.html#e19db46c1d4073266228fb7781521a56"> </a></span><span class="id"><a href="mathcomp.analysis.topology_theory.uniform_structure.html#A:84">A</a></span><span class="id"><a href="mathcomp.classical.classical_sets.html#075f2dd209aa707f1415a58a026b96d9">]</a></span>).<br/>
 <br/>
@@ -643,16 +652,7 @@ Qed.</div></details>
 &nbsp;&nbsp;<span class="id">have</span><span class="id"> /</span><span class="id"><a href="https://math-comp.github.io/htmldoc_2_6_0/mathcomp.boot.eqtype.html#contra_neq">contra_neq</a></span><span class="id"> /</span>(_<span class="id"> yx</span>)<span class="id"> :=</span><span class="id"> fI</span><span class="id"> y;</span><span class="id"> tauto</span>.<br/>
 Qed.</div></details>
 <br/>
-<span class="vernacular">Definition</span><span class="id"> </span><span id="countable_uniformity" class="id"><div name="countable_uniformity" class=" tooltip">countable_uniformity<span class='tooltip-area'><p>zero_dimensional : topologicalType -> Prop
-
-zero_dimensional is not universe polymorphic
-Arguments zero_dimensional T
-zero_dimensional is transparent
-Expands to: Constant
-            mathcomp.analysis.topology_theory.separation_axioms.zero_dimensional
-Declared in
-library mathcomp.analysis.topology_theory.separation_axioms, line 582, characters 11-27
-countable_uniform.g_ not a defined object.
+<span class="vernacular">Definition</span><span class="id"> </span><span id="countable_uniformity" class="id"><div name="countable_uniformity" class=" tooltip">countable_uniformity<span class='tooltip-area'><p>countable_uniform.g_ not a defined object.
 countable_uniform.distN not a defined object.
 countable_uniform.n_step_ball not a defined object.
 countable_uniform.step_ball not a defined object.
