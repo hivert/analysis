@@ -5,7 +5,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title>Module mathcomp.analysis.measure_theory.measurable_structure</title>
-<meta name="description" content="Documentation of Coq module Mathcomp Analysis 00a80bd 2026.09.15-21:34" />
+<meta name="description" content="Documentation of Coq module Mathcomp Analysis 00a80bd 2026.09.16-21:34" />
 <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex/dist/katex.min.css">
 <script src="https://cdn.jsdelivr.net/npm/markdown-it/dist/markdown-it.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/markdown-it-deflist/dist/markdown-it-deflist.min.js"></script>
@@ -1807,6 +1807,19 @@ Expands to: Constant
             mathcomp.analysis.measure_theory.measure_extension.mu_ext
 Declared in
 library mathcomp.analysis.measure_theory.measure_extension, line 500, characters 11-17
+measure_extension :
+forall [d : measure_display] [T : semiRingOfSetsType d] [R : realType],
+Measure.Exports.measure T R ->
+set (g_sigma_algebraType d.-measurable%classic) -> \bar R
+
+measure_extension is not universe polymorphic
+Arguments measure_extension [d]%_measure_display_scope 
+  [T R] mu _%_classical_set_scope
+measure_extension is transparent
+Expands to: Constant
+            mathcomp.analysis.measure_theory.measure_extension.measure_extension
+Declared in
+library mathcomp.analysis.measure_theory.measure_extension, line 725, characters 11-28
 </p><hr/><a href='https://github.com/math-comp/analysis/tree/00a80bdd280330eb64f7eaf6a4ead748c323b46a/theories/measure_theory/measurable_structure.v#L1268' target='_blank'>Source code</a></span></div></span><span class="id"> :</span><span class="id"> </span><span class="id"><a href="mathcomp.classical.classical_sets.html#set_system">set_system</a></span><span class="id"> </span><span class="id"><a href="mathcomp.analysis.measure_theory.measurable_structure.html#discrete_measurable.T">T</a></span><span class="id"> :=</span><span class="id"> </span><span class="id"><a href="mathcomp.classical.classical_sets.html#36b9f1631384d2c3b944cb9d5855cd98">[set:</a></span><span class="id"><a href="mathcomp.classical.classical_sets.html#36b9f1631384d2c3b944cb9d5855cd98"> </a></span><span class="id"><a href="mathcomp.classical.classical_sets.html#set">set</a></span><span class="id"> </span><span class="id"><a href="mathcomp.analysis.measure_theory.measurable_structure.html#discrete_measurable.T">T</a></span><span class="id"><a href="mathcomp.classical.classical_sets.html#36b9f1631384d2c3b944cb9d5855cd98">]</a></span>.<br/>
 <br/>
 <span class="vernacular">Lemma</span><span class="id"> </span><span id="discrete_measurable0" class="id"><div name="discrete_measurable0" class=" tooltip">discrete_measurable0<span class='tooltip-area'><hr/><a href='https://github.com/math-comp/analysis/tree/00a80bdd280330eb64f7eaf6a4ead748c323b46a/theories/measure_theory/measurable_structure.v#L1270' target='_blank'>Source code</a></span></div></span><span class="id"> :</span><span class="id"> </span><span class="id"><a href="mathcomp.analysis.measure_theory.measurable_structure.html#discrete_measurable">discrete_measurable</a></span><span class="id"> </span><span class="id"><a href="mathcomp.classical.classical_sets.html#set0">set0</a></span><br/>
@@ -1844,26 +1857,7 @@ library mathcomp.analysis.measure_theory.measure_extension, line 500, characters
 &nbsp;&nbsp;<span class="id"><a href="https://rocq-prover.org/corelib/Corelib.Init.Datatypes.html#nat">nat</a></span><span class="id"> </span><span class="id"><a href="mathcomp.analysis.measure_theory.measurable_structure.html#discrete_measurable">discrete_measurable</a></span><span class="id"> </span><span class="id"><a href="mathcomp.analysis.measure_theory.measurable_structure.html#discrete_measurable0">discrete_measurable0</a></span><br/>
 &nbsp;&nbsp;<span class="id"><a href="mathcomp.analysis.measure_theory.measurable_structure.html#discrete_measurableC">discrete_measurableC</a></span><span class="id"> </span><span class="id"><a href="mathcomp.analysis.measure_theory.measurable_structure.html#discrete_measurableU">discrete_measurableU</a></span>.<br/>
 <br/>
-<span class="vernacular">Definition</span><span class="id"> </span><span id="sigma_display" class="id"><div name="sigma_display" class=" tooltip">sigma_display<span class='tooltip-area'><p>measure_extension :
-forall [d : measure_display] [T : semiRingOfSetsType d] [R : realType],
-Measure.Exports.measure T R ->
-set (g_sigma_algebraType d.-measurable%classic) -> \bar R
-
-measure_extension is not universe polymorphic
-Arguments measure_extension [d]%_measure_display_scope 
-  [T R] mu _%_classical_set_scope
-measure_extension is transparent
-Expands to: Constant
-            mathcomp.analysis.measure_theory.measure_extension.measure_extension
-Declared in
-library mathcomp.analysis.measure_theory.measure_extension, line 725, characters 11-28
-</p><hr/><a href='https://github.com/math-comp/analysis/tree/00a80bdd280330eb64f7eaf6a4ead748c323b46a/theories/measure_theory/measurable_structure.v#L1295' target='_blank'>Source code</a></span></div></span><span class="id"> {</span><span id="T:487" class="id"><div name="T:487" class=" tooltip">T<span class='tooltip-area'><hr/><a href='https://github.com/math-comp/analysis/tree/00a80bdd280330eb64f7eaf6a4ead748c323b46a/theories/measure_theory/measurable_structure.v#L1295' target='_blank'>Source code</a></span></div></span><span class="id">}</span><span class="id"> :</span><span class="id"> </span><span class="id"><a href="mathcomp.classical.classical_sets.html#set_system">set_system</a></span><span class="id"> </span><span class="id"><a href="mathcomp.analysis.measure_theory.measurable_structure.html#T:487">T</a></span><span class="id"><a href="https://rocq-prover.org/corelib/Corelib.Init.Logic.html#::type_scope:x_'-&gt;'_x"> -&gt;</a></span><span class="id"><a href="https://rocq-prover.org/corelib/Corelib.Init.Logic.html#::type_scope:x_'-&gt;'_x"> </a></span><span class="id"><a href="mathcomp.analysis.measure_theory.measurable_structure.html#measure_display">measure_display</a></span>.<br/>
-<details>
-<summary class="toggleproof">Proof.</summary>
-<div class="proofscript">
-<span class="id"> exact</span>. Qed.</div></details>
-<br/>
-<span class="vernacular">Definition</span><span class="id"> </span><span id="g_sigma_algebraType" class="id"><div name="g_sigma_algebraType" class=" tooltip">g_sigma_algebraType<span class='tooltip-area'><p>completed_measure_extension :
+<span class="vernacular">Definition</span><span class="id"> </span><span id="sigma_display" class="id"><div name="sigma_display" class=" tooltip">sigma_display<span class='tooltip-area'><p>completed_measure_extension :
 forall [d : measure_display] [T : semiRingOfSetsType d] 
   [R : realType] [mu : Measure.Exports.measure T R],
 set (caratheodory_type (R:=R) (T:=T) mu^*%mu) -> \bar R
@@ -1876,7 +1870,13 @@ Expands to: Constant
             mathcomp.analysis.measure_theory.measure_extension.completed_measure_extension
 Declared in
 library mathcomp.analysis.measure_theory.measure_extension, line 788, characters 11-38
-</p><hr/><a href='https://github.com/math-comp/analysis/tree/00a80bdd280330eb64f7eaf6a4ead748c323b46a/theories/measure_theory/measurable_structure.v#L1298' target='_blank'>Source code</a></span></div></span><span class="id"> {</span><span id="T:488" class="id"><div name="T:488" class=" tooltip">T<span class='tooltip-area'><hr/><a href='https://github.com/math-comp/analysis/tree/00a80bdd280330eb64f7eaf6a4ead748c323b46a/theories/measure_theory/measurable_structure.v#L1298' target='_blank'>Source code</a></span></div></span><span class="id">}</span> (<span id="G:489" class="id"><div name="G:489" class=" tooltip">G<span class='tooltip-area'><hr/><a href='https://github.com/math-comp/analysis/tree/00a80bdd280330eb64f7eaf6a4ead748c323b46a/theories/measure_theory/measurable_structure.v#L1298' target='_blank'>Source code</a></span></div></span><span class="id"> :</span><span class="id"> </span><span class="id"><a href="mathcomp.classical.classical_sets.html#set_system">set_system</a></span><span class="id"> </span><span class="id"><a href="mathcomp.analysis.measure_theory.measurable_structure.html#T:488">T</a></span>)<span class="id"> :=</span><span class="id"> </span><span class="id"><a href="mathcomp.analysis.measure_theory.measurable_structure.html#T:488">T</a></span>.<br/>
+</p><hr/><a href='https://github.com/math-comp/analysis/tree/00a80bdd280330eb64f7eaf6a4ead748c323b46a/theories/measure_theory/measurable_structure.v#L1295' target='_blank'>Source code</a></span></div></span><span class="id"> {</span><span id="T:487" class="id"><div name="T:487" class=" tooltip">T<span class='tooltip-area'><hr/><a href='https://github.com/math-comp/analysis/tree/00a80bdd280330eb64f7eaf6a4ead748c323b46a/theories/measure_theory/measurable_structure.v#L1295' target='_blank'>Source code</a></span></div></span><span class="id">}</span><span class="id"> :</span><span class="id"> </span><span class="id"><a href="mathcomp.classical.classical_sets.html#set_system">set_system</a></span><span class="id"> </span><span class="id"><a href="mathcomp.analysis.measure_theory.measurable_structure.html#T:487">T</a></span><span class="id"><a href="https://rocq-prover.org/corelib/Corelib.Init.Logic.html#::type_scope:x_'-&gt;'_x"> -&gt;</a></span><span class="id"><a href="https://rocq-prover.org/corelib/Corelib.Init.Logic.html#::type_scope:x_'-&gt;'_x"> </a></span><span class="id"><a href="mathcomp.analysis.measure_theory.measurable_structure.html#measure_display">measure_display</a></span>.<br/>
+<details>
+<summary class="toggleproof">Proof.</summary>
+<div class="proofscript">
+<span class="id"> exact</span>. Qed.</div></details>
+<br/>
+<span class="vernacular">Definition</span><span class="id"> </span><span id="g_sigma_algebraType" class="id"><div name="g_sigma_algebraType" class=" tooltip">g_sigma_algebraType<span class='tooltip-area'><hr/><a href='https://github.com/math-comp/analysis/tree/00a80bdd280330eb64f7eaf6a4ead748c323b46a/theories/measure_theory/measurable_structure.v#L1298' target='_blank'>Source code</a></span></div></span><span class="id"> {</span><span id="T:488" class="id"><div name="T:488" class=" tooltip">T<span class='tooltip-area'><hr/><a href='https://github.com/math-comp/analysis/tree/00a80bdd280330eb64f7eaf6a4ead748c323b46a/theories/measure_theory/measurable_structure.v#L1298' target='_blank'>Source code</a></span></div></span><span class="id">}</span> (<span id="G:489" class="id"><div name="G:489" class=" tooltip">G<span class='tooltip-area'><hr/><a href='https://github.com/math-comp/analysis/tree/00a80bdd280330eb64f7eaf6a4ead748c323b46a/theories/measure_theory/measurable_structure.v#L1298' target='_blank'>Source code</a></span></div></span><span class="id"> :</span><span class="id"> </span><span class="id"><a href="mathcomp.classical.classical_sets.html#set_system">set_system</a></span><span class="id"> </span><span class="id"><a href="mathcomp.analysis.measure_theory.measurable_structure.html#T:488">T</a></span>)<span class="id"> :=</span><span class="id"> </span><span class="id"><a href="mathcomp.analysis.measure_theory.measurable_structure.html#T:488">T</a></span>.<br/>
 <br/>
 <span class="vernacular">Section</span><span class="id"> g_salgebra_instance</span>.<br/>
 <span class="vernacular">Variables</span> (<span id="g_salgebra_instance.T" class="id"><div name="g_salgebra_instance.T" class=" tooltip">T<span class='tooltip-area'><hr/><a href='https://github.com/math-comp/analysis/tree/00a80bdd280330eb64f7eaf6a4ead748c323b46a/theories/measure_theory/measurable_structure.v#L1301' target='_blank'>Source code</a></span></div></span><span class="id"> :</span><span class="id"> </span><span class="id"><a href="https://math-comp.github.io/htmldoc_2_6_0/mathcomp.boot.choice.html#Choice.Exports.choiceType">choiceType</a></span>) (<span id="g_salgebra_instance.G" class="id"><div name="g_salgebra_instance.G" class=" tooltip">G<span class='tooltip-area'><hr/><a href='https://github.com/math-comp/analysis/tree/00a80bdd280330eb64f7eaf6a4ead748c323b46a/theories/measure_theory/measurable_structure.v#L1301' target='_blank'>Source code</a></span></div></span><span class="id"> :</span><span class="id"> </span><span class="id"><a href="mathcomp.classical.classical_sets.html#set_system">set_system</a></span><span class="id"> </span><span class="id"><a href="mathcomp.analysis.measure_theory.measurable_structure.html#T:491">T</a></span>).<br/>
