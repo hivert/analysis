@@ -5,7 +5,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title>Module mathcomp.analysis.homotopy_theory.wedge_sigT</title>
-<meta name="description" content="Documentation of Coq module Mathcomp Analysis 00a80bd 2026.09.23-21:47" />
+<meta name="description" content="Documentation of Coq module Mathcomp Analysis 00a80bd 2026.09.24-21:49" />
 <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex/dist/katex.min.css">
 <script src="https://cdn.jsdelivr.net/npm/markdown-it/dist/markdown-it.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/markdown-it-deflist/dist/markdown-it-deflist.min.js"></script>
@@ -330,20 +330,7 @@ Qed.</div></details>
 <span class="gallina-kwd">by</span><span class="id"> move=&gt;</span><span class="id"> /</span><span class="id"><a href="https://rocq-prover.org/corelib/Corelib.ssr.ssrbool.html#andP">andP</a></span><span class="id">[/</span><span class="id"><a href="https://math-comp.github.io/htmldoc_2_6_0/mathcomp.boot.eqtype.html#eqP">eqP</a></span><span class="id"> -&gt;</span><span class="id"> /</span><span class="id"><a href="https://math-comp.github.io/htmldoc_2_6_0/mathcomp.boot.eqtype.html#eqP">eqP</a></span><span class="id"> &lt;-]</span><span class="id"> /</span><span class="id"><a href="https://rocq-prover.org/corelib/Corelib.ssr.ssrbool.html#andP">andP</a></span><span class="id">[_</span><span class="id"> /</span><span class="id"><a href="https://math-comp.github.io/htmldoc_2_6_0/mathcomp.boot.eqtype.html#eqP">eqP</a></span><span class="id"> &lt;-];</span><span class="id"> rewrite</span><span class="id"> !</span><span class="id"><a href="https://math-comp.github.io/htmldoc_2_6_0/mathcomp.boot.eqtype.html#eqxx">eqxx</a></span><span class="id"> </span><span class="id"><a href="https://rocq-prover.org/corelib/Corelib.ssr.ssrbool.html#orbC">orbC</a></span>.<br/>
 Qed.</div></details>
 <br/>
-<span class="vernacular">Definition</span><span class="id"> </span><span id="wedge_rel" class="id"><div name="wedge_rel" class=" tooltip">wedge_rel<span class='tooltip-area'><p>chain_path :
-forall {i j : bpTopologicalType} {T : topologicalType},
-(i -> T) ->
-(j -> T) ->
-wedge (X:=fun b : bool => if b then i else j) (bpwedge_shared_pt i j) -> T
-
-chain_path is not universe polymorphic
-Arguments chain_path {i j T} (f g)%_function_scope _
-chain_path is transparent
-Expands to: Constant
-            mathcomp.analysis.homotopy_theory.continuous_path.chain_path
-Declared in
-library mathcomp.analysis.homotopy_theory.continuous_path, line 142, characters 11-21
-</p><hr/><a href='https://github.com/math-comp/analysis/tree/00a80bdd280330eb64f7eaf6a4ead748c323b46a/theories/homotopy_theory/wedge_sigT.v#L80' target='_blank'>Source code</a></span></div></span><span class="id"> :=</span><span class="id"> </span><span class="id"><a href="https://math-comp.github.io/htmldoc_2_6_0/mathcomp.boot.generic_quotient.html#EquivRel">EquivRel</a></span><span class="id"> _</span><span class="id"> </span><span class="id"><a href="mathcomp.analysis.homotopy_theory.wedge_sigT.html#wedge_rel_refl">wedge_rel_refl</a></span><span class="id"> </span><span class="id"><a href="mathcomp.analysis.homotopy_theory.wedge_sigT.html#wedge_rel_sym">wedge_rel_sym</a></span><span class="id"> </span><span class="id"><a href="mathcomp.analysis.homotopy_theory.wedge_sigT.html#wedge_rel_trans">wedge_rel_trans</a></span>.<br/>
+<span class="vernacular">Definition</span><span class="id"> </span><span id="wedge_rel" class="id"><div name="wedge_rel" class=" tooltip">wedge_rel<span class='tooltip-area'><hr/><a href='https://github.com/math-comp/analysis/tree/00a80bdd280330eb64f7eaf6a4ead748c323b46a/theories/homotopy_theory/wedge_sigT.v#L80' target='_blank'>Source code</a></span></div></span><span class="id"> :=</span><span class="id"> </span><span class="id"><a href="https://math-comp.github.io/htmldoc_2_6_0/mathcomp.boot.generic_quotient.html#EquivRel">EquivRel</a></span><span class="id"> _</span><span class="id"> </span><span class="id"><a href="mathcomp.analysis.homotopy_theory.wedge_sigT.html#wedge_rel_refl">wedge_rel_refl</a></span><span class="id"> </span><span class="id"><a href="mathcomp.analysis.homotopy_theory.wedge_sigT.html#wedge_rel_sym">wedge_rel_sym</a></span><span class="id"> </span><span class="id"><a href="mathcomp.analysis.homotopy_theory.wedge_sigT.html#wedge_rel_trans">wedge_rel_trans</a></span>.<br/>
 <span class="id">Global</span><span class="vernacular"> Opaque</span><span class="id"> </span><span class="id"><a href="mathcomp.analysis.homotopy_theory.wedge_sigT.html#wedge_rel">wedge_rel</a></span>.<br/>
 <br/>
 <span class="vernacular">Definition</span><span class="id"> </span><span id="wedge" class="id"><div name="wedge" class=" tooltip">wedge<span class='tooltip-area'><hr/><a href='https://github.com/math-comp/analysis/tree/00a80bdd280330eb64f7eaf6a4ead748c323b46a/theories/homotopy_theory/wedge_sigT.v#L83' target='_blank'>Source code</a></span></div></span><span class="id"> :=</span><span class="id"> </span><span class="id"><a href="https://math-comp.github.io/htmldoc_2_6_0/mathcomp.boot.generic_quotient.html#0dc587318a1236d89082bca629a5db9b">{eq_quot</a></span><span class="id"><a href="https://math-comp.github.io/htmldoc_2_6_0/mathcomp.boot.generic_quotient.html#0dc587318a1236d89082bca629a5db9b"> </a></span><span class="id"><a href="mathcomp.analysis.homotopy_theory.wedge_sigT.html#wedge_rel">wedge_rel</a></span><span class="id"><a href="https://math-comp.github.io/htmldoc_2_6_0/mathcomp.boot.generic_quotient.html#0dc587318a1236d89082bca629a5db9b">}</a></span>.<br/>
