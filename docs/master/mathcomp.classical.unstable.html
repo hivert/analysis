@@ -5,7 +5,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title>Module mathcomp.classical.unstable</title>
-<meta name="description" content="Documentation of Coq module Mathcomp Analysis 00a80bd 2026.09.27-21:36" />
+<meta name="description" content="Documentation of Coq module Mathcomp Analysis 00a80bd 2026.09.28-23:37" />
 <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex/dist/katex.min.css">
 <script src="https://cdn.jsdelivr.net/npm/markdown-it/dist/markdown-it.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/markdown-it-deflist/dist/markdown-it-deflist.min.js"></script>
@@ -603,6 +603,16 @@ Arguments proj {I}%_type_scope {T}%_function_scope i f%_function_scope
 proj is transparent
 Expands to: Constant mathcomp.classical.unstable.proj
 Declared in library mathcomp.classical.unstable, line 65, characters 11-15
+monotonic :
+forall [d : disp_t] [T : porderType d] [d' : disp_t] 
+  [T' : porderType d'] [pT : predType T],
+pT -> (T -> T') -> Prop
+
+monotonic is not universe polymorphic
+Arguments monotonic [d T d' T' pT] A f%_function_scope
+monotonic is transparent
+Expands to: Constant mathcomp.classical.unstable.monotonic
+Declared in library mathcomp.classical.unstable, line 196, characters 11-20
 </p><hr/><a href='https://github.com/math-comp/analysis/tree/00a80bdd280330eb64f7eaf6a4ead748c323b46a/classical/unstable.v#L304' target='_blank'>Source code</a></span></div></span><span class="id"> {</span><span id="R:208" class="id"><div name="R:208" class=" tooltip">R<span class='tooltip-area'><hr/><a href='https://github.com/math-comp/analysis/tree/00a80bdd280330eb64f7eaf6a4ead748c323b46a/classical/unstable.v#L304' target='_blank'>Source code</a></span></div></span><span class="id"> :</span><span class="id"> </span><span class="id"><a href="https://math-comp.github.io/htmldoc_2_6_0/mathcomp.algebra.algebraic_hierarchy.rings_modules_and_algebras.html#GRing.PzRing.Exports.pzRingType">pzRingType</a></span><span class="id">}</span> (<span id="r:209" class="id"><div name="r:209" class=" tooltip">r<span class='tooltip-area'><hr/><a href='https://github.com/math-comp/analysis/tree/00a80bdd280330eb64f7eaf6a4ead748c323b46a/classical/unstable.v#L304' target='_blank'>Source code</a></span></div></span><span class="id"> :</span><span class="id"> </span><span class="id"><a href="mathcomp.classical.unstable.html#R:208">R</a></span>)<span class="id"> :</span><span class="id"> </span><span class="id"><a href="mathcomp.classical.unstable.html#R:208">R</a></span><span class="id"> :=</span><span class="id"> 1</span><span class="id"><a href="https://math-comp.github.io/htmldoc_2_6_0/mathcomp.algebra.algebraic_hierarchy.rings_modules_and_algebras.html#::ring_scope:x_'-'_x"> -</a></span><span class="id"><a href="https://math-comp.github.io/htmldoc_2_6_0/mathcomp.algebra.algebraic_hierarchy.rings_modules_and_algebras.html#::ring_scope:x_'-'_x"> </a></span><span class="id"><a href="mathcomp.classical.unstable.html#r:209">r</a></span>.<br/>
 <span class="id">#[deprecated</span>(<span class="id">since=</span><span class="id">&quot;mathcomp-analysis 1.15.0&quot;</span>)<span class="id">]</span><br/>
 <span class="vernacular">Notation</span> <span id="ba5b9f829c901964a3abe669e095e940" class="id"><div name="ba5b9f829c901964a3abe669e095e940" class=" tooltip">&quot;`1- r&quot;<span class='tooltip-area'><hr/><a href='https://github.com/math-comp/analysis/tree/00a80bdd280330eb64f7eaf6a4ead748c323b46a/classical/unstable.v#L306' target='_blank'>Source code</a></span></div></span><span class="id"> :=</span> (<span class="id"><a href="mathcomp.classical.unstable.html#onem">onem</a></span><span class="id"> r</span>)<span class="id"> :</span><span class="id"> ring_scope</span>.<br/>
@@ -751,17 +761,7 @@ Qed.</div></details>
 <span class="gallina-kwd">by</span><span class="id"> rewrite</span><span class="id"> -</span><span class="id"><a href="https://math-comp.github.io/htmldoc_2_6_0/mathcomp.algebra.numeric_hierarchy.orderedzmod.html#Num.Theory.lerBlDr">lerBlDr</a></span><span class="id"> xz//</span><span class="id"> -[</span><span class="id"><a href="https://math-comp.github.io/htmldoc_2_6_0/mathcomp.order.preorder.html#Order.PreOSyntax.ltRHS">ltRHS</a></span><span class="id">]</span><span class="id"><a href="https://math-comp.github.io/htmldoc_2_6_0/mathcomp.algebra.algebraic_hierarchy.rings_modules_and_algebras.html#GRing.Theory.subr0">subr0</a></span><span class="id"> </span><span class="id"><a href="https://math-comp.github.io/htmldoc_2_6_0/mathcomp.algebra.numeric_hierarchy.orderedzmod.html#Num.Theory.ler_ltB">ler_ltB</a></span>.<br/>
 Qed.</div></details>
 <br/>
-<span class="vernacular">Definition</span><span class="id"> </span><span id="inv_fun" class="id"><div name="inv_fun" class=" tooltip">inv_fun<span class='tooltip-area'><p>monotonic :
-forall [d : disp_t] [T : porderType d] [d' : disp_t] 
-  [T' : porderType d'] [pT : predType T],
-pT -> (T -> T') -> Prop
-
-monotonic is not universe polymorphic
-Arguments monotonic [d T d' T' pT] A f%_function_scope
-monotonic is transparent
-Expands to: Constant mathcomp.classical.unstable.monotonic
-Declared in library mathcomp.classical.unstable, line 196, characters 11-20
-strict_monotonic :
+<span class="vernacular">Definition</span><span class="id"> </span><span id="inv_fun" class="id"><div name="inv_fun" class=" tooltip">inv_fun<span class='tooltip-area'><p>strict_monotonic :
 forall [d : disp_t] [T : porderType d] [d' : disp_t] 
   [T' : porderType d'] [pT : predType T],
 pT -> (T -> T') -> Prop
