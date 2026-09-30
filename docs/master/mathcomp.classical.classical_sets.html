@@ -5,7 +5,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title>Module mathcomp.classical.classical_sets</title>
-<meta name="description" content="Documentation of Coq module Mathcomp Analysis 00a80bd 2026.09.29-22:34" />
+<meta name="description" content="Documentation of Coq module Mathcomp Analysis 00a80bd 2026.09.30-22:26" />
 <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex/dist/katex.min.css">
 <script src="https://cdn.jsdelivr.net/npm/markdown-it/dist/markdown-it.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/markdown-it-deflist/dist/markdown-it-deflist.min.js"></script>
@@ -926,13 +926,6 @@ disj_set is transparent
 Expands to: Constant mathcomp.classical.classical_sets.disj_set
 Declared in
 library mathcomp.classical.classical_sets, line 351, characters 11-19
-proper : forall [T : finType], mem_pred T -> mem_pred T -> bool
-
-proper is not universe polymorphic
-Arguments proper [T] A B
-proper is transparent
-Expands to: Constant mathcomp.boot.fintype.proper
-Declared in library mathcomp.boot.fintype, line 402, characters 11-17
 </p><hr/><a href='https://github.com/math-comp/analysis/tree/00a80bdd280330eb64f7eaf6a4ead748c323b46a/classical/classical_sets.v#L391' target='_blank'>Source code</a></span></div></span><span class="id"> {</span><span id="T:105" class="id"><div name="T:105" class=" tooltip">T<span class='tooltip-area'><hr/><a href='https://github.com/math-comp/analysis/tree/00a80bdd280330eb64f7eaf6a4ead748c323b46a/classical/classical_sets.v#L391' target='_blank'>Source code</a></span></div></span><span class="id"> :</span><span class="id"> Type}</span> (<span id="A:106" class="id"><div name="A:106" class=" tooltip">A<span class='tooltip-area'><hr/><a href='https://github.com/math-comp/analysis/tree/00a80bdd280330eb64f7eaf6a4ead748c323b46a/classical/classical_sets.v#L391' target='_blank'>Source code</a></span></div></span><span class="id"> </span><span id="B:107" class="id"><div name="B:107" class=" tooltip">B<span class='tooltip-area'><hr/><a href='https://github.com/math-comp/analysis/tree/00a80bdd280330eb64f7eaf6a4ead748c323b46a/classical/classical_sets.v#L391' target='_blank'>Source code</a></span></div></span><span class="id"> :</span><span class="id"> </span><span class="id"><a href="mathcomp.classical.classical_sets.html#set">set</a></span><span class="id"> </span><span class="id"><a href="mathcomp.classical.classical_sets.html#T:105">T</a></span>)<span class="id"> :=</span> (<span class="id"><a href="mathcomp.classical.classical_sets.html#A:106">A</a></span><span class="id"><a href="mathcomp.classical.classical_sets.html#cf50465a73dc8072abef3845b643e512"> `\`</a></span><span class="id"><a href="mathcomp.classical.classical_sets.html#cf50465a73dc8072abef3845b643e512"> </a></span><span class="id"><a href="mathcomp.classical.classical_sets.html#B:107">B</a></span>)<span class="id"><a href="mathcomp.classical.classical_sets.html#f0f4f4a06533e5eeff19ee265a896441"> `|`</a></span> (<span class="id"><a href="mathcomp.classical.classical_sets.html#B:107">B</a></span><span class="id"><a href="mathcomp.classical.classical_sets.html#cf50465a73dc8072abef3845b643e512"> `\`</a></span><span class="id"><a href="mathcomp.classical.classical_sets.html#cf50465a73dc8072abef3845b643e512"> </a></span><span class="id"><a href="mathcomp.classical.classical_sets.html#A:106">A</a></span>).<br/>
 <span class="vernacular">Arguments</span><span class="id"> </span><span class="id"><a href="mathcomp.classical.classical_sets.html#setY">setY</a></span><span class="id"> _</span><span class="id"> _</span><span class="id"> _</span><span class="id"> _</span><span class="id"> /</span>.<br/>
 <span class="vernacular">Notation</span> <span id="ecd0e29a462deb2595097b678b469538" class="id"><div name="ecd0e29a462deb2595097b678b469538" class=" tooltip">&quot;A `+` B&quot;<span class='tooltip-area'><hr/><a href='https://github.com/math-comp/analysis/tree/00a80bdd280330eb64f7eaf6a4ead748c323b46a/classical/classical_sets.v#L393' target='_blank'>Source code</a></span></div></span><span class="id"> :=</span> (<span class="id"><a href="mathcomp.classical.classical_sets.html#setY">setY</a></span><span class="id"> A</span><span class="id"> B</span>)<span class="id"> :</span><span class="id"> classical_set_scope</span>.<br/>
@@ -1054,7 +1047,14 @@ Qed.</div></details>
 <div class="proofscript">
 <span class="gallina-kwd"> by</span><span class="id"> move=&gt;</span><span class="id"> /</span><span class="id"><a href="mathcomp.classical.boolp.html#funext">funext</a></span><span class="id">-&gt;</span>. Qed.</div></details>
 <br/>
-<span class="vernacular">Coercion</span><span class="id"> </span><span id="set_type" class="id"><div name="set_type" class=" tooltip">set_type<span class='tooltip-area'><p>setY : forall {T : Type}, set T -> set T -> set T
+<span class="vernacular">Coercion</span><span class="id"> </span><span id="set_type" class="id"><div name="set_type" class=" tooltip">set_type<span class='tooltip-area'><p>proper : forall [T : finType], mem_pred T -> mem_pred T -> bool
+
+proper is not universe polymorphic
+Arguments proper [T] A B
+proper is transparent
+Expands to: Constant mathcomp.boot.fintype.proper
+Declared in library mathcomp.boot.fintype, line 402, characters 11-17
+setY : forall {T : Type}, set T -> set T -> set T
 
 setY is not universe polymorphic
 Arguments setY {T}%_type_scope (A B)%_classical_set_scope _ /
