@@ -5,7 +5,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title>Module mathcomp.reals_stdlib.nsatz_realtype</title>
-<meta name="description" content="Documentation of Coq module Mathcomp Analysis 00a80bd 2026.11.01-22:21" />
+<meta name="description" content="Documentation of Coq module Mathcomp Analysis 00a80bd 2026.11.03-01:18" />
 <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex/dist/katex.min.css">
 <script src="https://cdn.jsdelivr.net/npm/markdown-it/dist/markdown-it.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/markdown-it-deflist/dist/markdown-it-deflist.min.js"></script>
@@ -276,79 +276,51 @@ Reference:
 <div class="proofscript">
 <span class="gallina-kwd"> by</span><span class="id"> constructor</span><span class="id"> =&gt;</span><span class="id"> [x</span><span class="id"> //|x</span><span class="id"> y</span><span class="id"> //|x</span><span class="id"> y</span><span class="id"> z</span><span class="id"> -&gt;]</span>. Qed.</div></details>
 <br/>
-<span class="vernacular">Definition</span><span class="id"> </span><span id="Nsatz_realType0" class="id"><div name="Nsatz_realType0" class=" tooltip">Nsatz_realType0<span class='tooltip-area'><p>Internals.nand_false_bool : forall b : bool, Internals.nandBool b
+<span class="vernacular">Definition</span><span class="id"> </span><span id="Nsatz_realType0" class="id"><div name="Nsatz_realType0" class=" tooltip">Nsatz_realType0<span class='tooltip-area'><p>Internals.is_true_nProp :
+forall [nP : Prop],
+Internals.negatedBool nP -> Internals.properNegatedProp nP
 
-Internals.nand_false_bool is not universe polymorphic
-Arguments Internals.nand_false_bool b%_bool_scope
-Internals.nand_false_bool is transparent
-Expands to: Constant mathcomp.classical.contra.Internals.nand_false_bool
-Declared in library mathcomp.classical.contra, line 724, characters 10-25
+Internals.is_true_nProp is not universe polymorphic
+Arguments Internals.is_true_nProp [nP]%_type_scope b
+Internals.is_true_nProp is transparent
+Expands to: Constant mathcomp.classical.contra.Internals.is_true_nProp
+Declared in library mathcomp.classical.contra, line 448, characters 10-23
 </p><hr/><a href='https://github.com/math-comp/analysis/tree/00a80bdd280330eb64f7eaf6a4ead748c323b46a/reals_stdlib/nsatz_realtype.v#L29' target='_blank'>Source code</a></span></div></span><span class="id"> :=</span> (<span class="id">0</span><span class="id"><a href="https://math-comp.github.io/htmldoc_2_6_0/mathcomp.algebra.algebraic_hierarchy.rings_modules_and_algebras.html#6411ed08724033ae48d2865f0380d533">%:R</a></span><span class="id"> :</span><span class="id"> </span><span class="id"><a href="mathcomp.reals_stdlib.nsatz_realtype.html#Nsatz_realType.T">T</a></span>).<br/>
-<span class="vernacular">Definition</span><span class="id"> </span><span id="Nsatz_realType1" class="id"><div name="Nsatz_realType1" class=" tooltip">Nsatz_realType1<span class='tooltip-area'><p>Internals.nand_true_bool : Internals.nandBool false
+<span class="vernacular">Definition</span><span class="id"> </span><span id="Nsatz_realType1" class="id"><div name="Nsatz_realType1" class=" tooltip">Nsatz_realType1<span class='tooltip-area'><p>Internals.true_neg : Internals.negatedBool False
 
-Internals.nand_true_bool is not universe polymorphic
-Internals.nand_true_bool is transparent
-Expands to: Constant mathcomp.classical.contra.Internals.nand_true_bool
-Declared in library mathcomp.classical.contra, line 725, characters 10-24
+Internals.true_neg is not universe polymorphic
+Internals.true_neg is transparent
+Expands to: Constant mathcomp.classical.contra.Internals.true_neg
+Declared in library mathcomp.classical.contra, line 454, characters 10-18
 </p><hr/><a href='https://github.com/math-comp/analysis/tree/00a80bdd280330eb64f7eaf6a4ead748c323b46a/reals_stdlib/nsatz_realtype.v#L30' target='_blank'>Source code</a></span></div></span><span class="id"> :=</span> (<span class="id">1</span><span class="id"><a href="https://math-comp.github.io/htmldoc_2_6_0/mathcomp.algebra.algebraic_hierarchy.rings_modules_and_algebras.html#6411ed08724033ae48d2865f0380d533">%:R</a></span><span class="id"> :</span><span class="id"> </span><span class="id"><a href="mathcomp.reals_stdlib.nsatz_realtype.html#Nsatz_realType.T">T</a></span>).<br/>
-<span class="vernacular">Definition</span><span class="id"> </span><span id="Nsatz_realType_add" class="id"><div name="Nsatz_realType_add" class=" tooltip">Nsatz_realType_add<span class='tooltip-area'><p>Internals.and_wProp :
-forall [s : bool] [S : Type] [P0 : Prop],
-Internals.witnessProp s P0 S ->
-forall [t : Internals.nandBool s] [T : Type] [Q0 : Prop],
-Internals.witnessProp (Internals.nand_bool t) Q0 T ->
-Internals.properWitnessProp (S * T)
+<span class="vernacular">Definition</span><span class="id"> </span><span id="Nsatz_realType_add" class="id"><div name="Nsatz_realType_add" class=" tooltip">Nsatz_realType_add<span class='tooltip-area'><p>Internals.true_pos : Internals.positedBool True
 
-Internals.and_wProp is not universe polymorphic
-Arguments Internals.and_wProp [s]%_bool_scope [S P0]%_type_scope 
-  P [t] [T Q0]%_type_scope Q
-Internals.and_wProp is transparent
-Expands to: Constant mathcomp.classical.contra.Internals.and_wProp
-Declared in library mathcomp.classical.contra, line 730, characters 10-19
+Internals.true_pos is not universe polymorphic
+Internals.true_pos is transparent
+Expands to: Constant mathcomp.classical.contra.Internals.true_pos
+Declared in library mathcomp.classical.contra, line 455, characters 10-18
 </p><hr/><a href='https://github.com/math-comp/analysis/tree/00a80bdd280330eb64f7eaf6a4ead748c323b46a/reals_stdlib/nsatz_realtype.v#L31' target='_blank'>Source code</a></span></div></span> (<span id="x:3" class="id"><div name="x:3" class=" tooltip">x<span class='tooltip-area'><hr/><a href='https://github.com/math-comp/analysis/tree/00a80bdd280330eb64f7eaf6a4ead748c323b46a/reals_stdlib/nsatz_realtype.v#L31' target='_blank'>Source code</a></span></div></span><span class="id"> </span><span id="y:4" class="id"><div name="y:4" class=" tooltip">y<span class='tooltip-area'><hr/><a href='https://github.com/math-comp/analysis/tree/00a80bdd280330eb64f7eaf6a4ead748c323b46a/reals_stdlib/nsatz_realtype.v#L31' target='_blank'>Source code</a></span></div></span><span class="id"> :</span><span class="id"> </span><span class="id"><a href="mathcomp.reals_stdlib.nsatz_realtype.html#Nsatz_realType.T">T</a></span>)<span class="id"> :=</span> (<span class="id"><a href="mathcomp.reals_stdlib.nsatz_realtype.html#x:3">x</a></span><span class="id"><a href="https://math-comp.github.io/htmldoc_2_6_0/mathcomp.algebra.algebraic_hierarchy.rings_modules_and_algebras.html#c7f78cf1f6a5e4f664654f7d671ca752"> +</a></span><span class="id"><a href="https://math-comp.github.io/htmldoc_2_6_0/mathcomp.algebra.algebraic_hierarchy.rings_modules_and_algebras.html#c7f78cf1f6a5e4f664654f7d671ca752"> </a></span><span class="id"><a href="mathcomp.reals_stdlib.nsatz_realtype.html#y:4">y</a></span>)<span class="id">%R</span>.<br/>
-<span class="vernacular">Definition</span><span class="id"> </span><span id="Nsatz_realType_mul" class="id"><div name="Nsatz_realType_mul" class=" tooltip">Nsatz_realType_mul<span class='tooltip-area'><p>Internals.or_wProp :
-forall [s : bool] [S : Type] [P0 : Prop],
-Internals.witnessProp s P0 S ->
-forall [t : bool] [T : Type] [Q0 : Prop],
-Internals.witnessProp t Q0 T ->
-Internals.properWitnessProp
-  (if t then if s then {P0} + {Q0} : Type else S + {Q0} else S + T : Type)
+<span class="vernacular">Definition</span><span class="id"> </span><span id="Nsatz_realType_mul" class="id"><div name="Nsatz_realType_mul" class=" tooltip">Nsatz_realType_mul<span class='tooltip-area'><p>Internals.false_neg : Internals.negatedBool True
 
-Internals.or_wProp is not universe polymorphic
-Arguments Internals.or_wProp [s]%_bool_scope [S P0]%_type_scope 
-  P [t]%_bool_scope [T Q0]%_type_scope Q
-Internals.or_wProp is transparent
-Expands to: Constant mathcomp.classical.contra.Internals.or_wProp
-Declared in library mathcomp.classical.contra, line 742, characters 10-18
+Internals.false_neg is not universe polymorphic
+Internals.false_neg is transparent
+Expands to: Constant mathcomp.classical.contra.Internals.false_neg
+Declared in library mathcomp.classical.contra, line 456, characters 10-19
 </p><hr/><a href='https://github.com/math-comp/analysis/tree/00a80bdd280330eb64f7eaf6a4ead748c323b46a/reals_stdlib/nsatz_realtype.v#L32' target='_blank'>Source code</a></span></div></span> (<span id="x:5" class="id"><div name="x:5" class=" tooltip">x<span class='tooltip-area'><hr/><a href='https://github.com/math-comp/analysis/tree/00a80bdd280330eb64f7eaf6a4ead748c323b46a/reals_stdlib/nsatz_realtype.v#L32' target='_blank'>Source code</a></span></div></span><span class="id"> </span><span id="y:6" class="id"><div name="y:6" class=" tooltip">y<span class='tooltip-area'><hr/><a href='https://github.com/math-comp/analysis/tree/00a80bdd280330eb64f7eaf6a4ead748c323b46a/reals_stdlib/nsatz_realtype.v#L32' target='_blank'>Source code</a></span></div></span><span class="id"> :</span><span class="id"> </span><span class="id"><a href="mathcomp.reals_stdlib.nsatz_realtype.html#Nsatz_realType.T">T</a></span>)<span class="id"> :=</span> (<span class="id"><a href="mathcomp.reals_stdlib.nsatz_realtype.html#x:5">x</a></span><span class="id"><a href="https://math-comp.github.io/htmldoc_2_6_0/mathcomp.algebra.algebraic_hierarchy.rings_modules_and_algebras.html#2d0cfb150261028f4ebd2ba355623dcc"> *</a></span><span class="id"><a href="https://math-comp.github.io/htmldoc_2_6_0/mathcomp.algebra.algebraic_hierarchy.rings_modules_and_algebras.html#2d0cfb150261028f4ebd2ba355623dcc"> </a></span><span class="id"><a href="mathcomp.reals_stdlib.nsatz_realtype.html#y:6">y</a></span>)<span class="id">%R</span>.<br/>
-<span class="vernacular">Definition</span><span class="id"> </span><span id="Nsatz_realType_sub" class="id"><div name="Nsatz_realType_sub" class=" tooltip">Nsatz_realType_sub<span class='tooltip-area'><p>Internals.exists_wProp :
-forall [A : Type] [t : bool] [T : A -> Type] [P0 : A -> Prop],
-(forall x : A, Internals.witnessProp t (P0 x) (T x)) ->
-Internals.properWitnessProp (if t then {x : A | P0 x} else {x : A & T x})
+<span class="vernacular">Definition</span><span class="id"> </span><span id="Nsatz_realType_sub" class="id"><div name="Nsatz_realType_sub" class=" tooltip">Nsatz_realType_sub<span class='tooltip-area'><p>Internals.false_pos : Internals.positedBool False
 
-Internals.exists_wProp is not universe polymorphic
-Arguments Internals.exists_wProp [A]%_type_scope [t]%_bool_scope
-  [T P0]%_function_scope P%_function_scope
-Internals.exists_wProp is transparent
-Expands to: Constant mathcomp.classical.contra.Internals.exists_wProp
-Declared in library mathcomp.classical.contra, line 748, characters 10-22
+Internals.false_pos is not universe polymorphic
+Internals.false_pos is transparent
+Expands to: Constant mathcomp.classical.contra.Internals.false_pos
+Declared in library mathcomp.classical.contra, line 457, characters 10-19
 </p><hr/><a href='https://github.com/math-comp/analysis/tree/00a80bdd280330eb64f7eaf6a4ead748c323b46a/reals_stdlib/nsatz_realtype.v#L33' target='_blank'>Source code</a></span></div></span> (<span id="x:7" class="id"><div name="x:7" class=" tooltip">x<span class='tooltip-area'><hr/><a href='https://github.com/math-comp/analysis/tree/00a80bdd280330eb64f7eaf6a4ead748c323b46a/reals_stdlib/nsatz_realtype.v#L33' target='_blank'>Source code</a></span></div></span><span class="id"> </span><span id="y:8" class="id"><div name="y:8" class=" tooltip">y<span class='tooltip-area'><hr/><a href='https://github.com/math-comp/analysis/tree/00a80bdd280330eb64f7eaf6a4ead748c323b46a/reals_stdlib/nsatz_realtype.v#L33' target='_blank'>Source code</a></span></div></span><span class="id"> :</span><span class="id"> </span><span class="id"><a href="mathcomp.reals_stdlib.nsatz_realtype.html#Nsatz_realType.T">T</a></span>)<span class="id"> :=</span> (<span class="id"><a href="mathcomp.reals_stdlib.nsatz_realtype.html#x:7">x</a></span><span class="id"><a href="https://math-comp.github.io/htmldoc_2_6_0/mathcomp.algebra.algebraic_hierarchy.rings_modules_and_algebras.html#::ring_scope:x_'-'_x"> -</a></span><span class="id"><a href="https://math-comp.github.io/htmldoc_2_6_0/mathcomp.algebra.algebraic_hierarchy.rings_modules_and_algebras.html#::ring_scope:x_'-'_x"> </a></span><span class="id"><a href="mathcomp.reals_stdlib.nsatz_realtype.html#y:8">y</a></span>)<span class="id">%R</span>.<br/>
-<span class="vernacular">Definition</span><span class="id"> </span><span id="Nsatz_realType_opp" class="id"><div name="Nsatz_realType_opp" class=" tooltip">Nsatz_realType_opp<span class='tooltip-area'><p>Internals.exists2_wProp :
-forall [A : Type] [s : bool] [S : A -> Type] [P0 : A -> Prop],
-(forall x : A, Internals.witnessProp s (P0 x) (S x)) ->
-forall [t : bool] [T : A -> Type] [Q0 : A -> Prop],
-(forall x : A, Internals.witnessProp t (Q0 x) (T x)) ->
-Internals.properWitnessProp
-  (if if s then t else false
-   then {x : A | P0 x & Q0 x}
-   else {x : A & S x & T x})
+<span class="vernacular">Definition</span><span class="id"> </span><span id="Nsatz_realType_opp" class="id"><div name="Nsatz_realType_opp" class=" tooltip">Nsatz_realType_opp<span class='tooltip-area'><p>Internals.id_neg : forall b : bool, Internals.negatedBool (~~ b)
 
-Internals.exists2_wProp is not universe polymorphic
-Arguments Internals.exists2_wProp [A]%_type_scope 
-  [s]%_bool_scope [S P0]%_function_scope P%_function_scope 
-  [t]%_bool_scope [T Q0]%_function_scope Q%_function_scope
-Internals.exists2_wProp is transparent
-Expands to: Constant mathcomp.classical.contra.Internals.exists2_wProp
-Declared in library mathcomp.classical.contra, line 757, characters 10-23
+Internals.id_neg is not universe polymorphic
+Arguments Internals.id_neg b%_bool_scope
+Internals.id_neg is transparent
+Expands to: Constant mathcomp.classical.contra.Internals.id_neg
+Declared in library mathcomp.classical.contra, line 460, characters 10-16
 </p><hr/><a href='https://github.com/math-comp/analysis/tree/00a80bdd280330eb64f7eaf6a4ead748c323b46a/reals_stdlib/nsatz_realtype.v#L34' target='_blank'>Source code</a></span></div></span> (<span id="x:9" class="id"><div name="x:9" class=" tooltip">x<span class='tooltip-area'><hr/><a href='https://github.com/math-comp/analysis/tree/00a80bdd280330eb64f7eaf6a4ead748c323b46a/reals_stdlib/nsatz_realtype.v#L34' target='_blank'>Source code</a></span></div></span> <span class="id"> :</span><span class="id"> </span><span class="id"><a href="mathcomp.reals_stdlib.nsatz_realtype.html#Nsatz_realType.T">T</a></span>)<span class="id"> :=</span> (<span class="id"><a href="https://math-comp.github.io/htmldoc_2_6_0/mathcomp.algebra.algebraic_hierarchy.rings_modules_and_algebras.html#::ring_scope:'-'_x">-</a></span><span class="id"><a href="https://math-comp.github.io/htmldoc_2_6_0/mathcomp.algebra.algebraic_hierarchy.rings_modules_and_algebras.html#::ring_scope:'-'_x"> </a></span><span class="id"><a href="mathcomp.reals_stdlib.nsatz_realtype.html#x:9">x</a></span>)<span class="id">%R</span>.<br/>
 <br/>
 <span class="id">#[global]</span><br/>
